@@ -11,7 +11,7 @@ public abstract class Movement : MonoBehaviour
     [SerializeField] float _speedMultiplayer = 1;
     [SerializeField] float _score;
     [SerializeField] Vector2 initialDirection;
-    Vector2 _direction { get; set; } 
+    public Vector2 _direction { get; set; }
     Vector2 _nextDirection { get; set; }
     Vector3 _startingPosition { get; set; }
 
