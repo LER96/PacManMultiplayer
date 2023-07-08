@@ -28,10 +28,6 @@ public abstract class Movement : MonoBehaviour
 
     private void Update()
     {
-        Vector2 position = this._rb.position;
-        Vector2 translatePosition = this._direction * _speed * _speedMultiplayer * Time.deltaTime;
-        this._rb.MovePosition(position + translatePosition);
-
         if (this._nextDirection != Vector2.zero)
         {
             SetDirection(this._nextDirection);
@@ -59,7 +55,9 @@ public abstract class Movement : MonoBehaviour
     //moving player based on its current direction
     private void FixedUpdate()
     {
-       
+        Vector2 position = this._rb.position;
+        Vector2 translatePosition = this._direction * _speed * _speedMultiplayer * Time.deltaTime;
+        this._rb.MovePosition(position + translatePosition);
     }
 
     //resetting all players' stats

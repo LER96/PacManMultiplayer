@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 247756192}
   - component: {fileID: 247756191}
   - component: {fileID: 247756190}
+  - component: {fileID: 247756195}
   m_Layer: 6
   m_Name: Pacman
   m_TagString: Untagged
@@ -161,7 +162,7 @@ MonoBehaviour:
   _speed: 8
   _speedMultiplayer: 1
   _score: 0
-  initialDirection: {x: 0, y: 0}
+  initialDirection: {x: 1, y: 0}
 --- !u!58 &247756191
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -266,6 +267,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &247756195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247756189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f5679f846319b64ba39e2909bc2f247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 247756193}
+  _sprites:
+  - {fileID: 21300000, guid: 1f9604f5749fde646a59a72c9ee1cd3a, type: 3}
+  - {fileID: 21300000, guid: f8f2ab5881c3e9949bf4ffe9525a0fb7, type: 3}
+  - {fileID: 21300000, guid: 1f9604f5749fde646a59a72c9ee1cd3a, type: 3}
+  - {fileID: 21300000, guid: e3b83262a412c74408dba5cbe89f43f5, type: 3}
+  _animationTime: 0.125
 --- !u!1 &825856975
 GameObject:
   m_ObjectHideFlags: 0
