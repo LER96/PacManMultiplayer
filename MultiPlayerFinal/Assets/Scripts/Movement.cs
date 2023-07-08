@@ -28,18 +28,38 @@ public abstract class Movement : MonoBehaviour
 
     private void Update()
     {
+        Vector2 position = this._rb.position;
+        Vector2 translatePosition = this._direction * _speed * _speedMultiplayer * Time.deltaTime;
+        this._rb.MovePosition(position + translatePosition);
+
         if (this._nextDirection != Vector2.zero)
         {
             SetDirection(this._nextDirection);
         }
+        
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            this.SetDirection(Vector2.up);
+        }
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            this.SetDirection(Vector2.down);
+        }
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            this.SetDirection(Vector2.right);
+        }
+        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            this.SetDirection(Vector2.left);
+        }
+
     }
 
     //moving player based on its current direction
     private void FixedUpdate()
     {
-        Vector2 position = this._rb.position;
-        Vector2 translatePosition = this._direction * _speed * _speedMultiplayer * Time.fixedDeltaTime;
-        this._rb.MovePosition(position + translatePosition);
+       
     }
 
     //resetting all players' stats
