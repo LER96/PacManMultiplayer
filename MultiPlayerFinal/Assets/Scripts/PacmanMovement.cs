@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PacmanMovement : Movement
 {
-    private void Update()
+    public override void Update()
     {
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -22,6 +22,6 @@ public class PacmanMovement : Movement
         {
             this.SetDirection(Vector2.left);
         }
-
+        base.Update();
     }
 }
