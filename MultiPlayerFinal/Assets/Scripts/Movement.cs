@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+
 public abstract class Movement : MonoBehaviour
 {
     [SerializeField] Rigidbody2D _rb { get; set; }
@@ -10,8 +10,8 @@ public abstract class Movement : MonoBehaviour
     [SerializeField] float _speed = 8;
     [SerializeField] float _speedMultiplayer = 1;
     [SerializeField] float _score;
-    [SerializeField] Vector2 _mainDirection;
-    Vector2 _currentDirection;
+    [SerializeField] Vector2 initialDirection;
+    Vector2 _direction { get; set; } 
     Vector2 _nextDirection { get; set; }
     Vector3 _startingPosition { get; set; }
 
@@ -38,7 +38,7 @@ public abstract class Movement : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 position = this._rb.position;
-        Vector2 translatePosition = this._currentDirection * _speed * _speedMultiplayer * Time.fixedDeltaTime;
+        Vector2 translatePosition = this._direction * _speed * _speedMultiplayer * Time.fixedDeltaTime;
         this._rb.MovePosition(position + translatePosition);
     }
 
@@ -46,7 +46,7 @@ public abstract class Movement : MonoBehaviour
     public void ResetAllStats()
     {
         _speedMultiplayer = 1;
-        _currentDirection = _mainDirection;
+        _direction = initialDirection;
         _nextDirection = Vector2.zero;
         this.transform.position = this._startingPosition;
     }
@@ -56,7 +56,8 @@ public abstract class Movement : MonoBehaviour
     {
         if (!IsDirectionOccupied(direction) || forced)
         {
-            this._currentDirection = direction;
+            Debug.Log("move");
+            this._direction = direction;
             this._nextDirection = Vector2.zero;
         }
         else
@@ -69,7 +70,7 @@ public abstract class Movement : MonoBehaviour
     public bool IsDirectionOccupied(Vector2 direction)
     {
         //box cast so we wont go to a direction too early and collide with the sides
-        RaycastHit2D hit = Physics2D.BoxCast(this.transform.position, Vector2.one * 0.75f, 0, direction, 1.5f, this._obstaclesLayer);
+        RaycastHit2D hit = Physics2D.BoxCast(this.transform.position, Vector2.one * 0.75f, 0, direction, 1.5f, _obstaclesLayer);
         return hit.collider != null;
     }
 }
