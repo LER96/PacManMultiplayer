@@ -56,7 +56,6 @@ public abstract class Movement : MonoBehaviour
     {
         if (!IsDirectionOccupied(direction) || forced)
         {
-            Debug.Log("move");
             this._direction = direction;
             this._nextDirection = Vector2.zero;
         }
@@ -69,6 +68,8 @@ public abstract class Movement : MonoBehaviour
     //checking if player can go there based on obstacle layer
     public bool IsDirectionOccupied(Vector2 direction)
     {
+        Debug.Log("obstacle");
+
         //box cast so we wont go to a direction too early and collide with the sides
         RaycastHit2D hit = Physics2D.BoxCast(this.transform.position, Vector2.one * 0.75f, 0, direction, 1.5f, _obstaclesLayer);
         return hit.collider != null;
