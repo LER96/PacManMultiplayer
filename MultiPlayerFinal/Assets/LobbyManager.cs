@@ -27,9 +27,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [Header("Join")]
     [SerializeField] GameObject joinRoomFather;
     [SerializeField] private Button joinRoomButton;
+    [SerializeField] TMP_Dropdown dropDownList;
 
+
+    List<string> roomNames;
     List<string> _namesInGame = new List<string>();
     string startInput;
+    List<RoomInfo> roomsInfo;
+    TextMeshProUGUI roomsListText;
 
     private void Awake()
     {
@@ -74,6 +79,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
             inputNameFather.SetActive(false);
             creatOrJoinFather.SetActive(true);
+            CreateTabMenu();
         }
         else
         {
@@ -108,7 +114,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     #endregion
 
-    #region Create/Join
+    #region Create/Join UI
     public void CreateTabMenu()
     {
         createRoomFather.SetActive(true);
@@ -125,4 +131,38 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         createRoomButton.interactable = true;
     }
     #endregion
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        roomsInfo = roomList;
+        Debug.Log("Got room list");
+        base.OnRoomListUpdate(roomList);
+        roomsListText.text = string.Empty;
+        roomNames.Clear();
+        ResetDrop();
+        foreach (RoomInfo roomInfo in roomList)
+        {
+            if (!roomInfo.RemovedFromList)
+            {
+                roomNames.Add(roomInfo.Name);
+                dropDownList.options.Add(new TMP_Dropdown.OptionData() { text = roomInfo.Name });
+                //roomsListText.text += $"{roomInfo.Name}: {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}" + Environment.NewLine;
+            }
+            else
+            {
+                if (roomNames.Contains(roomInfo.Name))
+                {
+                    roomNames.Remove(roomInfo.Name);
+                }
+                //Debug.Log("Room " + roomInfo.Name + " No longer exist");
+            }
+        }
+    }
+
+    void ResetDrop()
+    {
+        dropDownList.options.Clear();
+        dropDownList.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
+    }
+
 }
