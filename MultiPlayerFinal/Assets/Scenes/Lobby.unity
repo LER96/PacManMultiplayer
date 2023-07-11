@@ -2795,9 +2795,15 @@ MonoBehaviour:
   enterRoomButton: {fileID: 244940958}
   creatOrJoinFather: {fileID: 901382664}
   createRoomFather: {fileID: 988576077}
+  createRoomNameInputField: {fileID: 1392589766}
+  dropDownPlayersNumberList: {fileID: 1359961482}
   createRoomButton: {fileID: 1161567027}
   joinRoomFather: {fileID: 636548697}
+  joinRoomNameInputField: {fileID: 1219211433}
+  dropDownJoinList: {fileID: 824327945}
   joinRoomButton: {fileID: 810045110}
+  startGameButton: {fileID: 436117773}
+  roomPlayersText: {fileID: 100955266}
 --- !u!4 &499774306
 Transform:
   m_ObjectHideFlags: 0

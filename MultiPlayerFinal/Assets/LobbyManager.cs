@@ -5,6 +5,7 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine.UI;
 using Photon.Realtime;
+using System;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -22,15 +23,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [Header("Create")]
     [SerializeField] GameObject createRoomFather;
-    [SerializeField] private Button createRoomButton;
+    [SerializeField] TMP_InputField createRoomNameInputField;
+    [SerializeField] TMP_Dropdown dropDownPlayersNumberList;
+    [SerializeField] Button createRoomButton;
+    int _numberOfPlayers;
 
     [Header("Join")]
     [SerializeField] GameObject joinRoomFather;
-    [SerializeField] private Button joinRoomButton;
-    [SerializeField] TMP_Dropdown dropDownList;
+    [SerializeField] TMP_InputField joinRoomNameInputField;
+    [SerializeField] TMP_Dropdown dropDownJoinList;
+    [SerializeField] Button joinRoomButton;
+
+    [Header("Info")]
+    [SerializeField] Button startGameButton;
+    [SerializeField] TMP_Text roomPlayersText;
 
 
-    List<string> roomNames;
+    List<string> roomNames= new List<string>();
     List<string> _namesInGame = new List<string>();
     string startInput;
     List<RoomInfo> roomsInfo;
@@ -38,8 +47,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        inputNameFather.SetActive(false);
+        StartUI();
+
         startInput = nicknameInputField.text;
+
+        dropDownJoinList.onValueChanged.AddListener(delegate { SetJoinInput(dropDownJoinList); });
+        dropDownPlayersNumberList.onValueChanged.AddListener(delegate { SetCreateInput(dropDownPlayersNumberList); });
+    }
+
+    void StartUI()
+    {
+        logInFather.SetActive(true);
+        inputNameFather.SetActive(false);
+        creatOrJoinFather.SetActive(false);
     }
 
     private void Update()
@@ -132,12 +152,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     #endregion
 
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         roomsInfo = roomList;
         Debug.Log("Got room list");
         base.OnRoomListUpdate(roomList);
-        roomsListText.text = string.Empty;
+        //roomsListText.text = string.Empty;
         roomNames.Clear();
         ResetDrop();
         foreach (RoomInfo roomInfo in roomList)
@@ -145,7 +166,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             if (!roomInfo.RemovedFromList)
             {
                 roomNames.Add(roomInfo.Name);
-                dropDownList.options.Add(new TMP_Dropdown.OptionData() { text = roomInfo.Name });
+                dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = roomInfo.Name });
                 //roomsListText.text += $"{roomInfo.Name}: {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}" + Environment.NewLine;
             }
             else
@@ -161,8 +182,114 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void ResetDrop()
     {
-        dropDownList.options.Clear();
-        dropDownList.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
+        dropDownJoinList.options.Clear();
+        dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
     }
 
+    public void CreateRoom()
+    {
+        createRoomButton.interactable = false;
+        bool sameName = false;
+        foreach (string roomName in roomNames)
+        {
+            if (roomName == createRoomNameInputField.text)
+            {
+                sameName = true;
+            }
+        }
+        if (sameName == false)
+        {
+            PhotonNetwork.CreateRoom(createRoomNameInputField.text, new RoomOptions() { MaxPlayers = _numberOfPlayers, EmptyRoomTtl = 0 },
+                null);
+            dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = createRoomNameInputField.text });
+        }
+        else
+        {
+            createRoomNameInputField.text = "";
+        }
+    }
+
+    void SetJoinInput(TMP_Dropdown dropdown)
+    {
+        int i = dropdown.value;
+        joinRoomNameInputField.text = dropdown.options[i].text;
+        foreach (RoomInfo room in roomsInfo)
+        {
+            if (room.Name == joinRoomNameInputField.text)
+            {
+                roomsListText.text = $"Players:{room.PlayerCount}/{room.MaxPlayers}";
+                break;
+            }
+        }
+        RefreshUI();
+        //roomsListText.text = $"In Room:{room.PlayerCount}/{room.MaxPlayers}";
+    }
+
+    void SetCreateInput(TMP_Dropdown dropdown)
+    {
+        int i = dropdown.value;
+        _numberOfPlayers = int.Parse(dropdown.options[i].text);
+        RefreshUI();
+        //roomsListText.text = $"In Room:{room.PlayerCount}/{room.MaxPlayers}";
+    }
+
+    public override void OnCreatedRoom()
+    {
+        base.OnCreatedRoom();
+        Debug.Log("We are in a room!");
+        RefreshUI();
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+        Debug.Log("Joined Room!");
+        RefreshUI();
+        //RefreshCurrentRoomInfoUI();
+        //isConnectedToRoomDebugTextUI.text = YES_STRING;
+        //leaveRoomButton.interactable = true;
+    }
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+        RefreshUI();
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (PhotonNetwork.CurrentRoom.PlayerCount == _numberOfPlayers)
+            {
+                startGameButton.interactable = true;
+            }
+        }
+    }
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (PhotonNetwork.CurrentRoom.PlayerCount < _numberOfPlayers)
+            {
+                startGameButton.interactable = false;
+            }
+        }
+        RefreshUI();
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        base.OnCreateRoomFailed(returnCode, message);
+        Debug.LogError("Create failed..." + Environment.NewLine + message);
+        createRoomButton.interactable = true;
+    }
+
+    void RefreshUI()
+    {
+        roomPlayersText.text = $"{PhotonNetwork.CountOfPlayers}/{_numberOfPlayers}";
+    }
 }
