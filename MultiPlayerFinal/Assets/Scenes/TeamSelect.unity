@@ -269,6 +269,7 @@ GameObject:
   m_Component:
   - component: {fileID: 138303729}
   - component: {fileID: 138303728}
+  - component: {fileID: 138303730}
   m_Layer: 0
   m_Name: TeamManager
   m_TagString: Untagged
@@ -288,6 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb00a54749f68df47a41ecd1724eb15b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _teamManager: {fileID: 138303730}
   _teamPmMembersText: {fileID: 758590635}
   _teamMsPmMembersText: {fileID: 2088705625}
 --- !u!4 &138303729
@@ -305,6 +307,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &138303730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138303727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f385cbae8d2ecd148ab9999b7eff93fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &211575282
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,9 +403,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 138303728}
+      - m_Target: {fileID: 138303727}
         m_TargetAssemblyTypeName: TeamSelectionManager, Assembly-CSharp
-        m_MethodName: JoinTeamPM
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1198,9 +1212,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 138303728}
+      - m_Target: {fileID: 138303727}
         m_TargetAssemblyTypeName: TeamSelectionManager, Assembly-CSharp
-        m_MethodName: JoinTeamMsPM
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
