@@ -39,7 +39,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Text roomPlayersText;
 
 
-    List<string> roomNames= new List<string>();
+    List<string> roomNames = new List<string>();
     List<string> _namesInGame = new List<string>();
     string startInput;
     List<RoomInfo> roomsInfo;
@@ -53,19 +53,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         dropDownJoinList.onValueChanged.AddListener(delegate { SetJoinInput(dropDownJoinList); });
         dropDownPlayersNumberList.onValueChanged.AddListener(delegate { SetCreateInput(dropDownPlayersNumberList); });
+
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    void StartUI()
-    {
-        logInFather.SetActive(true);
-        inputNameFather.SetActive(false);
-        creatOrJoinFather.SetActive(false);
-    }
 
     private void Update()
     {
         //If something is written in the input field
-        if(nicknameInputField.text != "" || nicknameInputField.text== startInput)
+        if (nicknameInputField.text != "" || nicknameInputField.text != startInput)
         {
             enterRoomButton.interactable = true;
         }
@@ -77,10 +73,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //PhotonNetwork.NickName = nicknameInputField.text;
         //Debug.Log("Player nickname is " + PhotonNetwork.NickName);
         PhotonNetwork.ConnectUsingSettings();
-
-        //Disable login and activate input
-        logInFather.SetActive(false);
-        inputNameFather.SetActive(true);
     }
 
     public override void OnConnectedToMaster()
@@ -88,12 +80,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         base.OnConnectedToMaster();
         Debug.Log("<color=#00ff00>We are connected!</color>");
         PhotonNetwork.JoinLobby();
+
+        //Disable login and activate input
+        logInFather.SetActive(false);
+        inputNameFather.SetActive(true);
     }
 
     //On log in press, add to list of names, log in to photon
     public void TryConnect()
     {
-        if(SameName(nicknameInputField.text)==false)
+        if (SameName(nicknameInputField.text) == false)
         {
             _namesInGame.Add(nicknameInputField.text);
 
@@ -111,7 +107,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //Check if there is otherPlayers with the same name
     bool SameName(string currentName)
     {
-        foreach(Player playerName in PhotonNetwork.PlayerList)
+        foreach (Player playerName in PhotonNetwork.PlayerList)
         {
             _namesInGame.Clear();
             _namesInGame.Add(playerName.NickName);
@@ -135,6 +131,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region Create/Join UI
+    void StartUI()
+    {
+        logInFather.SetActive(true);
+        inputNameFather.SetActive(false);
+        creatOrJoinFather.SetActive(false);
+    }
+
     public void CreateTabMenu()
     {
         createRoomFather.SetActive(true);
@@ -151,7 +154,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         createRoomButton.interactable = true;
     }
     #endregion
-
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
@@ -186,6 +188,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
     }
 
+    #region Creat
+    public void JoinRoom()
+    {
+        PhotonNetwork.JoinRoom(joinRoomNameInputField.text);
+    }
+
     public void CreateRoom()
     {
         createRoomButton.interactable = false;
@@ -209,6 +217,23 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
+    void SetCreateInput(TMP_Dropdown dropdown)
+    {
+        int i = dropdown.value;
+        _numberOfPlayers = int.Parse(dropdown.options[i].text);
+        RefreshUI();
+        //roomsListText.text = $"In Room:{room.PlayerCount}/{room.MaxPlayers}";
+    }
+    #endregion
+
+    #region Join
+    public override void OnCreatedRoom()
+    {
+        base.OnCreatedRoom();
+        Debug.Log("We are in a room!");
+        RefreshUI();
+    }
+
     void SetJoinInput(TMP_Dropdown dropdown)
     {
         int i = dropdown.value;
@@ -225,21 +250,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //roomsListText.text = $"In Room:{room.PlayerCount}/{room.MaxPlayers}";
     }
 
-    void SetCreateInput(TMP_Dropdown dropdown)
-    {
-        int i = dropdown.value;
-        _numberOfPlayers = int.Parse(dropdown.options[i].text);
-        RefreshUI();
-        //roomsListText.text = $"In Room:{room.PlayerCount}/{room.MaxPlayers}";
-    }
-
-    public override void OnCreatedRoom()
-    {
-        base.OnCreatedRoom();
-        Debug.Log("We are in a room!");
-        RefreshUI();
-    }
-
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
@@ -249,7 +259,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         //isConnectedToRoomDebugTextUI.text = YES_STRING;
         //leaveRoomButton.interactable = true;
     }
+    #endregion
 
+    #region Condition Rooms
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
@@ -268,6 +280,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
         }
     }
+
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
@@ -288,8 +301,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         createRoomButton.interactable = true;
     }
 
+    #endregion
+
     void RefreshUI()
     {
-        roomPlayersText.text = $"{PhotonNetwork.CountOfPlayers}/{_numberOfPlayers}";
+        roomPlayersText.text = $"{PhotonNetwork.CurrentRoom.PlayerCount}/{_numberOfPlayers}";
     }
 }
