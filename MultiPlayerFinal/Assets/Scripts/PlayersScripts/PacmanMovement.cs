@@ -26,6 +26,5 @@ public class PacmanMovement : Movement
         float angle = Mathf.Atan2(this._direction.y, this._direction.x);
         this.transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);  
         base.Update();
-
     }
 }
