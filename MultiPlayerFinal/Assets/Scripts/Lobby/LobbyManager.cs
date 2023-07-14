@@ -241,6 +241,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
+        RefreshUI();
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -249,7 +250,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 startGameButton.interactable = true;
             }
         }
-        RefreshUI();
+    }
+
+    public void StartGame()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(1);
+        }
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
