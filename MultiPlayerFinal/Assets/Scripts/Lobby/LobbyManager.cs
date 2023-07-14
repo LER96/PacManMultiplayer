@@ -25,6 +25,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject createRoomFather;
     [SerializeField] TMP_InputField createRoomNameInputField;
     [SerializeField] TMP_Dropdown dropDownPlayersNumberList;
+    [SerializeField] TextMeshProUGUI numberOfPlayersInput;
     [SerializeField] Button createRoomButton;
     int _numberOfPlayers;
 
@@ -36,8 +37,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [Header("Info")]
     [SerializeField] Button startGameButton;
-    [SerializeField] TMP_Text roomPlayersText;
-
+    [SerializeField] TextMeshProUGUI roomPlayersText;
+    [SerializeField] TextMeshProUGUI playerListText;
 
     List<string> roomNames = new List<string>();
     List<string> _namesInGame = new List<string>();
@@ -65,12 +66,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             enterRoomButton.interactable = true;
         }
+
+        RefreshUI();
     }
 
     #region LogIn
     public void LoginToPhoton()
     {
-        //PhotonNetwork.NickName = nicknameInputField.text;
         //Debug.Log("Player nickname is " + PhotonNetwork.NickName);
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -89,6 +91,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     //On log in press, add to list of names, log in to photon
     public void TryConnect()
     {
+        PhotonNetwork.NickName = nicknameInputField.text;
         if (SameName(nicknameInputField.text) == false)
         {
             _namesInGame.Add(nicknameInputField.text);
@@ -177,7 +180,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 {
                     roomNames.Remove(roomInfo.Name);
                 }
-                //Debug.Log("Room " + roomInfo.Name + " No longer exist");
             }
         }
     }
@@ -217,11 +219,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-    void SetCreateInput(TMP_Dropdown dropdown)
+    public void SetCreateInput(TMP_Dropdown dropdown)
     {
         int i = dropdown.value;
         _numberOfPlayers = int.Parse(dropdown.options[i].text);
-        RefreshUI();
         //roomsListText.text = $"In Room:{room.PlayerCount}/{room.MaxPlayers}";
     }
     #endregion
@@ -234,7 +235,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         RefreshUI();
     }
 
-    void SetJoinInput(TMP_Dropdown dropdown)
+    public void SetJoinInput(TMP_Dropdown dropdown)
     {
         int i = dropdown.value;
         joinRoomNameInputField.text = dropdown.options[i].text;
@@ -279,6 +280,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 startGameButton.interactable = true;
             }
         }
+        RefreshUI();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -305,6 +307,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void RefreshUI()
     {
-        roomPlayersText.text = $"{PhotonNetwork.CurrentRoom.PlayerCount}/{_numberOfPlayers}";
+        if (PhotonNetwork.CountOfRooms > 0)
+        {
+            roomPlayersText.text = $"{PhotonNetwork.CurrentRoom.PlayerCount}/{_numberOfPlayers}";
+        }
+        else
+        {
+            roomPlayersText.text = $"{0}/{_numberOfPlayers}";
+        }
+
+        playerListText.text = "";
+        foreach (Player photonPlayer in PhotonNetwork.PlayerList)
+        {
+            playerListText.text += $"{photonPlayer.NickName}: Ping {PhotonNetwork.GetPing().ToString()}" + Environment.NewLine;
+        }
+
     }
 }
