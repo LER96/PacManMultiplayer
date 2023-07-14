@@ -1,19 +1,23 @@
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TeamManager : MonoBehaviour
 {
-    List<PlayerData> _teamPm = new List<PlayerData>();
-    List<PlayerData> _teamMsPm = new List<PlayerData>();
+    List<Player> _teamPm = new List<Player>();
+    List<Player> _teamMsPm = new List<Player>();
 
-    public void JoinTeamPM(PlayerData player)
+    [PunRPC]
+    public void JoinTeamPM(Player _player)
     {
-        _teamPm.Add(player);
+        _teamPm.Add(_player);
     }
 
-    public void JoinTeamMsPM(PlayerData player)
+    [PunRPC]
+    public void JoinTeamMsPM(Player _player)
     {
-        _teamMsPm.Add(player);
+        _teamMsPm.Add(_player);
     }
 }

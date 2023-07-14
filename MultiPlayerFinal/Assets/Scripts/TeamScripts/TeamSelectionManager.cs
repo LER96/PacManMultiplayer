@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class TeamSelectionManager : MonoBehaviour
+public class TeamSelectionManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TeamManager _teamManager;
 
@@ -14,11 +16,13 @@ public class TeamSelectionManager : MonoBehaviour
 
     public void JoinTeamPM()
     {
-        _teamPmMembersText.text = "0";
+        _teamPmMembersText.text = PhotonNetwork.LocalPlayer.NickName;
+        photonView.RPC("JoinTeamPM", PhotonNetwork.LocalPlayer);
     }
   
     public void JoinTeamMsPM()
     {
-        _teamMsPmMembersText.text = "1";
+        _teamMsPmMembersText.text = PhotonNetwork.LocalPlayer.NickName;
+        photonView.RPC("JoinTeamMsPM", PhotonNetwork.LocalPlayer);
     }
 }
