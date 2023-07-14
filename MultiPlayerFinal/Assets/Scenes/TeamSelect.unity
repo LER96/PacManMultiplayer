@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 138303729}
   - component: {fileID: 138303728}
   - component: {fileID: 138303730}
+  - component: {fileID: 138303731}
   m_Layer: 0
   m_Name: TeamManager
   m_TagString: Untagged
@@ -319,6 +320,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f385cbae8d2ecd148ab9999b7eff93fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  JOIN_TEAM_PM: JoinTeamPM
+  JOIN_TEAM_MSPM: JoinTeamMsPM
+--- !u!114 &138303731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138303727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &211575282
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,9 +428,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 138303727}
+      - m_Target: {fileID: 138303728}
         m_TargetAssemblyTypeName: TeamSelectionManager, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: JoinTeamPM
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1212,9 +1237,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 138303727}
+      - m_Target: {fileID: 138303728}
         m_TargetAssemblyTypeName: TeamSelectionManager, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: JoinTeamMsPM
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
