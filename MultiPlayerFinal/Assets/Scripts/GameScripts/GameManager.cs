@@ -13,8 +13,8 @@ public abstract class GameManager : MonoBehaviour
     [SerializeField] public int pacEatenScore;
     [SerializeField] public int ghostEatenScore;
 
-    public int teamScore { get; private set; }
-    public int rounds { get; private set; }
+    public int teamScore { get;  set; }
+    public int rounds { get;  set; }
 
 
     private void Awake()
