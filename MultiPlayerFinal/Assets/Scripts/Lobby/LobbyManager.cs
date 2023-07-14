@@ -9,6 +9,7 @@ using System;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
+
     [Header("Log In")]
     [SerializeField] GameObject logInFather;
     [SerializeField] private Button logInButton;
@@ -211,6 +212,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.CreateRoom(createRoomNameInputField.text, new RoomOptions() { MaxPlayers = _numberOfPlayers, EmptyRoomTtl = 0 },
                 null);
+            GameManager.instance.rounds = int.Parse(numberOfPlayersInput.text);
             dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = createRoomNameInputField.text });
         }
         else
