@@ -26,7 +26,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject createRoomFather;
     [SerializeField] TMP_InputField createRoomNameInputField;
     [SerializeField] TMP_Dropdown dropDownPlayersNumberList;
-    [SerializeField] TextMeshProUGUI numberOfPlayersInput;
+    [SerializeField] TMP_InputField numberOfPlayersInput;
     [SerializeField] Button createRoomButton;
     int _numberOfPlayers;
 
@@ -58,7 +58,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.AutomaticallySyncScene = true;
     }
-
 
     private void Update()
     {
@@ -159,38 +158,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     #endregion
 
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        roomsInfo = roomList;
-        Debug.Log("Got room list");
-        base.OnRoomListUpdate(roomList);
-        //roomsListText.text = string.Empty;
-        roomNames.Clear();
-        ResetDrop();
-        foreach (RoomInfo roomInfo in roomList)
-        {
-            if (!roomInfo.RemovedFromList)
-            {
-                roomNames.Add(roomInfo.Name);
-                dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = roomInfo.Name });
-                //roomsListText.text += $"{roomInfo.Name}: {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}" + Environment.NewLine;
-            }
-            else
-            {
-                if (roomNames.Contains(roomInfo.Name))
-                {
-                    roomNames.Remove(roomInfo.Name);
-                }
-            }
-        }
-    }
-
-    void ResetDrop()
-    {
-        dropDownJoinList.options.Clear();
-        dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
-    }
-
     #region Creat
     public void JoinRoom()
     {
@@ -227,16 +194,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         _numberOfPlayers = int.Parse(dropdown.options[i].text);
         //roomsListText.text = $"In Room:{room.PlayerCount}/{room.MaxPlayers}";
     }
-    #endregion
 
-    #region Join
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
         Debug.Log("We are in a room!");
         RefreshUI();
     }
+    #endregion
 
+    #region Join
     public void SetJoinInput(TMP_Dropdown dropdown)
     {
         int i = dropdown.value;
@@ -306,6 +273,38 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     #endregion
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        roomsInfo = roomList;
+        Debug.Log("Got room list");
+        base.OnRoomListUpdate(roomList);
+        //roomsListText.text = string.Empty;
+        roomNames.Clear();
+        ResetDrop();
+        foreach (RoomInfo roomInfo in roomList)
+        {
+            if (!roomInfo.RemovedFromList)
+            {
+                roomNames.Add(roomInfo.Name);
+                dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = roomInfo.Name });
+                //roomsListText.text += $"{roomInfo.Name}: {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}" + Environment.NewLine;
+            }
+            else
+            {
+                if (roomNames.Contains(roomInfo.Name))
+                {
+                    roomNames.Remove(roomInfo.Name);
+                }
+            }
+        }
+    }
+
+    void ResetDrop()
+    {
+        dropDownJoinList.options.Clear();
+        dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
+    }
 
     void RefreshUI()
     {
