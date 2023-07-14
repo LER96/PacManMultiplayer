@@ -65,6 +65,25 @@ public abstract class GameManager : MonoBehaviour
         SetTeamScore(teamScore + ghostEatenScore);
     }
 
+    public void EatenPellets(EatingPellets pellets)
+    {
+        pellets.gameObject.SetActive(false);
+        SetTeamScore(this.teamScore + pellets.score);
+
+        if (!RemainingPellets())
+        {
+            //freeze all movements
+            Invoke(nameof(NextRound), 2);
+        }
+    }
+
+    public void EatenPowerPellets( PowerPellet powerPellet)
+    {
+        EatenPellets(powerPellet);
+
+        //change ghost states to be eaten (based on team)
+    }
+
     public void EndRound()
     {
         foreach (Transform pellet in pellets)
@@ -76,4 +95,17 @@ public abstract class GameManager : MonoBehaviour
             }
         }
     }
+
+    public bool RemainingPellets()
+    {
+        foreach (Transform pellets in this.pellets)
+        {
+            if (pellets.gameObject.activeSelf)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
