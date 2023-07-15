@@ -179,7 +179,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             PhotonNetwork.CreateRoom(createRoomNameInputField.text, new RoomOptions() { MaxPlayers = _numberOfPlayers, EmptyRoomTtl = 0 },
                 null);
-            //GameManager.instance.rounds = int.Parse(numberOfRoundsInput.text);
+            GameManager.instance.rounds = int.Parse(numberOfRoundsInput.text);
             dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = createRoomNameInputField.text });
         }
         else
