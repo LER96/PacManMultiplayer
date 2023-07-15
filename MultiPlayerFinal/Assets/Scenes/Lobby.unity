@@ -2904,7 +2904,7 @@ MonoBehaviour:
   createRoomFather: {fileID: 988576077}
   createRoomNameInputField: {fileID: 1392589766}
   dropDownPlayersNumberList: {fileID: 1359961482}
-  numberOfPlayersInput: {fileID: 1534298368}
+  numberOfRoundsInput: {fileID: 1534298368}
   createRoomButton: {fileID: 1161567027}
   joinRoomFather: {fileID: 636548697}
   joinRoomNameInputField: {fileID: 1219211433}
@@ -3250,7 +3250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &581343399
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4905,7 +4905,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &901382665
 RectTransform:
   m_ObjectHideFlags: 0

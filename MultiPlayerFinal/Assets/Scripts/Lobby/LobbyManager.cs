@@ -316,14 +316,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void RefreshUI()
     {
-        if (PhotonNetwork.CountOfRooms > 0)
-        {
-            roomPlayersText.text = $"{PhotonNetwork.CurrentRoom.PlayerCount}/{_numberOfPlayers}";
-        }
-        else
-        {
-            roomPlayersText.text = $"{0}/{_numberOfPlayers}";
-        }
+        //if (PhotonNetwork.CountOfRooms > 0)
+        //{
+        //    roomPlayersText.text = $"{PhotonNetwork.CurrentRoom.PlayerCount}/{_numberOfPlayers}";
+        //}
+        //else
+        //{
+        //    roomPlayersText.text = $"{0}/{_numberOfPlayers}";
+        //}
 
         playerListText.text = "";
         foreach (Player photonPlayer in PhotonNetwork.PlayerList)
