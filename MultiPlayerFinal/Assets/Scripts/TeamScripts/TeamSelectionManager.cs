@@ -22,12 +22,12 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-       if (PhotonNetwork.IsMasterClient)
-       {
-           AssignPacMan();
-       }
+        if (PhotonNetwork.IsMasterClient)
+        {
+            AssignPacMan();
+        }
 
-      // RefreshTeamsUI();
+        // RefreshTeamsUI();
     }
 
     public void JoinTeamPM(string team)
@@ -57,7 +57,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         }
 
         Debug.Log($"{playerList[0]} is Pacman");
-       // photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.All, playerList[0]);
+        // photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.All, playerList[0]);
 
         Debug.Log($"{playerList[1]} is Miss Pacman");
         // photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.All, playerList[1]);
@@ -66,7 +66,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
         //playerProperties.Add("Pacman", playerList[0].NickName);
         //PhotonNetwork.PlayerList[0].SetCustomProperties(playerProperties);
-        PhotonNetwork.PlayerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { {"Character", "Pacman" } });
+        PhotonNetwork.PlayerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Pacman" } });
         PhotonNetwork.PlayerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team Pacman", "Team Pacman" } });
 
         //playerProperties.Add("Miss Pacman", playerList[1].NickName);
@@ -93,30 +93,11 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     {
         string teamPacmanText = "";
 
-      // foreach (Player player in PhotonNetwork.PlayerList)
-      // {
-      //     if (player.CustomProperties.TryGetValue("Team Pacman", out object teamValue))
-      //     {
-      //         if ((string)teamValue == "Pacman")
-      //         {
-      //             teamPacmanText += player.NickName + "\n";
-      //         }
-      //     }
-      // }
-
-        for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+        foreach (Player player in PhotonNetwork.PlayerList)
         {
-            Player player = PhotonNetwork.CurrentRoom.GetPlayer(i);
-
-            if (player.CustomProperties.ContainsKey("Team Pacman") || player.CustomProperties.ContainsKey("Team MissPacman"))
+            if (player.CustomProperties.ContainsKey("Team Pacman"))
             {
-                if (player.CustomProperties.TryGetValue("Team Pacman", out object teamValue))
-                {
-                    if ((string)teamValue == "Pacman")
-                    {
-                        teamPacmanText += player.NickName + "\n";
-                    }
-                }
+                teamPacmanText += player.NickName + "\n";
             }
         }
 
@@ -128,31 +109,12 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     private void UpdateMissPacmanTeamUI()
     {
         string teamMissPacmanText = "";
-       
-       // foreach (Player player in PhotonNetwork.PlayerList)
-       // {
-       //     if (player.CustomProperties.TryGetValue("Team MissPacman", out object teamValue))
-       //     {
-       //         if ((string)teamValue == "MissPacman")
-       //         {
-       //             teamMissPacmanText += player.NickName + "\n";
-       //         }
-       //     }
-       // }
 
-        for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+        foreach (Player player in PhotonNetwork.PlayerList)
         {
-            Player player = PhotonNetwork.CurrentRoom.GetPlayer(i);
-
-            if (player.CustomProperties.ContainsKey("Team Pacman") || player.CustomProperties.ContainsKey("Team MissPacman"))
+            if (player.CustomProperties.ContainsKey("Team MissPacman"))
             {
-                if (player.CustomProperties.TryGetValue("Team Pacman", out object teamValue))
-                {
-                    if ((string)teamValue == "Pacman")
-                    {
-                        teamMissPacmanText += player.NickName + "\n";
-                    }
-                }
+                teamMissPacmanText += player.NickName + "\n";
             }
         }
 
