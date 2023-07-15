@@ -120,7 +120,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
             }
         }
 
-        if (teamSize >= PhotonNetwork.CurrentRoom.MaxPlayers)
+        if (teamSize >= PhotonNetwork.CurrentRoom.MaxPlayers / 2)
         {
             _joinTeamPmButton.SetActive(false);
         }
@@ -138,7 +138,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
             }
         }
 
-        if (teamSize >= PhotonNetwork.CurrentRoom.MaxPlayers)
+        if (teamSize >= PhotonNetwork.CurrentRoom.MaxPlayers / 2)
         {
             _joinTeamMsPmButton.SetActive(false);
         }
