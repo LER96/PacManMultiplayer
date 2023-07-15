@@ -80,13 +80,49 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     {
         if (changedProps.ContainsKey("Team Pacman"))
         {
-            _teamPmMembersText.text = targetPlayer.NickName;
+            UpdatePacmanTeamUI();
         }
 
         if (changedProps.ContainsKey("Team MissPacman"))
         {
-            _teamMsPmMembersText.text = targetPlayer.NickName;
+            UpdateMissPacmanTeamUI();
         }
+    }
+
+    private void UpdatePacmanTeamUI()
+    {
+        string teamPacmanText = "";
+
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.TryGetValue("Team Pacman", out object teamValue))
+            {
+                if ((string)teamValue == "Pacman")
+                {
+                    teamPacmanText += player.NickName + Environment.NewLine;
+                }
+            }
+        }
+
+        _teamPmMembersText.text = teamPacmanText;
+    }
+
+    private void UpdateMissPacmanTeamUI()
+    {
+        string teamMissPacmanText = "";
+
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.TryGetValue("Team MissPacman", out object teamValue))
+            {
+                if ((string)teamValue == "MissPacman")
+                {
+                    teamMissPacmanText += player.NickName + Environment.NewLine;
+                }
+            }
+        }
+
+        _teamMsPmMembersText.text = teamMissPacmanText;
     }
 
     void RefreshTeamsUI()
