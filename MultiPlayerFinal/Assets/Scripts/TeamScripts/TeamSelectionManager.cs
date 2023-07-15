@@ -18,12 +18,12 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            AssignPacMan();
-        }
+       // if (PhotonNetwork.IsMasterClient)
+       // {
+       //     AssignPacMan();
+       // }
 
-        RefreshTeamsUI();
+        //RefreshTeamsUI();
     }
 
     public void JoinTeamPM()
@@ -75,6 +75,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         foreach (Player player in _teamManager._teamPm)
         {
             _teamPmMembersText.text += $"{player.NickName}" + Environment.NewLine;
+            Debug.Log($"{player.NickName} is in team Pacman");
         }
     }
 
@@ -85,6 +86,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         foreach (Player player in _teamManager._teamMsPm)
         {
             _teamMsPmMembersText.text += $"{player.NickName}" + Environment.NewLine;
+            Debug.Log($"{player.NickName} is in team Miss Pacman");
         }
     }
 }
