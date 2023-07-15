@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public abstract class GameManager : MonoBehaviour
+public abstract class GameManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] public Ghost[] ghosts;
     [SerializeField] public PacmanMovement pacman;
@@ -16,7 +17,6 @@ public abstract class GameManager : MonoBehaviour
     public int teamScore { get;  set; }
     public int rounds { get;  set; }
 
-
     private void Awake()
     {
         instance = this;
@@ -26,6 +26,21 @@ public abstract class GameManager : MonoBehaviour
     {
         SetTeamScore(0);
         SetRounds(0);
+    }
+
+    public void GameOver()
+    {
+        //announce which team won
+    }
+
+    public void QuitGame()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        Photon
     }
 
     public void NextRound()
@@ -46,11 +61,6 @@ public abstract class GameManager : MonoBehaviour
     public void SetRounds(int rounds)
     {
         this.rounds = rounds;
-    }
-
-    public void GameOver()
-    {
-        //announce which team won
     }
 
     public void PacEaten()
