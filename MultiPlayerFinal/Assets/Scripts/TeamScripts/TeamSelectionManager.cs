@@ -22,6 +22,8 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         {
             AssignPacMan();
         }
+
+        RefreshTeamsUI();
     }
 
     public void JoinTeamPM()
