@@ -93,8 +93,21 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     {
         string teamPacmanText = "";
 
-        foreach (Player player in PhotonNetwork.PlayerList)
+      // foreach (Player player in PhotonNetwork.PlayerList)
+      // {
+      //     if (player.CustomProperties.TryGetValue("Team Pacman", out object teamValue))
+      //     {
+      //         if ((string)teamValue == "Pacman")
+      //         {
+      //             teamPacmanText += player.NickName + "\n";
+      //         }
+      //     }
+      // }
+
+        for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {
+            Player player = PhotonNetwork.CurrentRoom.GetPlayer(i);
+
             if (player.CustomProperties.TryGetValue("Team Pacman", out object teamValue))
             {
                 if ((string)teamValue == "Pacman")
@@ -112,12 +125,25 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     private void UpdateMissPacmanTeamUI()
     {
         string teamMissPacmanText = "";
+       
+       // foreach (Player player in PhotonNetwork.PlayerList)
+       // {
+       //     if (player.CustomProperties.TryGetValue("Team MissPacman", out object teamValue))
+       //     {
+       //         if ((string)teamValue == "MissPacman")
+       //         {
+       //             teamMissPacmanText += player.NickName + "\n";
+       //         }
+       //     }
+       // }
 
-        foreach (Player player in PhotonNetwork.PlayerList)
+        for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {
-            if (player.CustomProperties.TryGetValue("Team MissPacman", out object teamValue))
+            Player player = PhotonNetwork.CurrentRoom.GetPlayer(i);
+
+            if (player.CustomProperties.TryGetValue("Team Pacman", out object teamValue))
             {
-                if ((string)teamValue == "MissPacman")
+                if ((string)teamValue == "Pacman")
                 {
                     teamMissPacmanText += player.NickName + "\n";
                 }
