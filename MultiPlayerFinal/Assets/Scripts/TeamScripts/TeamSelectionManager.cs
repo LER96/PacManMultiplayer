@@ -8,6 +8,7 @@ using Photon.Realtime;
 using System.Linq;
 using System;
 using UnityEngine.TextCore.Text;
+using static Photon.Pun.UtilityScripts.PunTeams;
 
 public class TeamSelectionManager : MonoBehaviourPunCallbacks
 {
@@ -29,18 +30,18 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
       // RefreshTeamsUI();
     }
 
-    public void JoinTeamPM()
+    public void JoinTeamPM(string team)
     {
         //photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.All, PhotonNetwork.LocalPlayer);
-        AssignTeam(PhotonNetwork.LocalPlayer, "Team Pacman");
-       // RefreshTeamsUI();
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team Pacman", team } });
+        // RefreshTeamsUI();
     }
 
-    public void JoinTeamMsPM()
+    public void JoinTeamMsPM(string team)
     {
         //photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.All, PhotonNetwork.LocalPlayer);
-        AssignTeam(PhotonNetwork.LocalPlayer, "Team MissPacman");
-       // RefreshTeamsUI();
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team MissPacman", team } });
+        // RefreshTeamsUI();
     }
 
     public void AssignPacMan()
@@ -59,20 +60,20 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
        // photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.All, playerList[0]);
 
         Debug.Log($"{playerList[1]} is Miss Pacman");
-       // photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.All, playerList[1]);
+        // photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.All, playerList[1]);
 
-       // RefreshTeamsUI();
+        // RefreshTeamsUI();
 
         //playerProperties.Add("Pacman", playerList[0].NickName);
         //PhotonNetwork.PlayerList[0].SetCustomProperties(playerProperties);
-        AssignCharacter(playerList[0], "Pacman");
-        AssignTeam(playerList[0], "Team Pacman");
+        PhotonNetwork.PlayerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { {"Character", "Pacman" } });
+        PhotonNetwork.PlayerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team Pacman", "Team Pacman" } });
 
         //playerProperties.Add("Miss Pacman", playerList[1].NickName);
         //PhotonNetwork.PlayerList[1].SetCustomProperties(playerProperties);
 
-        AssignCharacter(playerList[1], "MissPacman");
-        AssignTeam(playerList[1], "Team MissPacman");
+        PhotonNetwork.PlayerList[1].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Miss Pacman" } });
+        PhotonNetwork.PlayerList[1].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team MissPacman", "Team MissPacman" } });
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
