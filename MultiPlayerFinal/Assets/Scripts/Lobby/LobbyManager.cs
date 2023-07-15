@@ -26,7 +26,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject createRoomFather;
     [SerializeField] TMP_InputField createRoomNameInputField;
     [SerializeField] TMP_Dropdown dropDownPlayersNumberList;
-    [SerializeField] TMP_InputField numberOfPlayersInput;
+    [SerializeField] TMP_InputField numberOfRoundsInput;
     [SerializeField] Button createRoomButton;
     int _numberOfPlayers;
 
@@ -40,12 +40,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] Button startGameButton;
     [SerializeField] TextMeshProUGUI roomPlayersText;
     [SerializeField] TextMeshProUGUI playerListText;
+    TextMeshProUGUI roomsListText;
 
     List<string> roomNames = new List<string>();
     List<string> _namesInGame = new List<string>();
     string startInput;
     List<RoomInfo> roomsInfo;
-    TextMeshProUGUI roomsListText;
 
     private void Awake()
     {
@@ -66,8 +66,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         {
             enterRoomButton.interactable = true;
         }
-
-        RefreshUI();
     }
 
     #region LogIn
@@ -166,7 +164,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        createRoomButton.interactable = false;
+        //createRoomButton.interactable = false;
         bool sameName = false;
         foreach (string roomName in roomNames)
         {
@@ -175,11 +173,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 sameName = true;
             }
         }
+
+        //If there isn't a room with the same name, then cre
         if (sameName == false)
         {
             PhotonNetwork.CreateRoom(createRoomNameInputField.text, new RoomOptions() { MaxPlayers = _numberOfPlayers, EmptyRoomTtl = 0 },
                 null);
-           // GameManager.instance.rounds = int.Parse(numberOfPlayersInput.text);
+            //GameManager.instance.rounds = int.Parse(numberOfRoundsInput.text);
             dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = createRoomNameInputField.text });
         }
         else
@@ -208,14 +208,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         int i = dropdown.value;
         joinRoomNameInputField.text = dropdown.options[i].text;
-        foreach (RoomInfo room in roomsInfo)
-        {
-            if (room.Name == joinRoomNameInputField.text)
-            {
-                roomsListText.text = $"Players:{room.PlayerCount}/{room.MaxPlayers}";
-                break;
-            }
-        }
+        //foreach (RoomInfo room in roomsInfo)
+        //{
+        //    if (room.Name == joinRoomNameInputField.text)
+        //    {
+        //        roomsListText.text = $"Players:{room.PlayerCount}/{room.MaxPlayers}";
+        //        break;
+        //    }
+        //}
         RefreshUI();
         //roomsListText.text = $"In Room:{room.PlayerCount}/{room.MaxPlayers}";
     }
@@ -328,7 +328,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         playerListText.text = "";
         foreach (Player photonPlayer in PhotonNetwork.PlayerList)
         {
-            playerListText.text += $"{photonPlayer.NickName}: Ping {PhotonNetwork.GetPing().ToString()}" + Environment.NewLine;
+            playerListText.text += $"{photonPlayer.NickName} In Room" + Environment.NewLine;
         }
 
     }
