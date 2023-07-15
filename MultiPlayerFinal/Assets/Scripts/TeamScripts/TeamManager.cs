@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class TeamManager : MonoBehaviourPunCallbacks
 {
-    List<Player> _teamPm = new List<Player>();
-    List<Player> _teamMsPm = new List<Player>();
+    public List<Player> _teamPm { get; private set; } = new List<Player>();
+    public List<Player> _teamMsPm { get; private set; } = new List<Player>();
 
     public string JOIN_TEAM_PM { get; private set; } = nameof(JoinTeamPM);
     public string JOIN_TEAM_MSPM { get; private set; } = nameof(JoinTeamMsPM);
