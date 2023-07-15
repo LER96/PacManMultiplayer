@@ -99,10 +99,12 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
             {
                 if ((string)teamValue == "Pacman")
                 {
-                    teamPacmanText += player.NickName + Environment.NewLine;
+                    teamPacmanText += player.NickName + "\n";
                 }
             }
         }
+
+        Debug.Log("Pacman Team Text: " + teamPacmanText); // Debug log to check the generated text
 
         _teamPmMembersText.text = teamPacmanText;
     }
@@ -117,10 +119,12 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
             {
                 if ((string)teamValue == "MissPacman")
                 {
-                    teamMissPacmanText += player.NickName + Environment.NewLine;
+                    teamMissPacmanText += player.NickName + "\n";
                 }
             }
         }
+
+        Debug.Log("MissPacman Team Text: " + teamMissPacmanText); // Debug log to check the generated text
 
         _teamMsPmMembersText.text = teamMissPacmanText;
     }
