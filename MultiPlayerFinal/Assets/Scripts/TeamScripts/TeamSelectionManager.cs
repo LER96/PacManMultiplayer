@@ -28,13 +28,13 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     public void JoinTeamPM()
     {
-        photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.All, PhotonNetwork.LocalPlayer);
+        photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.AllViaServer, PhotonNetwork.LocalPlayer);
         RefreshTeamPmUI();
     }
 
     public void JoinTeamMsPM()
     {
-        photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.All, PhotonNetwork.LocalPlayer);
+        photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.AllViaServer, PhotonNetwork.LocalPlayer);
         RefreshTeamMsPmUI();
     }
 
@@ -51,10 +51,10 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         }
 
         Debug.Log($"{playerList[0]} is Pacman");
-        photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.All, playerList[0]);
+        photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.AllViaServer, playerList[0]);
 
         Debug.Log($"{playerList[1]} is Miss Pacman");
-        photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.All, playerList[1]);
+        photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.AllViaServer, playerList[1]);
 
         RefreshTeamsUI();
     }
