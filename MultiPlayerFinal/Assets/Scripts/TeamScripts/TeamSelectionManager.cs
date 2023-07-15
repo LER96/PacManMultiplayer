@@ -108,15 +108,16 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         {
             Player player = PhotonNetwork.CurrentRoom.GetPlayer(i);
 
-            if (player.CustomProperties.TryGetValue("Team Pacman", out object teamValue))
+            if (player.CustomProperties.ContainsKey("Team Pacman") || player.CustomProperties.ContainsKey("Team MissPacman"))
             {
-                if ((string)teamValue == "Pacman")
+                if (player.CustomProperties.TryGetValue("Team Pacman", out object teamValue))
                 {
-                    teamPacmanText += player.NickName + "\n";
+                    if ((string)teamValue == "Pacman")
+                    {
+                        teamPacmanText += player.NickName + "\n";
+                    }
                 }
             }
-            else
-                return;
         }
 
         Debug.Log("Pacman Team Text: " + teamPacmanText); // Debug log to check the generated text
@@ -143,15 +144,16 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         {
             Player player = PhotonNetwork.CurrentRoom.GetPlayer(i);
 
-            if (player.CustomProperties.TryGetValue("Team Pacman", out object teamValue))
+            if (player.CustomProperties.ContainsKey("Team Pacman") || player.CustomProperties.ContainsKey("Team MissPacman"))
             {
-                if ((string)teamValue == "Pacman")
+                if (player.CustomProperties.TryGetValue("Team Pacman", out object teamValue))
                 {
-                    teamMissPacmanText += player.NickName + "\n";
+                    if ((string)teamValue == "Pacman")
+                    {
+                        teamMissPacmanText += player.NickName + "\n";
+                    }
                 }
             }
-            else
-                return;
         }
 
         Debug.Log("MissPacman Team Text: " + teamMissPacmanText); // Debug log to check the generated text
