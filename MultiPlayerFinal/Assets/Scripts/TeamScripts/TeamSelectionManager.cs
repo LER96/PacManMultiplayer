@@ -18,24 +18,24 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-       // if (PhotonNetwork.IsMasterClient)
-       // {
-       //     AssignPacMan();
-       // }
+       if (PhotonNetwork.IsMasterClient)
+       {
+           AssignPacMan();
+       }
 
-        //RefreshTeamsUI();
+       RefreshTeamsUI();
     }
 
     public void JoinTeamPM()
     {
         photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.All, PhotonNetwork.LocalPlayer);
-        RefreshTeamPmUI();
+        RefreshTeamsUI();
     }
 
     public void JoinTeamMsPM()
     {
         photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.All, PhotonNetwork.LocalPlayer);
-        RefreshTeamMsPmUI();
+        RefreshTeamsUI();
     }
 
     public void AssignPacMan()
@@ -61,15 +61,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     void RefreshTeamsUI()
     {
-        Debug.Log($"{_teamManager._teamPm[0]} is Pacman");
-        RefreshTeamPmUI();
-
-        Debug.Log($"{_teamManager._teamMsPm[0]} is Pacman");
-        RefreshTeamMsPmUI();
-    }
-
-    void RefreshTeamPmUI()
-    {
         _teamPmMembersText.text = string.Empty;
 
         foreach (Player player in _teamManager._teamPm)
@@ -77,10 +68,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
             _teamPmMembersText.text += $"{player.NickName}" + Environment.NewLine;
             Debug.Log($"{player.NickName} is in team Pacman");
         }
-    }
 
-    void RefreshTeamMsPmUI()
-    {
         _teamMsPmMembersText.text = string.Empty;
 
         foreach (Player player in _teamManager._teamMsPm)
