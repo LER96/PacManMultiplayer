@@ -16,6 +16,8 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshProUGUI _teamPmMembersText;
     [SerializeField] TextMeshProUGUI _teamMsPmMembersText;
 
+    ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
+
     private void Start()
     {
        if (PhotonNetwork.IsMasterClient)
@@ -51,12 +53,24 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         }
 
         Debug.Log($"{playerList[0]} is Pacman");
-        photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.All, playerList[0]);
+       // photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.All, playerList[0]);
 
         Debug.Log($"{playerList[1]} is Miss Pacman");
-        photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.All, playerList[1]);
+       // photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.All, playerList[1]);
 
         RefreshTeamsUI();
+
+        playerProperties.Add("Pacman", playerList[0].NickName);
+        PhotonNetwork.PlayerList[0].SetCustomProperties(playerProperties);
+
+        playerProperties.Add("Miss Pacman", playerList[1].NickName);
+        PhotonNetwork.PlayerList[1].SetCustomProperties(playerProperties);
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        _teamPmMembersText.text = (string)targetPlayer.CustomProperties["Pacman"];
+        _teamMsPmMembersText.text = (string)targetPlayer.CustomProperties["Miss Pacman"];
     }
 
     void RefreshTeamsUI()
