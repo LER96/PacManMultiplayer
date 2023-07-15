@@ -40,7 +40,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
 
     public override void OnLeftRoom()
     {
-        Photon
+        PhotonNetwork.LoadLevel(0);
     }
 
     public void NextRound()
