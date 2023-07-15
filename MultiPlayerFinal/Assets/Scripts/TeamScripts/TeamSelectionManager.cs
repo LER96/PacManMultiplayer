@@ -115,6 +115,8 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
                     teamPacmanText += player.NickName + "\n";
                 }
             }
+            else
+                return;
         }
 
         Debug.Log("Pacman Team Text: " + teamPacmanText); // Debug log to check the generated text
@@ -148,6 +150,8 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
                     teamMissPacmanText += player.NickName + "\n";
                 }
             }
+            else
+                return;
         }
 
         Debug.Log("MissPacman Team Text: " + teamMissPacmanText); // Debug log to check the generated text
