@@ -8,7 +8,6 @@ using Photon.Realtime;
 using System.Linq;
 using System;
 using UnityEngine.TextCore.Text;
-using static Photon.Pun.UtilityScripts.PunTeams;
 
 public class TeamSelectionManager : MonoBehaviourPunCallbacks
 {
@@ -17,23 +16,39 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     [Header("UI Refrences")]
     [SerializeField] TextMeshProUGUI _teamPmMembersText;
     [SerializeField] TextMeshProUGUI _teamMsPmMembersText;
+    [SerializeField] GameObject _joinTeamPmButton; 
+    [SerializeField] GameObject _joinTeamMsPmButton; 
+    [SerializeField] GameObject _startGameButton; 
 
-    ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
+    //ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
 
+    //limit team to 3 players. 
+    //start game only for master client
+    //start game button only interactive when teams are full
     private void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            AssignPacMan();
+            AssignRole();
+            _startGameButton.SetActive(true);
         }
 
-        // RefreshTeamsUI();
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Pacman"))
+        {
+            _joinTeamPmButton.SetActive(false);
+        }
+
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Miss Pacman"))
+        {
+            _joinTeamMsPmButton.SetActive(false);
+        }
     }
 
     public void JoinTeamPM(string team)
     {
         //photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.All, PhotonNetwork.LocalPlayer);
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team Pacman", team } });
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
         // RefreshTeamsUI();
     }
 
@@ -41,10 +56,11 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     {
         //photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.All, PhotonNetwork.LocalPlayer);
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team MissPacman", team } });
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
         // RefreshTeamsUI();
     }
 
-    public void AssignPacMan()
+    public void AssignRole()
     {
         List<Player> playerList = PhotonNetwork.CurrentRoom.Players.Values.ToList();
 
@@ -87,6 +103,45 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         {
             UpdateMissPacmanTeamUI();
         }
+
+        CheckTeamPmSize();
+        CheckTeamMsPmSize();
+    }
+
+    void CheckTeamPmSize()
+    {
+        int teamSize = 0;
+
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.ContainsKey("Team Pacman"))
+            {
+                teamSize++;
+            }
+        }
+
+        if (teamSize >= PhotonNetwork.CurrentRoom.MaxPlayers)
+        {
+            _joinTeamPmButton.SetActive(false);
+        }
+    }
+
+    void CheckTeamMsPmSize()
+    {
+        int teamSize = 0;
+
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.ContainsKey("Team MissPacman"))
+            {
+                teamSize++;
+            }
+        }
+
+        if (teamSize >= PhotonNetwork.CurrentRoom.MaxPlayers)
+        {
+            _joinTeamMsPmButton.SetActive(false);
+        }
     }
 
     private void UpdatePacmanTeamUI()
@@ -100,8 +155,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
                 teamPacmanText += player.NickName + "\n";
             }
         }
-
-        Debug.Log("Pacman Team Text: " + teamPacmanText); // Debug log to check the generated text
 
         _teamPmMembersText.text = teamPacmanText;
     }
@@ -117,8 +170,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
                 teamMissPacmanText += player.NickName + "\n";
             }
         }
-
-        Debug.Log("MissPacman Team Text: " + teamMissPacmanText); // Debug log to check the generated text
 
         _teamMsPmMembersText.text = teamMissPacmanText;
     }
