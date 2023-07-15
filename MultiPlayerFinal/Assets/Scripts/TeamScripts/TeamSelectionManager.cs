@@ -35,12 +35,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Pacman"))
         {
-            _joinTeamPmButton.SetActive(false);
-        }
-
-        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Miss Pacman"))
-        {
-            _joinTeamMsPmButton.SetActive(false);
+             _joinTeamPmButton.SetActive(false);
         }
     }
 
