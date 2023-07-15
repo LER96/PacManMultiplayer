@@ -78,8 +78,15 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        _teamPmMembersText.text = (string)targetPlayer.CustomProperties["Team Pacman"];
-        _teamMsPmMembersText.text = (string)targetPlayer.CustomProperties["Team MissPacman"];
+        if (changedProps.ContainsKey("Team Pacman"))
+        {
+            _teamPmMembersText.text = targetPlayer.NickName;
+        }
+
+        if (changedProps.ContainsKey("Team MissPacman"))
+        {
+            _teamMsPmMembersText.text = targetPlayer.NickName;
+        }
     }
 
     void RefreshTeamsUI()
