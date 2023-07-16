@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-
-public abstract class Movement : MonoBehaviour
+public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
 {
+    [SerializeField] PhotonView _photonView;
     [SerializeField] Rigidbody2D _rb { get; set; }
     [SerializeField] LayerMask _obstaclesLayer;
     [SerializeField] float _speed = 8;
     [SerializeField] float _speedMultiplayer = 1;
     [SerializeField] float _score;
     [SerializeField] Vector2 initialDirection;
+
+    public bool canMove;
+
     public Vector2 _direction { get; set; }
     Vector2 _nextDirection { get; set; }
     Vector3 _startingPosition { get; set; }
@@ -18,6 +22,7 @@ public abstract class Movement : MonoBehaviour
     private void Awake()
     {
         this._rb = GetComponent<Rigidbody2D>();
+        this._photonView = GetComponent<PhotonView>();
         this._startingPosition = this.transform.position;
     }
 
@@ -28,7 +33,7 @@ public abstract class Movement : MonoBehaviour
 
     public virtual void Update()
     {
-        if (this._nextDirection != Vector2.zero)
+        if (this._nextDirection != Vector2.zero && _photonView.IsMine)
         {
             SetDirection(this._nextDirection);
         }
@@ -74,4 +79,24 @@ public abstract class Movement : MonoBehaviour
         RaycastHit2D hit = Physics2D.BoxCast(this.transform.position, Vector2.one * 0.75f, 0, direction, 1.5f, _obstaclesLayer);
         return hit.collider != null;
     }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if(stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+        }
+        else
+        {
+            transform.position = (Vector3)stream.ReceiveNext();
+        }
+    }
+
+    public virtual void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        if (info.photonView.IsMine)
+            SpawnManager.Instance.SetPlayerController(this);
+        SpawnManager.Instance.AddPlayerController(this);
+    }
+
 }
