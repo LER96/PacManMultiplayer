@@ -12,7 +12,7 @@ using UnityEngine.TextCore.Text;
 public class TeamSelectionManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TeamManager _teamManager;
-
+    
     [Header("UI Refrences")]
     [SerializeField] TextMeshProUGUI _teamPmMembersText;
     [SerializeField] TextMeshProUGUI _teamMsPmMembersText;
@@ -27,16 +27,14 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     //start game button only interactive when teams are full
     private void Start()
     {
+
         if (PhotonNetwork.IsMasterClient)
         {
             AssignRole();
             _startGameButton.SetActive(true);
         }
 
-        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Pacman"))
-        {
-             _joinTeamPmButton.SetActive(false);
-        }
+      
     }
 
     public void JoinTeamPM(string team)
@@ -79,7 +77,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         //PhotonNetwork.PlayerList[0].SetCustomProperties(playerProperties);
         PhotonNetwork.PlayerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Pacman" } });
         PhotonNetwork.PlayerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team Pacman", "Team Pacman" } });
-
         //playerProperties.Add("Miss Pacman", playerList[1].NickName);
         //PhotonNetwork.PlayerList[1].SetCustomProperties(playerProperties);
 
@@ -89,6 +86,13 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
+        Debug.Log(targetPlayer.ToString());
+
+        foreach (var item in changedProps)
+        {
+            Debug.Log($"{item.Key}  {item.Value}");
+        }
+
         if (changedProps.ContainsKey("Team Pacman"))
         {
             UpdatePacmanTeamUI();
@@ -101,6 +105,12 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
         CheckTeamPmSize();
         CheckTeamMsPmSize();
+
+        if (targetPlayer.CustomProperties.ContainsKey("Character"))
+        {
+            _joinTeamPmButton.SetActive(false);
+            _joinTeamMsPmButton.SetActive(false);
+        }
     }
 
     void CheckTeamPmSize()
@@ -119,6 +129,8 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         {
             _joinTeamPmButton.SetActive(false);
         }
+
+        
     }
 
     void CheckTeamMsPmSize()
