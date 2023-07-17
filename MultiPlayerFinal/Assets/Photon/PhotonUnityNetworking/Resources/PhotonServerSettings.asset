@@ -42,6 +42,9 @@ MonoBehaviour:
   - JoinTeamMsPM
   - JoinTeamPM
   - GameStarted
+  - AskSpawnPoint
+  - SpawnPlayer
+  - Timer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

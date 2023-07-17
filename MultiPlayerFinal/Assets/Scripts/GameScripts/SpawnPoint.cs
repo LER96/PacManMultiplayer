@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class SpawnPoint : MonoBehaviourPunCallbacks, IPunObservable
 {
-    public CharacterState characterState;
+    public TeamState characterState;
     public int ID;
     public bool taken = false;
 
