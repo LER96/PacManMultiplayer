@@ -4,14 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerData
+public class PlayerData : MonoBehaviourPunCallbacks
 {
-    [SerializeField] TeamManager _teamManager;
-    public int playerID;
+    public string playerID;
     public int score;
-
+    Player player;
+    
     public void SetPlayerInfo(Player _player)
     {
-        
+        _player = player;
+        playerID = _player.UserId;
     }
 }
