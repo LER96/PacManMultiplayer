@@ -12,7 +12,8 @@ using UnityEngine.TextCore.Text;
 public class TeamSelectionManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TeamManager _teamManager;
-    
+    [SerializeField] GameObject _player;
+
     [Header("UI Refrences")]
     [SerializeField] TextMeshProUGUI _teamPmMembersText;
     [SerializeField] TextMeshProUGUI _teamMsPmMembersText;
@@ -27,14 +28,14 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     //start game button only interactive when teams are full
     private void Start()
     {
-
+        //use photon instantiate here to make player with playerdata script
+        //then assign role through the player data
+        // and check through the player data which role and instantiate that
         if (PhotonNetwork.IsMasterClient)
         {
             AssignRole();
             _startGameButton.SetActive(true);
         }
-
-      
     }
 
     public void JoinTeamPM(string team)
