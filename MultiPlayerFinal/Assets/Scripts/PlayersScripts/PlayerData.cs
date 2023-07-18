@@ -12,6 +12,8 @@ public class PlayerData : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshProUGUI _playerNameText;
     [SerializeField] TextMeshProUGUI _playerTeamText;
     [SerializeField] TextMeshProUGUI _playerRoleText;
+    [SerializeField] GameObject _joinTeamPmButton;
+    [SerializeField] GameObject _joinTeamMsPmButton;
     public int score;
     Player player;
 
@@ -47,12 +49,32 @@ public class PlayerData : MonoBehaviourPunCallbacks
             SetPlayerInfoUI(targetPlayer);
         }
 
-       // string t = (string)player.CustomProperties["Team"];
-       //
-       // if (t == "Pacman")
-       //     Debug.Log("team pacman");
-       // else if (t == "Miss Pacman")
-       //     Debug.Log("team miss pacman");
+        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        {
+            if (player.Value == PhotonNetwork.LocalPlayer)
+                DisableRoleSwitch();
+        }
+
+        // string t = (string)player.CustomProperties["Team"];
+        //
+        // if (t == "Pacman")
+        //     Debug.Log("team pacman");
+        // else if (t == "Miss Pacman")
+        //     Debug.Log("team miss pacman");
+    }
+
+    void DisableRoleSwitch()
+    {
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            string role = (string)player.CustomProperties["Character"];
+
+            if (role == "Pacman" || role == "Miss Pacman")
+            {
+                _joinTeamPmButton.SetActive(false);
+                _joinTeamMsPmButton.SetActive(false);
+            }
+        }
     }
 
     public void AssignRole()
@@ -77,5 +99,17 @@ public class PlayerData : MonoBehaviourPunCallbacks
 
         PhotonNetwork.PlayerList[1].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Miss Pacman" } });
         PhotonNetwork.PlayerList[1].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", "Miss Pacman" } });
+    }
+
+    public void JoinTeamPM(string team)
+    {
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
+    }
+
+    public void JoinTeamMsPM(string team)
+    {
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
     }
 }
