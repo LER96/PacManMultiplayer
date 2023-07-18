@@ -10910,6 +10910,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ghost
       objectReference: {fileID: 0}
+    - target: {fileID: 2668266270100162085, guid: 867ccb9f4af76ca44a299da19d7d021a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5540360611883845869, guid: 867ccb9f4af76ca44a299da19d7d021a,
         type: 3}
       propertyPath: sceneViewId
