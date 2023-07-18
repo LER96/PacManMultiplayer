@@ -42,7 +42,14 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             _startGameButton.SetActive(true);
-            UpdatePlayerList();
+        }
+    }
+
+    public void StartGame()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(2);
         }
     }
 
@@ -144,7 +151,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         {
             PlayerData _newPlayerData = Instantiate(_playerData, _playerDataParent);
             _newPlayerData.SetPlayerInfo(player.Value);
-            _newPlayerData.DisableRoleSwitch();
+            //_newPlayerData.DisableRoleSwitch();
 
             _playerDataList.Add(_newPlayerData);
         }

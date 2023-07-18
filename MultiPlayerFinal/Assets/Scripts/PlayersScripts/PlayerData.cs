@@ -12,8 +12,8 @@ public class PlayerData : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshProUGUI _playerNameText;
     [SerializeField] TextMeshProUGUI _playerTeamText;
     [SerializeField] TextMeshProUGUI _playerRoleText;
-    [SerializeField] GameObject _joinTeamPmButton;
-    [SerializeField] GameObject _joinTeamMsPmButton;
+   //[SerializeField] GameObject _joinTeamPmButton;
+   //[SerializeField] GameObject _joinTeamMsPmButton;
     public int score;
     Player player;
 
@@ -57,19 +57,19 @@ public class PlayerData : MonoBehaviourPunCallbacks
         //     Debug.Log("team miss pacman");
     }
 
-    public void DisableRoleSwitch()
-    {
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            string role = (string)player.CustomProperties["Character"];
-
-            if (role == "Pacman" || role == "Miss Pacman")
-            {
-                _joinTeamPmButton.SetActive(false);
-                _joinTeamMsPmButton.SetActive(false);
-            }
-        }
-    }
+   // public void DisableRoleSwitch()
+   // {
+   //     foreach (Player player in PhotonNetwork.PlayerList)
+   //     {
+   //         string role = (string)player.CustomProperties["Character"];
+   //
+   //         if (role == "Pacman" || role == "Miss Pacman")
+   //         {
+   //             _joinTeamPmButton.SetActive(false);
+   //             _joinTeamMsPmButton.SetActive(false);
+   //         }
+   //     }
+   // }
 
     public void AssignRole()
     {

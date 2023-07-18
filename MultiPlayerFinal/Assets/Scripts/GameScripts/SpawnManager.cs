@@ -17,6 +17,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     const string SPAWN_PLAYER_CLIENT_RPC = nameof(SpawnPlayer);
 
     public bool hasGameStarted = false;
+    [SerializeField] GameObject[] _characters;
 
     [Header("SpawnPoints")]
     [SerializeField] private SpawnPoint[] _spawnPoints;
@@ -110,8 +111,10 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     void SpawnPlayer(int spawnPointID, bool[] takenSpawnPoints)
     {
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
-        
-        PhotonNetwork.Instantiate("",
+
+        GameObject playerToSpawn = _characters[(int)PhotonNetwork.LocalPlayer.CustomProperties["Character"]];
+
+        PhotonNetwork.Instantiate(playerToSpawn.name,
                     spawnPoint.transform.position,
                     spawnPoint.transform.rotation)
                 .GetComponent<Movement>();
