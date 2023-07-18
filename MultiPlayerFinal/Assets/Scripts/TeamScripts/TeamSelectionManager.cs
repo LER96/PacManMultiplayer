@@ -87,13 +87,13 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
         if (teamPmSize >= PhotonNetwork.CurrentRoom.MaxPlayers / 2)
         {
-            _joinTeamPmButton.SetActive(false);
+            //_joinTeamPmButton.SetActive(false);
             _teamPmFull = true;
         }
 
         if (teamMsPmSize >= PhotonNetwork.CurrentRoom.MaxPlayers / 2)
         {
-            _joinTeamMsPmButton.SetActive(false);
+            //_joinTeamMsPmButton.SetActive(false);
             _teamMsPmFull = true;
         }
     }
@@ -131,11 +131,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
             {
                 _joinTeamPmButton.SetActive(false);
                 _joinTeamMsPmButton.SetActive(false);
-            }
-            else if (role == "" || role == "Ghost")
-            {
-                _joinTeamPmButton.SetActive(true);
-                _joinTeamMsPmButton.SetActive(true);
             }
         }
     }
