@@ -379,8 +379,7 @@ MonoBehaviour:
   _spawnPoints:
   - {fileID: 276864556}
   - {fileID: 1911108725}
-  _startGame: {fileID: 23183516}
-  _canvasStartGame: {fileID: 2128597592}
+  _startGame: {fileID: 0}
 --- !u!4 &250718026
 Transform:
   m_ObjectHideFlags: 0
