@@ -42,9 +42,12 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     //moving player based on its current direction
     private void FixedUpdate()
     {
-        Vector2 position = this._rb.position;
-        Vector2 translatePosition = this._direction * _speed * _speedMultiplayer * Time.deltaTime;
-        this._rb.MovePosition(position + translatePosition);
+        if (canMove)
+        {
+            Vector2 position = this._rb.position;
+            Vector2 translatePosition = this._direction * _speed * _speedMultiplayer * Time.deltaTime;
+            this._rb.MovePosition(position + translatePosition);
+        }
     }
 
     //resetting all players' stats

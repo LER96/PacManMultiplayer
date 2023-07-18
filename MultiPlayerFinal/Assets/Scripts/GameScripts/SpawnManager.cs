@@ -35,7 +35,6 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        _canvasStartGame.SetActive(true);
         if (PhotonNetwork.IsConnectedAndReady)
         {
             photonView.RPC(ASK_SPAWN_POINT_RPC, RpcTarget.MasterClient);
