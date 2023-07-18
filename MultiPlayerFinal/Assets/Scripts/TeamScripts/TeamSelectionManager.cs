@@ -12,16 +12,23 @@ using UnityEngine.TextCore.Text;
 public class TeamSelectionManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TeamManager _teamManager;
-    [SerializeField] GameObject _player;
+    [SerializeField] List<PlayerData> _playerDataList = new List<PlayerData>();
+    [SerializeField] PlayerData _playerData;
+    [SerializeField] Transform _playerDataParent;
+    bool _teamPmFull = false;
+    bool _teamMsPmFull = false;
 
     [Header("UI Refrences")]
     [SerializeField] TextMeshProUGUI _teamPmMembersText;
     [SerializeField] TextMeshProUGUI _teamMsPmMembersText;
-    [SerializeField] GameObject _joinTeamPmButton; 
-    [SerializeField] GameObject _joinTeamMsPmButton; 
-    [SerializeField] GameObject _startGameButton; 
+    [SerializeField] GameObject _joinTeamPmButton;
+    [SerializeField] GameObject _joinTeamMsPmButton;
+    [SerializeField] GameObject _startGameButton;
 
-    //ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
+    private void Awake()
+    {
+        UpdatePlayerList();
+    }
 
     //limit team to 3 players. 
     //start game only for master client
@@ -31,184 +38,113 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         //use photon instantiate here to make player with playerdata script
         //then assign role through the player data
         // and check through the player data which role and instantiate that
-        if (PhotonNetwork.IsMasterClient)
-        {
-            AssignRole();
-            _startGameButton.SetActive(true);
-        }
+
+         if (PhotonNetwork.IsMasterClient)
+         {
+             _startGameButton.SetActive(true);
+         }
     }
 
     public void JoinTeamPM(string team)
     {
-        //photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.All, PhotonNetwork.LocalPlayer);
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team Pacman", team } });
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
-        // RefreshTeamsUI();
     }
 
     public void JoinTeamMsPM(string team)
     {
-        //photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.All, PhotonNetwork.LocalPlayer);
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team MissPacman", team } });
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
-        // RefreshTeamsUI();
-    }
-
-    public void AssignRole()
-    {
-        List<Player> playerList = PhotonNetwork.CurrentRoom.Players.Values.ToList();
-
-        for (int i = 0; i < playerList.Count; i++)
-        {
-            int randomIndex = UnityEngine.Random.Range(i, playerList.Count);
-            Player temp = playerList[randomIndex];
-            playerList[randomIndex] = playerList[i];
-            playerList[i] = temp;
-        }
-
-        Debug.Log($"{playerList[0]} is Pacman");
-        // photonView.RPC(_teamManager.JOIN_TEAM_PM, RpcTarget.All, playerList[0]);
-
-        Debug.Log($"{playerList[1]} is Miss Pacman");
-        // photonView.RPC(_teamManager.JOIN_TEAM_MSPM, RpcTarget.All, playerList[1]);
-
-        // RefreshTeamsUI();
-
-        //playerProperties.Add("Pacman", playerList[0].NickName);
-        //PhotonNetwork.PlayerList[0].SetCustomProperties(playerProperties);
-        PhotonNetwork.PlayerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Pacman" } });
-        PhotonNetwork.PlayerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team Pacman", "Team Pacman" } });
-        //playerProperties.Add("Miss Pacman", playerList[1].NickName);
-        //PhotonNetwork.PlayerList[1].SetCustomProperties(playerProperties);
-
-        PhotonNetwork.PlayerList[1].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Miss Pacman" } });
-        PhotonNetwork.PlayerList[1].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team MissPacman", "Team MissPacman" } });
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        Debug.Log(targetPlayer.ToString());
-
-        foreach (var item in changedProps)
-        {
-            Debug.Log($"{item.Key}  {item.Value}");
-        }
-
-        if (changedProps.ContainsKey("Team Pacman"))
-        {
-            UpdatePacmanTeamUI();
-        }
-
-        if (changedProps.ContainsKey("Team MissPacman"))
-        {
-            UpdateMissPacmanTeamUI();
-        }
-
-        CheckTeamPmSize();
-        CheckTeamMsPmSize();
-
-        if (targetPlayer.CustomProperties.ContainsKey("Character"))
-        {
-            _joinTeamPmButton.SetActive(false);
-            _joinTeamMsPmButton.SetActive(false);
-        }
+        UpdateTeamsUI();
+        DisableRoleSwitch();
+        CheckTeamsSize();
     }
 
-    void CheckTeamPmSize()
+    void CheckTeamsSize()
     {
-        int teamSize = 0;
+        int teamPmSize = 0;
+        int teamMsPmSize = 0;
 
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            if (player.CustomProperties.ContainsKey("Team Pacman"))
+            string t = (string)player.CustomProperties["Team"];
+
+            if (t == "Pacman")
             {
-                teamSize++;
+                teamPmSize++;
+                Debug.Log($"Team pacman size:  {teamPmSize}");
+            }
+            else if (t == "Miss Pacman")
+            {
+                teamMsPmSize++;
+                Debug.Log($"Team MissPacman size:  {teamMsPmSize}");
             }
         }
 
-        if (teamSize >= PhotonNetwork.CurrentRoom.MaxPlayers / 2)
+        if (teamPmSize >= PhotonNetwork.CurrentRoom.MaxPlayers / 2)
         {
             _joinTeamPmButton.SetActive(false);
+            _teamPmFull = true;
         }
 
-        
-    }
-
-    void CheckTeamMsPmSize()
-    {
-        int teamSize = 0;
-
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            if (player.CustomProperties.ContainsKey("Team MissPacman"))
-            {
-                teamSize++;
-            }
-        }
-
-        if (teamSize >= PhotonNetwork.CurrentRoom.MaxPlayers / 2)
+        if (teamMsPmSize >= PhotonNetwork.CurrentRoom.MaxPlayers / 2)
         {
             _joinTeamMsPmButton.SetActive(false);
+            _teamMsPmFull = true;
         }
     }
 
-    private void UpdatePacmanTeamUI()
+    private void UpdateTeamsUI()
     {
         string teamPacmanText = "";
-
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            if (player.CustomProperties.ContainsKey("Team Pacman"))
-            {
-                teamPacmanText += player.NickName + "\n";
-            }
-        }
-
-        _teamPmMembersText.text = teamPacmanText;
-    }
-
-    private void UpdateMissPacmanTeamUI()
-    {
         string teamMissPacmanText = "";
 
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            if (player.CustomProperties.ContainsKey("Team MissPacman"))
+            string t = (string)player.CustomProperties["Team"];
+
+            if (t == "Pacman")
+            {
+                teamPacmanText += player.NickName + "\n";
+            }
+            else if (t == "Miss Pacman")
             {
                 teamMissPacmanText += player.NickName + "\n";
             }
         }
 
         _teamMsPmMembersText.text = teamMissPacmanText;
+        _teamPmMembersText.text = teamPacmanText;
     }
 
-    void RefreshTeamsUI()
+    void DisableRoleSwitch()
     {
-        _teamPmMembersText.text = string.Empty;
-
-        foreach (Player player in _teamManager._teamPm)
+        foreach (Player player in PhotonNetwork.PlayerList)
         {
-            _teamPmMembersText.text += $"{player.NickName}" + Environment.NewLine;
-            Debug.Log($"{player.NickName} is in team Pacman");
-        }
+            string role = (string)player.CustomProperties["Character"];
 
-        _teamMsPmMembersText.text = string.Empty;
-
-        foreach (Player player in _teamManager._teamMsPm)
-        {
-            _teamMsPmMembersText.text += $"{player.NickName}" + Environment.NewLine;
-            Debug.Log($"{player.NickName} is in team Miss Pacman");
+            if (role == "Pacman" || role == "Miss Pacman")
+            {
+                _joinTeamPmButton.SetActive(false);
+                _joinTeamMsPmButton.SetActive(false);
+            }
         }
     }
 
-    private void AssignCharacter(Player player, string character)
+    void UpdatePlayerList()
     {
-        // Assign the character to the player using custom properties
-        player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", character } });
-    }
+        if (PhotonNetwork.CurrentRoom == null)
+            return;
 
-    private void AssignTeam(Player player, string team)
-    {
-        player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", team } });
+        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        {
+            PlayerData _newPlayerData = Instantiate(_playerData, _playerDataParent);
+            _newPlayerData.SetPlayerInfo(player.Value);
+            _playerDataList.Add(_newPlayerData);
+        }
     }
 }
