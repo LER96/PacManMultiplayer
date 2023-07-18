@@ -376,7 +376,9 @@ MonoBehaviour:
   _characters:
   - {fileID: 8624943041840840891, guid: 84aa11fa041015b47ab478cb8228f455, type: 3}
   - {fileID: 8624943041840840891, guid: 2399241ac027305428515048f2dea6c2, type: 3}
-  _spawnPoints: []
+  _spawnPoints:
+  - {fileID: 276864556}
+  - {fileID: 1911108725}
   _startGame: {fileID: 0}
 --- !u!4 &250718026
 Transform:
