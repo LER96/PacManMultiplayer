@@ -132,6 +132,11 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
                 _joinTeamPmButton.SetActive(false);
                 _joinTeamMsPmButton.SetActive(false);
             }
+            else if (role == "" || role == "Ghost")
+            {
+                _joinTeamPmButton.SetActive(true);
+                _joinTeamMsPmButton.SetActive(true);
+            }
         }
     }
 
