@@ -69,10 +69,10 @@ public class PlayerData : MonoBehaviourPunCallbacks
         {
             string role = (string)player.CustomProperties["Character"];
 
-            if (role == "Pacman" || role == "Miss Pacman")
+            if (role != "Pacman" || role != "Miss Pacman")
             {
-                _joinTeamPmButton.SetActive(false);
-                _joinTeamMsPmButton.SetActive(false);
+                _joinTeamPmButton.SetActive(true);
+                _joinTeamMsPmButton.SetActive(true);
             }
         }
     }

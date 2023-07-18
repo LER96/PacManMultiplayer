@@ -107,7 +107,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             string t = (string)player.CustomProperties["Team"];
-
+            
             if (t == "Pacman")
             {
                 teamPacmanText += player.NickName + "\n";
