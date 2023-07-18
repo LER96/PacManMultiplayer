@@ -24,6 +24,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
     [Header("UI")]
     [SerializeField] Button _startGame;
+    [SerializeField] GameObject _canvasStartGame;
 
     [Header("Players Controllers")]
     private List<Movement> playerControllers = new List<Movement>();
@@ -34,6 +35,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        _canvasStartGame.SetActive(true);
         if (PhotonNetwork.IsConnectedAndReady)
         {
             photonView.RPC(ASK_SPAWN_POINT_RPC, RpcTarget.MasterClient);
@@ -49,6 +51,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
         if(PhotonNetwork.IsMasterClient)
         {
             photonView.RPC(START_GAME_TIMER, RpcTarget.MasterClient);
+            _canvasStartGame.SetActive(false);
         }
     }
 
