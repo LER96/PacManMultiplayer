@@ -49,12 +49,6 @@ public class PlayerData : MonoBehaviourPunCallbacks
             SetPlayerInfoUI(targetPlayer);
         }
 
-        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
-        {
-            if (player.Value == PhotonNetwork.LocalPlayer)
-                DisableRoleSwitch();
-        }
-
         // string t = (string)player.CustomProperties["Team"];
         //
         // if (t == "Pacman")
@@ -63,18 +57,13 @@ public class PlayerData : MonoBehaviourPunCallbacks
         //     Debug.Log("team miss pacman");
     }
 
-    void DisableRoleSwitch()
+    public void DisableRoleSwitch()
     {
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             string role = (string)player.CustomProperties["Character"];
 
-            if (role == "Ghost" || role == "")
-            {
-                _joinTeamPmButton.SetActive(true);
-                _joinTeamMsPmButton.SetActive(true);
-            }
-            else
+            if (role == "Pacman" || role == "Miss Pacman")
             {
                 _joinTeamPmButton.SetActive(false);
                 _joinTeamMsPmButton.SetActive(false);

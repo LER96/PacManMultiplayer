@@ -42,6 +42,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             _startGameButton.SetActive(true);
+            UpdatePlayerList();
         }
     }
 
@@ -61,8 +62,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     {
         UpdateTeamsUI();
         CheckTeamsSize();
-
-       
     }
 
     void CheckTeamsSize()
@@ -145,6 +144,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         {
             PlayerData _newPlayerData = Instantiate(_playerData, _playerDataParent);
             _newPlayerData.SetPlayerInfo(player.Value);
+            _newPlayerData.DisableRoleSwitch();
 
             _playerDataList.Add(_newPlayerData);
         }
