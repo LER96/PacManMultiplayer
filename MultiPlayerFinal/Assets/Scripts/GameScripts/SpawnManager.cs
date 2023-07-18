@@ -112,7 +112,17 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     {
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
 
-        GameObject playerToSpawn = _characters[(int)PhotonNetwork.LocalPlayer.CustomProperties["Character"]];
+        string characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
+
+        GameObject playerToSpawn = null;
+
+        foreach (GameObject characterPrefab in _characters)
+        {
+            if (characterPrefab.name == characterName)
+            {
+                playerToSpawn = characterPrefab;
+            }
+        }
 
         PhotonNetwork.Instantiate(playerToSpawn.name,
                     spawnPoint.transform.position,
@@ -123,7 +133,6 @@ public class SpawnManager : MonoBehaviourPunCallbacks
         {
             _spawnPoints[i].taken = takenSpawnPoints[i];
         }
-
     }
 
     //Need to check if the property of the player is match to the spawn state
