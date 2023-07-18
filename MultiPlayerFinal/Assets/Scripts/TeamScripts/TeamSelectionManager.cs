@@ -39,10 +39,10 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         //then assign role through the player data
         // and check through the player data which role and instantiate that
 
-         if (PhotonNetwork.IsMasterClient)
-         {
-             _startGameButton.SetActive(true);
-         }
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _startGameButton.SetActive(true);
+        }
     }
 
     public void JoinTeamPM(string team)
@@ -60,8 +60,13 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         UpdateTeamsUI();
-        DisableRoleSwitch();
         CheckTeamsSize();
+
+        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        {
+            if (player.Value == PhotonNetwork.LocalPlayer)
+                DisableRoleSwitch();
+        }
     }
 
     void CheckTeamsSize()
@@ -87,13 +92,13 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
         if (teamPmSize >= PhotonNetwork.CurrentRoom.MaxPlayers / 2)
         {
-            //_joinTeamPmButton.SetActive(false);
+            _joinTeamPmButton.SetActive(false);
             _teamPmFull = true;
         }
 
         if (teamMsPmSize >= PhotonNetwork.CurrentRoom.MaxPlayers / 2)
         {
-            //_joinTeamMsPmButton.SetActive(false);
+            _joinTeamMsPmButton.SetActive(false);
             _teamMsPmFull = true;
         }
     }
@@ -144,6 +149,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         {
             PlayerData _newPlayerData = Instantiate(_playerData, _playerDataParent);
             _newPlayerData.SetPlayerInfo(player.Value);
+
             _playerDataList.Add(_newPlayerData);
         }
     }

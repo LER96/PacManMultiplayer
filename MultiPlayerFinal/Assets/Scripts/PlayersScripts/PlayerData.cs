@@ -17,10 +17,10 @@ public class PlayerData : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            AssignRole();
-        }
+      // if (PhotonNetwork.IsMasterClient)
+      // {
+      //     AssignRole();
+      // }
     }
 
     public void SetPlayerInfo(Player _player)
