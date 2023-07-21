@@ -97,8 +97,8 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         if (info.photonView.IsMine)
         {
             SpawnManager.Instance.SetPlayerController(this);
-            SpawnManager.Instance.AddPlayerController(this);
         }
+        SpawnManager.Instance.AddPlayerController(this);
     }
 
 }
