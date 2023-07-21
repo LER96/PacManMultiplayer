@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,14 +35,20 @@ public class Ghost : Movement
         base.OnPhotonInstantiate(info);
     }
 
+    //check if in the same team if yes do nothing.
+    //if pacman is in powerup mode you get eaten instead.
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //check if in the same team if yes do nothing.
-        //if pacman is in powerup mode you get eaten instead.
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") || collision.gameObject.layer == LayerMask.NameToLayer("MsPacman"))
+        string teamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+
+        if ((collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && teamName == "Pacman") ||
+            (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && teamName == "Pacman"))
         {
             GameManager.instance.PacEaten();
+            Debug.Log("pacman eaten");
         }
+        else
+            Debug.Log("same team");
     }
 
 }

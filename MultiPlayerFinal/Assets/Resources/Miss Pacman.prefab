@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8624943041840840835}
   - component: {fileID: 8624943041840840834}
   - component: {fileID: 3266788363405451051}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Miss Pacman
   m_TagString: Pacman
   m_Icon: {fileID: 0}
