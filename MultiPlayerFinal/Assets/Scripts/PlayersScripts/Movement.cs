@@ -92,6 +92,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
+            photonView.transform.rotation = (Quaternion)stream.ReceiveNext();
         }
     }
 

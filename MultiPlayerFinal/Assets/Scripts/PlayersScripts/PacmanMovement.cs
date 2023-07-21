@@ -33,19 +33,19 @@ public class PacmanMovement : Movement
         base.Update();
     }
 
-    public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
-        }
-    }
+    //public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    if (stream.IsWriting)
+    //    {
+    //        stream.SendNext(transform.position);
+    //        stream.SendNext(transform.rotation);
+    //    }
+    //    else
+    //    {
+    //        transform.position = (Vector3)stream.ReceiveNext();
+    //        photonView.transform.rotation = (Quaternion)stream.ReceiveNext();
+    //    }
+    //}
 
     public override void OnPhotonInstantiate(PhotonMessageInfo info)
     {
