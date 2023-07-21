@@ -141,7 +141,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
                         spawnPoint.transform.rotation)
                     .GetComponent<PacmanMovement>();
         }
-        else
+        else if(playerToSpawn.name == "Ghost")
         {
             localPlayerController=PhotonNetwork.Instantiate(playerToSpawn.name,
                         spawnPoint.transform.position,
