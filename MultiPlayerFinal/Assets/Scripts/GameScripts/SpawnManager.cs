@@ -134,10 +134,20 @@ public class SpawnManager : MonoBehaviourPunCallbacks
             }
         }
 
-        PhotonNetwork.Instantiate(playerToSpawn.name,
-                    spawnPoint.transform.position,
-                    spawnPoint.transform.rotation)
-                .GetComponent<Movement>();
+        if (playerToSpawn.name == "Pacman" || playerToSpawn.name == "Miss Pacman")
+        {
+            PhotonNetwork.Instantiate(playerToSpawn.name,
+                        spawnPoint.transform.position,
+                        spawnPoint.transform.rotation)
+                    .GetComponent<PacmanMovement>();
+        }
+        else
+        {
+            PhotonNetwork.Instantiate(playerToSpawn.name,
+                        spawnPoint.transform.position,
+                        spawnPoint.transform.rotation)
+                    .GetComponent<Ghost>();
+        }
 
         for (int i = 0; i < takenSpawnPoints.Length; i++)
         {
