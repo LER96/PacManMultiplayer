@@ -5,10 +5,10 @@ using Photon.Pun;
 
 public class PacmanMovement : Movement
 {
-    private PhotonRigidbody2DView rigid;
+    private PhotonTransformView transformView;
     private void Start()
     {
-        rigid = GetComponent<PhotonRigidbody2DView>();
+        transformView = GetComponent<PhotonTransformView>();
     }
     public override void Update()
     {
@@ -32,24 +32,24 @@ public class PacmanMovement : Movement
             }
         }
         float angle = Mathf.Atan2(this._direction.y, this._direction.x);
-        rigid.transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward); 
+        transformView.transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward); 
             
         base.Update();
     }
 
-    public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            photonView.transform.position = (Vector3)stream.ReceiveNext();
-            photonView.transform.rotation = (Quaternion)stream.ReceiveNext();
-        }
-    }
+    //public override void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    //{
+    //    if (stream.IsWriting)
+    //    {
+    //        stream.SendNext(transform.position);
+    //        stream.SendNext(transform.rotation);
+    //    }
+    //    else
+    //    {
+    //        photonView.transform.position = (Vector3)stream.ReceiveNext();
+    //        photonView.transform.rotation = (Quaternion)stream.ReceiveNext();
+    //    }
+    //}
 
     public override void OnPhotonInstantiate(PhotonMessageInfo info)
     {
