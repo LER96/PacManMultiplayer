@@ -38,7 +38,7 @@ public class Ghost : Movement
     {
         //check if in the same team if yes do nothing.
         //if pacman is in powerup mode you get eaten instead.
-        if (collision.CompareTag("Pacman") || collision.CompareTag("MsPacman"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") || collision.gameObject.layer == LayerMask.NameToLayer("MsPacman"))
         {
             GameManager.instance.PacEaten();
         }
