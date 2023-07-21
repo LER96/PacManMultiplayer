@@ -67,6 +67,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     {
         //reset pac's position
         SetTeamScore(teamScore + pacEatenScore);
+        Debug.Log("pacman eaten");
     }
 
     public void GhostEaten()
@@ -87,7 +88,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void EatenPowerPellets( PowerPellet powerPellet)
+    public void EatenPowerPellets(PowerPellet powerPellet)
     {
         EatenPellets(powerPellet);
 
