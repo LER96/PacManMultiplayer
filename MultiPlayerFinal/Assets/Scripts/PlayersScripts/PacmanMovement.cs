@@ -42,10 +42,12 @@ public class PacmanMovement : Movement
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
+            stream.SendNext(rigid.transform.rotation);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
         }
     }
 
