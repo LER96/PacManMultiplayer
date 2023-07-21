@@ -126,32 +126,41 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
         GameObject playerToSpawn = null;
 
-        foreach (GameObject characterPrefab in _characters)
+        for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {
-            if (characterPrefab.name == characterName)
+            foreach (GameObject characterPrefab in _characters)
             {
-                playerToSpawn = characterPrefab;
+                if (characterPrefab.name == characterName)
+                {
+                    playerToSpawn = characterPrefab;
+                }
             }
-        }
 
-        if (playerToSpawn.name == "Pacman" || playerToSpawn.name == "Miss Pacman")
-        {
-            localPlayerController= PhotonNetwork.Instantiate(playerToSpawn.name,
-                        spawnPoint.transform.position,
-                        spawnPoint.transform.rotation)
-                    .GetComponent<PacmanMovement>();
-        }
-        else if(playerToSpawn.name == "Ghost")
-        {
-            localPlayerController=PhotonNetwork.Instantiate(playerToSpawn.name,
-                        spawnPoint.transform.position,
-                        spawnPoint.transform.rotation)
-                    .GetComponent<Ghost>();
+            SetPlayerControllerByType(playerToSpawn, spawnPoint);
         }
 
         for (int i = 0; i < takenSpawnPoints.Length; i++)
         {
             _spawnPoints[i].taken = takenSpawnPoints[i];
+        }
+    }
+
+    //Check if character is Pac or Ghost Type and set it's own controller
+    void SetPlayerControllerByType(GameObject playerToSpawn, SpawnPoint spawnPoint)
+    {
+        if (playerToSpawn.name == "Pacman" || playerToSpawn.name == "Miss Pacman")
+        {
+            localPlayerController = PhotonNetwork.Instantiate(playerToSpawn.name,
+                        spawnPoint.transform.position,
+                        spawnPoint.transform.rotation)
+                    .GetComponent<PacmanMovement>();
+        }
+        else if (playerToSpawn.name == "Ghost")
+        {
+            localPlayerController = PhotonNetwork.Instantiate(playerToSpawn.name,
+                        spawnPoint.transform.position,
+                        spawnPoint.transform.rotation)
+                    .GetComponent<Ghost>();
         }
     }
 
