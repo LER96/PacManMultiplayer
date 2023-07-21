@@ -47,6 +47,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     string startInput;
     List<RoomInfo> roomsInfo;
 
+    //make start game button not interactable at the start of the game.
     private void Awake()
     {
         StartUI();
