@@ -5,11 +5,6 @@ using Photon.Pun;
 
 public class PacmanMovement : Movement
 {
-    private PhotonTransformView transformView;
-    private void Start()
-    {
-        transformView = GetComponent<PhotonTransformView>();
-    }
     public override void Update()
     {
         if (canMove)
@@ -32,7 +27,7 @@ public class PacmanMovement : Movement
             }
         }
         float angle = Mathf.Atan2(this._direction.y, this._direction.x);
-        transformView.transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward); 
+        this.transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward); 
             
         base.Update();
     }
