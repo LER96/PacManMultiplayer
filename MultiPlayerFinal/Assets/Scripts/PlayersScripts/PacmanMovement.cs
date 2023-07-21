@@ -5,7 +5,11 @@ using Photon.Pun;
 
 public class PacmanMovement : Movement
 {
-    
+    private PhotonRigidbody2DView rigid;
+    private void Start()
+    {
+        rigid = GetComponent<PhotonRigidbody2DView>();
+    }
     public override void Update()
     {
         if (canMove)
@@ -28,7 +32,7 @@ public class PacmanMovement : Movement
             }
         }
         float angle = Mathf.Atan2(this._direction.y, this._direction.x);
-        this.transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward); 
+        rigid.transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward); 
             
         base.Update();
     }
@@ -38,12 +42,10 @@ public class PacmanMovement : Movement
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
-            photonView.transform.rotation = (Quaternion)stream.ReceiveNext();
         }
     }
 
