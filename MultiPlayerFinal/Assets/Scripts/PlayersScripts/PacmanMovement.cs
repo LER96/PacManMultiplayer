@@ -42,7 +42,7 @@ public class PacmanMovement : Movement
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(rigid.transform.rotation);
+            stream.SendNext(transform.rotation);
         }
         else
         {
