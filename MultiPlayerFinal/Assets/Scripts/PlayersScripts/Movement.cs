@@ -83,17 +83,15 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         return hit.collider != null;
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if(stream.IsWriting)
         {
-            stream.SendNext(transform);
+            stream.SendNext(transform.position);
         }
         else
         {
-            Transform player = (Transform)stream.ReceiveNext();
-            transform.position = player.position;
-            transform.rotation = player.rotation;
+            transform.position = (Vector3)stream.ReceiveNext();
         }
     }
 
