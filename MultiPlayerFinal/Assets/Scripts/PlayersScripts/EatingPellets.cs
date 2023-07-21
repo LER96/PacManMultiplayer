@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,6 @@ using UnityEngine;
 public class EatingPellets : MonoBehaviour
 {
     [SerializeField] public int score = 10;
-    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -7,6 +7,7 @@ public class PacmanMovement : Movement
 {
     private Vector3 otherPosition;
     private Quaternion otherRotation;
+
     public override void Update()
     {
         if (canMove)
@@ -28,6 +29,7 @@ public class PacmanMovement : Movement
                 this.SetDirection(Vector2.left);
             }
         }
+
         if (photonView.IsMine)
         {
             float angle = Mathf.Atan2(this._direction.y, this._direction.x);
