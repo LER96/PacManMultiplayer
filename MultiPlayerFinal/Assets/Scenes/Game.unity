@@ -380,6 +380,10 @@ MonoBehaviour:
   _spawnPoints:
   - {fileID: 276864556}
   - {fileID: 1911108725}
+  - {fileID: 1364416807}
+  - {fileID: 1233841320}
+  - {fileID: 938134623}
+  - {fileID: 850547974}
   _startGame: {fileID: 23183516}
   _canvasStartGame: {fileID: 2128597592}
 --- !u!4 &250718026
@@ -1618,7 +1622,7 @@ GameObject:
   - component: {fileID: 1911108725}
   - component: {fileID: 1911108728}
   m_Layer: 0
-  m_Name: PacSpawnPoint
+  m_Name: MsPacSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
