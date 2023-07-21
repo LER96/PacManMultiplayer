@@ -87,11 +87,13 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     {
         if(stream.IsWriting)
         {
+            stream.SendNext(transform.rotation);
             stream.SendNext(transform.position);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
         }
     }
 
