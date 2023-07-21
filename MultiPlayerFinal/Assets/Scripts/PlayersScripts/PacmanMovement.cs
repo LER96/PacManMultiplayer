@@ -32,4 +32,9 @@ public class PacmanMovement : Movement
             
         base.Update();
     }
+
+    public override void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        base.OnPhotonInstantiate(info);
+    }
 }

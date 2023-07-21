@@ -110,6 +110,8 @@ public class SpawnManager : MonoBehaviourPunCallbacks
         localPlayerController = newLocalController;
     }
 
+
+
     public void AddPlayerController(Movement playerController)
     {
         playerControllers.Add(playerController);
