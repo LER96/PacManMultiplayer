@@ -123,7 +123,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
 
         string characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-
+        Debug.Log(characterName);
         GameObject playerToSpawn = null;
 
         foreach (GameObject characterPrefab in _characters)
@@ -133,6 +133,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
                 playerToSpawn = characterPrefab;
             }
         }
+
         for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {
             SetPlayerControllerByType(playerToSpawn, spawnPoint);
