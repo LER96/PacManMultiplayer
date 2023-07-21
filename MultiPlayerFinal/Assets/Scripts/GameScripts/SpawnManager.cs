@@ -136,14 +136,14 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
         if (playerToSpawn.name == "Pacman" || playerToSpawn.name == "Miss Pacman")
         {
-            PhotonNetwork.Instantiate(playerToSpawn.name,
+            localPlayerController= PhotonNetwork.Instantiate(playerToSpawn.name,
                         spawnPoint.transform.position,
                         spawnPoint.transform.rotation)
                     .GetComponent<PacmanMovement>();
         }
         else
         {
-            PhotonNetwork.Instantiate(playerToSpawn.name,
+            localPlayerController=PhotonNetwork.Instantiate(playerToSpawn.name,
                         spawnPoint.transform.position,
                         spawnPoint.transform.rotation)
                     .GetComponent<Ghost>();
