@@ -134,10 +134,10 @@ public class SpawnManager : MonoBehaviourPunCallbacks
             }
         }
 
-        for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
-        {
-            SetPlayerControllerByType(playerToSpawn, spawnPoint);
-        }
+        //for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+        //{
+        //}
+        SetPlayerControllerByType(playerToSpawn, spawnPoint);
 
 
         for (int i = 0; i < takenSpawnPoints.Length; i++)
@@ -156,7 +156,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
                         spawnPoint.transform.rotation)
                     .GetComponent<PacmanMovement>();
         }
-        else if (playerToSpawn.name == "Ghost")
+        if (playerToSpawn.name == "Ghost")
         {
             localPlayerController = PhotonNetwork.Instantiate(playerToSpawn.name,
                         spawnPoint.transform.position,
