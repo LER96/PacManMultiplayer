@@ -126,18 +126,18 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
         GameObject playerToSpawn = null;
 
+        foreach (GameObject characterPrefab in _characters)
+        {
+            if (characterPrefab.name == characterName)
+            {
+                playerToSpawn = characterPrefab;
+            }
+        }
         for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {
-            foreach (GameObject characterPrefab in _characters)
-            {
-                if (characterPrefab.name == characterName)
-                {
-                    playerToSpawn = characterPrefab;
-                }
-            }
-
             SetPlayerControllerByType(playerToSpawn, spawnPoint);
         }
+
 
         for (int i = 0; i < takenSpawnPoints.Length; i++)
         {
