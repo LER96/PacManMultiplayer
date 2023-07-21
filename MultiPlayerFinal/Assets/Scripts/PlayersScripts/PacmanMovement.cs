@@ -46,8 +46,8 @@ public class PacmanMovement : Movement
         }
         else
         {
-            transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
+            photonView.transform.position = (Vector3)stream.ReceiveNext();
+            photonView.transform.rotation = (Quaternion)stream.ReceiveNext();
         }
     }
 
