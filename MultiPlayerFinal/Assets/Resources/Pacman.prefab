@@ -149,6 +149,7 @@ MonoBehaviour:
   _score: 0
   initialDirection: {x: 1, y: 0}
   canMove: 0
+  powerMode: 0
 --- !u!114 &8624943041840840837
 MonoBehaviour:
   m_ObjectHideFlags: 0

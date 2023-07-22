@@ -1,7 +1,9 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class PowerPellet : EatingPellets
 {
@@ -11,16 +13,19 @@ public class PowerPellet : EatingPellets
     //most likely use boolean to tell if in power mode.
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        string character = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-
-        if (collision.CompareTag("Pacman") || collision.CompareTag("MsPacman"))
+        if (collision.CompareTag("Pacman"))
         {
-            Eat();
+            Eat(PhotonNetwork.LocalPlayer);
+        }
+
+        if (collision.CompareTag("MsPacman"))
+        {
+            Eat(PhotonNetwork.LocalPlayer);
         }
     }
 
-    public override void Eat()
+    public void Eat(Player player)
     {
-        base.Eat();
+        GameManager.instance.EatenPowerPellets(this, player);
     }
 }
