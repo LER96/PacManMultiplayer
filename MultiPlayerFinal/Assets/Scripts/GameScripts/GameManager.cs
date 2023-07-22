@@ -71,13 +71,14 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     {
         //reset pac's position
         SetTeamScore(teamScore + pacEatenScore);
-        Debug.Log("pacman eaten");
+        Debug.Log("Pacman eaten");
     }
 
     public void GhostEaten()
     {
         //reset ghost's position
         SetTeamScore(teamScore + ghostEatenScore);
+        Debug.Log("Ghost eaten");
     }
 
     public void EatenPellets(EatingPellets pellets)
@@ -101,12 +102,14 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         if (character == "Pacman")
         {
             pacmanInPowerMode = true;
+            Debug.Log($"pacman is: {pacmanInPowerMode}");
             StartCoroutine(PowerModeCD(powerPellet.PowerupDuration, pacmanInPowerMode));
         }
 
         if (character == "Miss Pacman")
         {
             mspacmanInPowerMode = true;
+            Debug.Log($"miss pacman is: {mspacmanInPowerMode}");
             StartCoroutine(PowerModeCD(powerPellet.PowerupDuration, mspacmanInPowerMode));
         }
 
@@ -137,10 +140,11 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         return false;
     }
 
+    //need to make sure how corutine work in photon right now it doesnt work
     IEnumerator PowerModeCD(float timer, bool powerMode)
     {
         yield return new WaitForSeconds(timer);
 
-        powerMode = true;
+        powerMode = false;
     }
 }

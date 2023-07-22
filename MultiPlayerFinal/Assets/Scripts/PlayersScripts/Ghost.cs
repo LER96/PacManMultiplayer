@@ -42,7 +42,7 @@ public class Ghost : Movement
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && teamName == "Pacman")
         {
-            if (GameManager.instance.pacmanInPowerMode)
+            if (GameManager.instance.pacmanInPowerMode == true)
             {
                 GameManager.instance.GhostEaten();
             }
@@ -52,7 +52,7 @@ public class Ghost : Movement
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && teamName == "Pacman")
         {
-            if (GameManager.instance.mspacmanInPowerMode)
+            if (GameManager.instance.mspacmanInPowerMode == true)
             {
                 GameManager.instance.GhostEaten();
             }
