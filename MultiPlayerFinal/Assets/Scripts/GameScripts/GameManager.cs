@@ -101,11 +101,13 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         if (character == "Pacman")
         {
             pacmanInPowerMode = true;
+            StartCoroutine(PowerModeCD(powerPellet.PowerupDuration, pacmanInPowerMode));
         }
 
         if (character == "Miss Pacman")
         {
             mspacmanInPowerMode = true;
+            StartCoroutine(PowerModeCD(powerPellet.PowerupDuration, mspacmanInPowerMode));
         }
 
         //change ghost states to be eaten (based on team)
@@ -135,4 +137,10 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         return false;
     }
 
+    IEnumerator PowerModeCD(float timer, bool powerMode)
+    {
+        yield return new WaitForSeconds(timer);
+
+        powerMode = true;
+    }
 }

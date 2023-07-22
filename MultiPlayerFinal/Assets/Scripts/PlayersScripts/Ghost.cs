@@ -35,7 +35,6 @@ public class Ghost : Movement
         base.OnPhotonInstantiate(info);
     }
 
-    //check if in the same team if yes do nothing. done
     //if pacman is in powerup mode you get eaten instead. 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -45,7 +44,7 @@ public class Ghost : Movement
         {
             if (GameManager.instance.pacmanInPowerMode)
             {
-
+                GameManager.instance.GhostEaten();
             }
             else
                 GameManager.instance.PacEaten();
@@ -55,7 +54,7 @@ public class Ghost : Movement
         {
             if (GameManager.instance.mspacmanInPowerMode)
             {
-
+                GameManager.instance.GhostEaten();
             }
             else
                 GameManager.instance.PacEaten();
