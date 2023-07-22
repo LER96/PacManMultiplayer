@@ -54,27 +54,27 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     }
     public void JoinTeamPM(string team)
     {
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Team"))
+            PhotonNetwork.LocalPlayer.CustomProperties.Remove("Team");
+
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Character"))
+            PhotonNetwork.LocalPlayer.CustomProperties.Remove("Character");
+
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
     }
 
     public void JoinTeamMsPM(string team)
     {
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Team"))
+            PhotonNetwork.LocalPlayer.CustomProperties.Remove("Team");
+
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Character"))
+            PhotonNetwork.LocalPlayer.CustomProperties.Remove("Character");
+
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
     }
-
-    // public void JoinTeamPM(string team)
-    // {
-    //     PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
-    //     PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
-    // }
-    //
-    // public void JoinTeamMsPM(string team)
-    // {
-    //     PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
-    //     PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
-    // }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {

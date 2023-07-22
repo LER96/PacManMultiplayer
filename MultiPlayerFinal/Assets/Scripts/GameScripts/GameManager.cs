@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public abstract class GameManager : MonoBehaviourPunCallbacks
 {
@@ -13,6 +14,9 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     public int _team;
     [SerializeField] public int pacEatenScore;
     [SerializeField] public int ghostEatenScore;
+
+    public bool pacmanInPowerMode = false;
+    public bool mspacmanInPowerMode = false;
 
     public int teamScore { get;  set; }
     public int rounds { get;  set; }
@@ -88,9 +92,23 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void EatenPowerPellets(PowerPellet powerPellet)
+    public void EatenPowerPellets(PowerPellet powerPellet, Player player)
     {
         EatenPellets(powerPellet);
+
+        string character = (string)player.CustomProperties["Character"];
+
+        if (character == "Pacman")
+        {
+            pacmanInPowerMode = true;
+            StartCoroutine(PowerModeCD(powerPellet.PowerupDuration, pacmanInPowerMode));
+        }
+
+        if (character == "Miss Pacman")
+        {
+            mspacmanInPowerMode = true;
+            StartCoroutine(PowerModeCD(powerPellet.PowerupDuration, mspacmanInPowerMode));
+        }
 
         //change ghost states to be eaten (based on team)
     }
@@ -119,4 +137,10 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         return false;
     }
 
+    IEnumerator PowerModeCD(float timer, bool powerMode)
+    {
+        yield return new WaitForSeconds(timer);
+
+        powerMode = true;
+    }
 }

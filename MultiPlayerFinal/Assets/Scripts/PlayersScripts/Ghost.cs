@@ -35,17 +35,30 @@ public class Ghost : Movement
         base.OnPhotonInstantiate(info);
     }
 
-    //check if in the same team if yes do nothing. done
-    //if pacman is in powerup mode you get eaten instead.
+    //if pacman is in powerup mode you get eaten instead. 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         string teamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
-        if ((collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && teamName == "Pacman") ||
-            (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && teamName == "Pacman"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && teamName == "Pacman")
         {
-            GameManager.instance.PacEaten();
-            Debug.Log("pacman eaten");
+            if (GameManager.instance.pacmanInPowerMode)
+            {
+                GameManager.instance.GhostEaten();
+            }
+            else
+                GameManager.instance.PacEaten();
+        }
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && teamName == "Pacman")
+        {
+            if (GameManager.instance.mspacmanInPowerMode)
+            {
+                GameManager.instance.GhostEaten();
+            }
+            else
+                GameManager.instance.PacEaten();
         }
     }
+
 }
