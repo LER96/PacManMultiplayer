@@ -455,7 +455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterState: 0
-  ID: 0
+  ID: 1
   taken: 0
 --- !u!156049354 &276864557
 Grid:
@@ -924,7 +924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterState: 1
-  ID: 0
+  ID: 6
   taken: 0
 --- !u!156049354 &850547975
 Grid:
@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterState: 1
-  ID: 0
+  ID: 5
   taken: 0
 --- !u!156049354 &938134624
 Grid:
@@ -1195,7 +1195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterState: 1
-  ID: 0
+  ID: 4
   taken: 0
 --- !u!4 &1233841321
 Transform:
@@ -1363,7 +1363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterState: 1
-  ID: 0
+  ID: 3
   taken: 0
 --- !u!156049354 &1364416808
 Grid:
@@ -1641,7 +1641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterState: 0
-  ID: 0
+  ID: 2
   taken: 0
 --- !u!156049354 &1911108726
 Grid:
