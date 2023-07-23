@@ -454,7 +454,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9e399cbafce27468aee2dcedecb1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: 0
+  teamState: 0
+  character: 0
   ID: 1
   taken: 0
 --- !u!156049354 &276864557
@@ -969,7 +970,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9e399cbafce27468aee2dcedecb1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: 1
+  teamState: 0
+  character: 0
   ID: 6
   taken: 0
 --- !u!156049354 &850547975
@@ -1053,7 +1055,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9e399cbafce27468aee2dcedecb1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: 1
+  teamState: 0
+  character: 0
   ID: 5
   taken: 0
 --- !u!156049354 &938134624
@@ -1477,7 +1480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9e399cbafce27468aee2dcedecb1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: 1
+  teamState: 0
+  character: 0
   ID: 4
   taken: 0
 --- !u!4 &1233841321
@@ -1647,7 +1651,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9e399cbafce27468aee2dcedecb1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: 1
+  teamState: 0
+  character: 0
   ID: 3
   taken: 0
 --- !u!156049354 &1364416808
@@ -1925,7 +1930,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9e399cbafce27468aee2dcedecb1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: 0
+  teamState: 0
+  character: 0
   ID: 2
   taken: 0
 --- !u!156049354 &1911108726

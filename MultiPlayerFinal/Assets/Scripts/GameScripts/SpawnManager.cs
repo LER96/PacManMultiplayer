@@ -20,9 +20,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject[] _characters;
 
     [Header("SpawnPoints")]
-    [SerializeField] private SpawnPoint[] _spawnPointsA;
-    [SerializeField] private SpawnPoint[] _spawnPointsB;
-    private SpawnPoint[] _spawnPoints;
+    [SerializeField] private SpawnPoint[] _spawnPoints;
     string characterName;
     string characterTeam;
 
@@ -87,43 +85,9 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void AskSpawnPoint(PhotonMessageInfo messageInfo)
     {
+        //characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
+        //characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
-        characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-        characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
-
-        if(characterTeam== "Pacman")
-        {
-            SetSpawnByTeam(messageInfo, _spawnPointsA);
-        }
-        else if(characterTeam == "Miss Pacman")
-        {
-            SetSpawnByTeam(messageInfo, _spawnPointsB);
-        }
-        //List<SpawnPoint> availableSpawnPoints = new List<SpawnPoint>();
-
-        //foreach (SpawnPoint spawnPoint in _spawnPoints)
-        //{
-        //    if (!spawnPoint.taken)
-        //        availableSpawnPoints.Add(spawnPoint);
-        //}
-
-        //SpawnPoint chosenSpawnPoint =
-        //    availableSpawnPoints[Random.Range(0, availableSpawnPoints.Count)];
-        //chosenSpawnPoint.taken = true;
-
-        //bool[] takenSpawnPoints = new bool[_spawnPoints.Length];
-        //for (int i = 0; i < _spawnPoints.Length; i++)
-        //{
-        //    takenSpawnPoints[i] = _spawnPoints[i].taken;
-        //}
-        //photonView.RPC(SPAWN_PLAYER_CLIENT_RPC,
-        //    messageInfo.Sender, chosenSpawnPoint.ID,
-        //    takenSpawnPoints);
-    }
-
-    void SetSpawnByTeam(PhotonMessageInfo messageInfo, SpawnPoint[] teamSpawnPoints)
-    {
-        _spawnPoints = teamSpawnPoints;
         List<SpawnPoint> availableSpawnPoints = new List<SpawnPoint>();
 
         foreach (SpawnPoint spawnPoint in _spawnPoints)
@@ -146,7 +110,6 @@ public class SpawnManager : MonoBehaviourPunCallbacks
             takenSpawnPoints);
     }
 
-
     public void SetPlayerController(Movement newLocalController)
     {
         localPlayerController = newLocalController;
@@ -165,7 +128,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     {
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
 
-        //string characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
+        string characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
         GameObject playerToSpawn = null;
 
         foreach (GameObject characterPrefab in _characters)
