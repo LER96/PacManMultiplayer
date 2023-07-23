@@ -15,8 +15,8 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] public int pacEatenScore;
     [SerializeField] public int ghostEatenScore;
 
-    public bool pacmanInPowerMode = false;
-    public bool mspacmanInPowerMode = false;
+   // public bool pacmanInPowerMode = false;
+   // public bool mspacmanInPowerMode = false;
 
     public int teamScore { get;  set; }
     public int rounds { get;  set; }
@@ -101,17 +101,19 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
 
         if (character == "Pacman")
         {
-            pacmanInPowerMode = true;
-            Debug.Log($"pacman is: {pacmanInPowerMode}");
-            StartCoroutine(PowerModeCD(powerPellet.PowerupDuration, pacmanInPowerMode));
+            ExitGames.Client.Photon.Hashtable customProps = new ExitGames.Client.Photon.Hashtable();
+            customProps["PowerMode"] = true;
+            player.SetCustomProperties(customProps);
         }
 
         if (character == "Miss Pacman")
         {
-            mspacmanInPowerMode = true;
-            Debug.Log($"miss pacman is: {mspacmanInPowerMode}");
-            StartCoroutine(PowerModeCD(powerPellet.PowerupDuration, mspacmanInPowerMode));
+            ExitGames.Client.Photon.Hashtable customProps = new ExitGames.Client.Photon.Hashtable();
+            customProps["PowerMode"] = true;
+            player.SetCustomProperties(customProps);
         }
+
+        StartCoroutine(PowerModeCD(powerPellet.PowerupDuration, player));
 
         //change ghost states to be eaten (based on team)
     }
@@ -140,11 +142,16 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         return false;
     }
 
-    //need to make sure how corutine work in photon right now it doesnt work
-    IEnumerator PowerModeCD(float timer, bool powerMode)
+    private IEnumerator PowerModeCD(float timer, Player player)
     {
+        // Wait for the power mode duration
+        Debug.Log($"{player.NickName} is in powermode");
         yield return new WaitForSeconds(timer);
 
-        powerMode = false;
+        // When the timer ends, set the PowerMode Custom Property to false
+        ExitGames.Client.Photon.Hashtable customProps = new ExitGames.Client.Photon.Hashtable();
+        customProps["PowerMode"] = false;
+        player.SetCustomProperties(customProps);
+        Debug.Log($"{player.NickName} is in powermode {customProps["PowerMode"]}");
     }
 }
