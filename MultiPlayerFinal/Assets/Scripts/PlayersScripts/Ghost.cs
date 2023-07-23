@@ -39,10 +39,11 @@ public class Ghost : Movement
     private void OnCollisionEnter2D(Collision2D collision)
     {
         string teamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+        bool powerMode = (bool)PhotonNetwork.LocalPlayer.CustomProperties["PowerMode"];
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && teamName == "Pacman")
         {
-            if (GameManager.instance.pacmanInPowerMode == true)
+            if (powerMode == true)
             {
                 GameManager.instance.GhostEaten();
             }
@@ -52,7 +53,7 @@ public class Ghost : Movement
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && teamName == "Pacman")
         {
-            if (GameManager.instance.mspacmanInPowerMode == true)
+            if (powerMode == true)
             {
                 GameManager.instance.GhostEaten();
             }
@@ -60,5 +61,4 @@ public class Ghost : Movement
                 GameManager.instance.PacEaten();
         }
     }
-
 }
