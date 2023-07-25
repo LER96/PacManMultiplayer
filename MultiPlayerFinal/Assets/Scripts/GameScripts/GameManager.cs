@@ -12,8 +12,8 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] public static GameManager instance;
 
     public int _team;
-    [SerializeField] public int pacEatenScore;
-    [SerializeField] public int ghostEatenScore;
+    [SerializeField] public int pacEatenScore = 30;
+    [SerializeField] public int ghostEatenScore = 20;
 
     // public bool pacmanInPowerMode = false;
     // public bool mspacmanInPowerMode = false;
