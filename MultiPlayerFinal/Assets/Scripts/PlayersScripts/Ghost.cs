@@ -51,7 +51,7 @@ public class Ghost : Movement
                 GameManager.instance.PacEaten();
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && teamName == "Pacman")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && teamName == "Miss Pacman")
         {
             if (powerMode == true)
             {

@@ -13,12 +13,16 @@ public class PowerPellet : EatingPellets
     {
         if (collision.CompareTag("Pacman"))
         {
-            Eat(PhotonNetwork.LocalPlayer);
+            PhotonView photonView = collision.GetComponent<PhotonView>();
+
+            Eat(photonView.Owner);
         }
 
         if (collision.CompareTag("MsPacman"))
         {
-            Eat(PhotonNetwork.LocalPlayer);
+            PhotonView photonView = collision.GetComponent<PhotonView>();
+
+            Eat(photonView.Owner);
         }
     }
 
