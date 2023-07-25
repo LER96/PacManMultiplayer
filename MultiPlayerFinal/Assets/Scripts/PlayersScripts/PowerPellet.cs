@@ -14,20 +14,22 @@ public class PowerPellet : EatingPellets
         if (collision.CompareTag("Pacman"))
         {
             PhotonView photonView = collision.GetComponent<PhotonView>();
+            string teamName = (string)photonView.Owner.CustomProperties["Team"];
 
-            Eat(photonView.Owner);
+            Eat(photonView.Owner, teamName);
         }
 
         if (collision.CompareTag("MsPacman"))
         {
             PhotonView photonView = collision.GetComponent<PhotonView>();
+            string teamName = (string)photonView.Owner.CustomProperties["Team"];
 
-            Eat(photonView.Owner);
+            Eat(photonView.Owner, teamName);
         }
     }
 
-    public void Eat(Player player)
+    public void Eat(Player player, string team)
     {
-        GameManager.instance.EatenPowerPellets(this, player);
+        GameManager.instance.EatenPowerPellets(this, player, team);
     }
 }

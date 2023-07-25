@@ -45,20 +45,20 @@ public class Ghost : Movement
         {
             if (powerMode == true)
             {
-                GameManager.instance.GhostEaten();
+                GameManager.instance.GhostEaten(teamName);
             }
             else
-                GameManager.instance.PacEaten();
+                GameManager.instance.PacEaten(teamName);
         }
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && teamName == "Miss Pacman")
         {
             if (powerMode == true)
             {
-                GameManager.instance.GhostEaten();
+                GameManager.instance.GhostEaten(teamName);
             }
             else
-                GameManager.instance.PacEaten();
+                GameManager.instance.PacEaten(teamName);
         }
     }
 }

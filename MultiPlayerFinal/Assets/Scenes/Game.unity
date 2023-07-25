@@ -1618,8 +1618,6 @@ MonoBehaviour:
   _team: 0
   pacEatenScore: 0
   ghostEatenScore: 0
-  pacmanInPowerMode: 0
-  mspacmanInPowerMode: 0
 --- !u!1 &1364416806
 GameObject:
   m_ObjectHideFlags: 0

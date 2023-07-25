@@ -9,14 +9,22 @@ public class EatingPellets : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Pacman") || collision.CompareTag("MsPacman"))
+        if (collision.CompareTag("Pacman"))
         {
-            Eat();
+            PhotonView photonView = collision.GetComponent<PhotonView>();
+            string teamName = (string)photonView.Owner.CustomProperties["Team"];
+            Eat(teamName);
+        }
+        else if(collision.CompareTag("MsPacman"))
+        {
+            PhotonView photonView = collision.GetComponent<PhotonView>();
+            string teamName = (string)photonView.Owner.CustomProperties["Team"];
+            Eat(teamName);
         }
     }
 
-    public virtual void Eat()
+    public virtual void Eat(string team)
     {
-        GameManager.instance.EatenPellets(this);
+        GameManager.instance.EatenPellets(this, team);
     }
 }

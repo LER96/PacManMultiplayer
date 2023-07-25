@@ -15,11 +15,12 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] public int pacEatenScore;
     [SerializeField] public int ghostEatenScore;
 
-   // public bool pacmanInPowerMode = false;
-   // public bool mspacmanInPowerMode = false;
+    // public bool pacmanInPowerMode = false;
+    // public bool mspacmanInPowerMode = false;
 
-    public int teamScore { get;  set; }
-    public int rounds { get;  set; }
+    public int teamPmScore { get; private set; }
+    public int teamMsPmScore { get; private set; }
+    public int rounds { get; set; }
 
     private void Awake()
     {
@@ -28,7 +29,8 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
 
     public void NewGame()
     {
-        SetTeamScore(0);
+        SetTeamScore(0, "Pacman");
+        SetTeamScore(0, "Miss Pacman");
         SetRounds(0);
     }
 
@@ -57,9 +59,19 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         //later reset everyone's position
     }
 
-    public void SetTeamScore(int score)
+    public void SetTeamScore(int score, string team)
     {
-        this.teamScore = score;
+        if (team == "Pacman")
+        {
+            this.teamPmScore += score;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PacmanScore", this.teamPmScore } });
+        }
+
+        if (team == "Miss Pacman")
+        {
+            this.teamMsPmScore += score;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "MissPacmanScore", this.teamMsPmScore } });
+        }
     }
 
     public void SetRounds(int rounds)
@@ -67,24 +79,27 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         this.rounds = rounds;
     }
 
-    public void PacEaten()
+    public void PacEaten(string team)
     {
         //reset pac's position
-        SetTeamScore(teamScore + pacEatenScore);
+
+        SetTeamScore(pacEatenScore, team);
         Debug.Log("Pacman eaten");
     }
 
-    public void GhostEaten()
+    public void GhostEaten(string team)
     {
         //reset ghost's position
-        SetTeamScore(teamScore + ghostEatenScore);
+
+        SetTeamScore(ghostEatenScore, team);
         Debug.Log("Ghost eaten");
     }
 
-    public void EatenPellets(EatingPellets pellets)
+    public void EatenPellets(EatingPellets pellets, string team)
     {
         pellets.gameObject.SetActive(false);
-        SetTeamScore(this.teamScore + pellets.score);
+
+        SetTeamScore(pellets.score, team);
 
         if (!RemainingPellets())
         {
@@ -93,9 +108,9 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void EatenPowerPellets(PowerPellet powerPellet, Player player)
+    public void EatenPowerPellets(PowerPellet powerPellet, Player player, string team)
     {
-        EatenPellets(powerPellet);
+        EatenPellets(powerPellet, team);
 
         string character = (string)player.CustomProperties["Character"];
 
