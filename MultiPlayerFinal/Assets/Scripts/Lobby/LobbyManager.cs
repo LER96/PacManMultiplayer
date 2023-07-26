@@ -7,9 +7,8 @@ using UnityEngine.UI;
 using Photon.Realtime;
 using System;
 
-public class LobbyManager : MonoBehaviourPunCallbacks
+public class LobbyManager : GameManager
 {
-
     [Header("Log In")]
     [SerializeField] GameObject logInFather;
     [SerializeField] private Button logInButton;
@@ -27,12 +26,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] TMP_InputField createRoomNameInputField;
     [SerializeField] TMP_Dropdown dropDownPlayersNumberList;
     [SerializeField] TMP_Dropdown dropDownNumberOfRounds;
-    [SerializeField] Button createRoomButton;
+    [SerializeField] Button _createTagRoomButton;
+    [SerializeField] Button _createRoom;
 
     int _numberOfPlayers;
+    int _currentNumOfPlayers;
+
     int _numberOfRounds;
-    bool numberOfPlayersCheck;
-    bool numberOfRoundsCheck;
+    bool _numberOfPlayersCheck;
+    bool _numberOfRoundsCheck;
 
     [Header("Join")]
     [SerializeField] GameObject joinRoomFather;
@@ -77,13 +79,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             enterRoomButton.interactable = true;
         }
 
-        if(numberOfRoundsCheck && numberOfPlayersCheck)
+        if (_numberOfRoundsCheck && _numberOfPlayersCheck)
         {
-            createRoomButton.interactable = true;
+            _createRoom.interactable = true;
         }
         else
         {
-            createRoomButton.interactable = false;
+            _createRoom.interactable = false;
         }
     }
 
@@ -163,7 +165,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         createRoomFather.SetActive(true);
         joinRoomFather.SetActive(false);
         joinRoomButton.interactable = true;
-        createRoomButton.interactable = false;
+        _createTagRoomButton.interactable = false;
     }
 
     public void JoinTabMenu()
@@ -171,11 +173,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         createRoomFather.SetActive(false);
         joinRoomFather.SetActive(true);
         joinRoomButton.interactable = false;
-        createRoomButton.interactable = true;
+        _createTagRoomButton.interactable = true;
     }
     #endregion
 
-    #region Creat
+    #region Create
     public void JoinRoom()
     {
         PhotonNetwork.JoinRoom(joinRoomNameInputField.text);
@@ -213,11 +215,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (dropdown.options[i].text != "None")
         {
             _numberOfPlayers = int.Parse(dropdown.options[i].text);
-            numberOfPlayersCheck = true;
+            _numberOfPlayersCheck = true;
         }
         else
         {
-            numberOfPlayersCheck = false;
+            _numberOfPlayersCheck = false;
         }
     }
 
@@ -226,8 +228,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         int i = dropdown.value;
         _numberOfRounds = int.Parse(dropdown.options[i].text);
-        GameManager.instance.rounds = _numberOfRounds;
-        numberOfRoundsCheck = true;
+        Debug.Log(_numberOfRounds);
+        this.rounds = _numberOfRounds;
+        _numberOfRoundsCheck = true;
     }
 
     public override void OnCreatedRoom()
@@ -283,6 +286,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
+        _currentNumOfPlayers++;
         RefreshUI();
 
         if (PhotonNetwork.IsMasterClient)
@@ -293,7 +297,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
         }
 
-        
+
     }
 
     public void StartGame()
@@ -307,6 +311,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
+        _numberOfPlayers--;
         if (PhotonNetwork.IsMasterClient)
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount < _numberOfPlayers)
@@ -321,7 +326,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         base.OnCreateRoomFailed(returnCode, message);
         Debug.LogError("Create failed..." + Environment.NewLine + message);
-        createRoomButton.interactable = true;
+        _createTagRoomButton.interactable = true;
     }
 
     #endregion
@@ -360,19 +365,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void RefreshUI()
     {
-        //if (PhotonNetwork.CountOfRooms > 0)
-        //{
-        //    roomPlayersText.text = $"{PhotonNetwork.CurrentRoom.PlayerCount}/{_numberOfPlayers}";
-        //}
-        //else
-        //{
-        //    roomPlayersText.text = $"{0}/{_numberOfPlayers}";
-        //}
+        if (PhotonNetwork.CountOfRooms > 0)
+        {
+            roomPlayersText.text = $"{_currentNumOfPlayers}/{_numberOfPlayers}";
+        }
+        else
+        {
+            roomPlayersText.text = $"{0}/{_numberOfPlayers}";
+        }
 
         playerListText.text = "";
         foreach (Player photonPlayer in PhotonNetwork.PlayerList)
         {
-            playerListText.text += $"{photonPlayer.NickName} In Room" + Environment.NewLine;
+            playerListText.text += $"{photonPlayer.NickName} In the Room" + Environment.NewLine;
         }
 
     }

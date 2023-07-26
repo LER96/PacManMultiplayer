@@ -24,7 +24,14 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
     }
 
     public void NewGame()
@@ -77,6 +84,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     public void SetRounds(int rounds)
     {
         this.rounds = rounds;
+        Debug.Log(rounds);
     }
 
     public void PacEaten(string team)
