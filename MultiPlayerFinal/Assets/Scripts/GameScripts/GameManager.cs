@@ -180,10 +180,13 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
 
     public IEnumerator Respawn(GameObject obj)
     {
-        obj.SetActive(false);
-        yield return new WaitForSeconds(4f);
+        if (photonView.IsMine)
+        {
+            obj.SetActive(false);
+            yield return new WaitForSeconds(4f);
 
-        obj.transform.position = new Vector3(0f, -3.5f, -5f);
-        obj.SetActive(true);
+            obj.transform.position = new Vector3(0f, -3.5f, -5f);
+            obj.SetActive(true);
+        }
     }
 }
