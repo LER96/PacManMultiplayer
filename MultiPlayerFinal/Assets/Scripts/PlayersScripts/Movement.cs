@@ -91,11 +91,6 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         startingPosition = pos;
     }
 
-    public virtual void ResetToStartPoint()
-    {
-        transform.position = startingPosition;
-    }
-
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -119,4 +114,28 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         }
         SpawnManager.Instance.AddPlayerController(this);
     }
+
+
+    public virtual void Eaten()
+    {
+        transform.position = startingPosition;
+        isSeen = false;
+        canMove = false;
+
+        StopAllCoroutines();
+        StartCoroutine(Respawn());
+    }
+    public virtual IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(4f);
+        Back();
+    }
+
+    public virtual void Back()
+    {
+        isSeen = true;
+        canMove = true;
+    }
+
+
 }

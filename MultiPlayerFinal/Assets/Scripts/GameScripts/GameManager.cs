@@ -91,15 +91,23 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     {
         //reset pac's position
         SetTeamScore(pacEatenScore, team);
-        StartCoroutine(Respawn(obj));
+        SendEaten(obj);
+        //StartCoroutine(Respawn(obj));
         Debug.Log("Pacman eaten");
+    }
+
+    void SendEaten(GameObject obj)
+    {
+        Movement mineMove = obj.GetComponent<Movement>();
+        mineMove.Eaten();
     }
 
     public void GhostEaten(string team, GameObject obj)
     {
         //reset ghost's position
         SetTeamScore(ghostEatenScore, team);
-        StartCoroutine(Respawn(obj));
+        SendEaten(obj);
+        //StartCoroutine(Respawn(obj));
         Debug.Log("Ghost eaten");
     }
 
@@ -178,24 +186,27 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         Debug.Log($"{player.NickName} is in powermode {customProps["PowerMode"]}");
     }
 
-    public IEnumerator Respawn(GameObject obj)
-    {
-        Movement mineView = obj.GetComponent<Movement>();
-        //if (mineView.IsMine)
-        //{
-        //    obj.transform.position = new Vector3(0f, -3.5f, -5f);
-        //    obj.SetActive(false);
-        //    yield return new WaitForSeconds(4f);
+    //public IEnumerator Respawn(GameObject obj)
+    //{
+    //    Movement mineView = obj.GetComponent<Movement>();
+    //    //if (mineView.IsMine)
+    //    //{
+    //    //    obj.transform.position = new Vector3(0f, -3.5f, -5f);
+    //    //    obj.SetActive(false);
+    //    //    yield return new WaitForSeconds(4f);
 
-        //    obj.SetActive(true);
-        //}
-        //else
-        //{
-        mineView.transform.position = mineView.startingPosition;
-        mineView.isSeen = false;
-        yield return new WaitForSeconds(4f);
-        mineView.isSeen = true;
-        mineView.gameObject.SetActive(true);
-        //}
-    }
+    //    //    obj.SetActive(true);
+    //    //}
+    //    //else
+    //    //{
+    //    mineView.transform.position = mineView.startingPosition;
+    //    mineView.canMove = false;
+    //    mineView.isSeen = false;
+    //    yield return new WaitForSeconds(4f);
+
+    //    mineView.canMove = true;
+    //    mineView.isSeen = true;
+    //    mineView.gameObject.SetActive(true);
+    //    //}
+    //}
 }
