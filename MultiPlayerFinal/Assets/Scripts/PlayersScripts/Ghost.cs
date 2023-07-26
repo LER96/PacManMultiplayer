@@ -41,7 +41,7 @@ public class Ghost : Movement
         string teamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
         bool powerMode = (bool)PhotonNetwork.LocalPlayer.CustomProperties["PowerMode"];
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && teamName == "Miss Pacman")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && teamName == "Pacman")
         {
             if (powerMode == true)
             {
@@ -51,7 +51,7 @@ public class Ghost : Movement
                 GameManager.instance.PacEaten(teamName, collision.gameObject);
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && teamName == "Pacman")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && teamName == "Miss Pacman")
         {
             if (powerMode == true)
             {
