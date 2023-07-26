@@ -30,6 +30,11 @@ public class Ghost : Movement
         base.Update();
     }
 
+    public override void StartingPoint(Vector3 pos)
+    {
+        base.StartingPoint(pos);
+    }
+
     public override void OnPhotonInstantiate(PhotonMessageInfo info)
     {
         base.OnPhotonInstantiate(info);
