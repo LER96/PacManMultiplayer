@@ -91,6 +91,11 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         startingPosition = pos;
     }
 
+    public virtual void ResetToStartPoint()
+    {
+        transform.position = startingPosition;
+    }
+
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)

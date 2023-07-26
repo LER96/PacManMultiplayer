@@ -50,12 +50,15 @@ public class PacmanMovement : Movement
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            stream.SendNext(isSeen);
         }
         else
         {
             otherPosition = (Vector3)stream.ReceiveNext();
             otherRotation = (Quaternion)stream.ReceiveNext();
+            isSeen = (bool)stream.ReceiveNext();
         }
+        this.gameObject.SetActive(isSeen);
     }
 
     public override void OnPhotonInstantiate(PhotonMessageInfo info)
