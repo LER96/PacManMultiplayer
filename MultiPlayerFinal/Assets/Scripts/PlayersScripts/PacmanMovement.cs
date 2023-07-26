@@ -48,9 +48,9 @@ public class PacmanMovement : Movement
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(isSeen);
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            stream.SendNext(isSeen);
         }
         else
         {
