@@ -74,7 +74,7 @@ public class Ghost : Movement
     }
 
     [PunRPC]
-    void CallResapwn(PhotonMessageInfo messageInfo, string team, GameObject obj)
+    void CallResapwn(string team, GameObject obj)
     {
         GameManager.instance.GhostEaten(team, obj);
     }
