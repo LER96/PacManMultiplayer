@@ -195,7 +195,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         mineView.isSeen = false;
         yield return new WaitForSeconds(4f);
 
-        mineView.isSeen = false;
+        mineView.isSeen = true;
         //}
     }
 }

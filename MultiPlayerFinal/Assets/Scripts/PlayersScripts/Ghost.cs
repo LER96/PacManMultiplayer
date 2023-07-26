@@ -68,7 +68,7 @@ public class Ghost : Movement
             GameManager.instance.GhostEaten(_myTeamName, this.gameObject);
         }
         else
-            GameManager.instance.PacEaten(_myTeamName, collision.gameObject); ;
+            GameManager.instance.PacEaten(_myTeamName, collision.gameObject);
     }
 
     bool CompareTeam(string team)
