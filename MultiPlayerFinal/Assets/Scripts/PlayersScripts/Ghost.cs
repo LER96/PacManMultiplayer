@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class Ghost : Movement
 {
-    private const string RESPAWN_GHOST_RPC = nameof(CallResapwnGhost);
-    private const string RESPAWN_PAC_RPC = nameof(CallRespawnPac);
 
     public override void Update()
     {
@@ -67,23 +65,10 @@ public class Ghost : Movement
     {
         if (powerMode == true)
         {
-            photonView.RPC(RESPAWN_GHOST_RPC, RpcTarget.AllViaServer,_myTeamName, this.gameObject);
-            //GameManager.instance.GhostEaten(_myTeamName, this.gameObject);
+            GameManager.instance.GhostEaten(_myTeamName, this.gameObject);
         }
         else
-            photonView.RPC(RESPAWN_PAC_RPC, RpcTarget.AllViaServer, _myTeamName, collision.gameObject);
-    }
-
-    [PunRPC]
-    void CallResapwnGhost(string team, GameObject obj)
-    {
-        GameManager.instance.GhostEaten(team, obj);
-    }
-
-    [PunRPC]
-    void CallRespawnPac(string team, GameObject obj)
-    {
-        GameManager.instance.PacEaten(team, obj);
+            GameManager.instance.PacEaten(_myTeamName, this.gameObject); ;
     }
 
     bool CompareTeam(string team)
