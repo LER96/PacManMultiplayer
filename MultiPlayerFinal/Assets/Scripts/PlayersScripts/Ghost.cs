@@ -43,29 +43,31 @@ public class Ghost : Movement
     //if pacman is in powerup mode you get eaten instead. 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        PhotonView photonView = collision.transform.GetComponent<PhotonView>();
-        string teamName = (string)photonView.Owner.CustomProperties["Team"];
-        bool powerMode = (bool)photonView.Owner.CustomProperties["PowerMode"];
-
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && !CompareTeam(teamName))
+        if (collision.gameObject.name != "Walls")
         {
-            if (powerMode == true)
-            {
-                GameManager.instance.GhostEaten(_myTeamName, this.gameObject);
-            }
-            else
-                GameManager.instance.PacEaten(_myTeamName, collision.gameObject);
-        }
+            PhotonView photonView = collision.transform.GetComponent<PhotonView>();
+            string teamName = (string)photonView.Owner.CustomProperties["Team"];
+            bool powerMode = (bool)photonView.Owner.CustomProperties["PowerMode"];
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && !CompareTeam(teamName))
-        {
-            if (powerMode == true)
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && !CompareTeam(teamName))
             {
-                GameManager.instance.GhostEaten(_myTeamName, this.gameObject);
+                CheckPowerMode(powerMode, collision);
             }
-            else
-                GameManager.instance.PacEaten(_myTeamName, collision.gameObject);
+            else if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && !CompareTeam(teamName))
+            {
+                CheckPowerMode(powerMode, collision);
+            }
         }
+    }
+
+    void CheckPowerMode(bool powerMode, Collision2D collision)
+    {
+        if (powerMode == true)
+        {
+            GameManager.instance.GhostEaten(_myTeamName, this.gameObject);
+        }
+        else
+            GameManager.instance.PacEaten(_myTeamName, collision.gameObject);
     }
 
     bool CompareTeam(string team)
