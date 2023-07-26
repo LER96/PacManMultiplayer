@@ -39,7 +39,6 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnectedAndReady)
         {
-            photonView.RPC(ASK_SPAWN_POINT_RPC, RpcTarget.MasterClient);
             if (PhotonNetwork.IsMasterClient)
             {
                 _startGame.interactable = true;
@@ -49,6 +48,8 @@ public class SpawnManager : MonoBehaviourPunCallbacks
             {
                 _canvasStartGame.SetActive(false);
             }
+
+            photonView.RPC(ASK_SPAWN_POINT_RPC, RpcTarget.MasterClient);
         }
     }
 
