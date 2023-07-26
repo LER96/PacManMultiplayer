@@ -43,27 +43,38 @@ public class Ghost : Movement
     //if pacman is in powerup mode you get eaten instead. 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        string teamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
-        bool powerMode = (bool)PhotonNetwork.LocalPlayer.CustomProperties["PowerMode"];
+        PhotonView photonView = collision.transform.GetComponent<PhotonView>();
+        string teamName = (string)photonView.Owner.CustomProperties["Team"];
+        bool powerMode = (bool)photonView.Owner.CustomProperties["PowerMode"];
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && teamName == "Miss Pacman")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && !CompareTeam(teamName))
         {
             if (powerMode == true)
             {
-                GameManager.instance.GhostEaten(teamName, this.gameObject);
+                GameManager.instance.GhostEaten(_myTeamName, this.gameObject);
             }
             else
-                GameManager.instance.PacEaten(teamName, collision.gameObject);
+                GameManager.instance.PacEaten(_myTeamName, collision.gameObject);
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && teamName == "Pacman")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && !CompareTeam(teamName))
         {
             if (powerMode == true)
             {
-                GameManager.instance.GhostEaten(teamName, this.gameObject);
+                GameManager.instance.GhostEaten(_myTeamName, this.gameObject);
             }
             else
-                GameManager.instance.PacEaten(teamName, collision.gameObject);
+                GameManager.instance.PacEaten(_myTeamName, collision.gameObject);
         }
+    }
+
+    bool CompareTeam(string team)
+    {
+        if (_myTeamName == team)
+        {
+            return true;
+        }
+        else
+            return false;
     }
 }

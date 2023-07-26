@@ -14,6 +14,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] Vector2 initialDirection;
 
     public bool canMove;
+    public string _myTeamName;
 
     public Vector2 _direction { get; set; }
     Vector2 _nextDirection { get; set; }
@@ -30,6 +31,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     private void Start()
     {
         ResetAllStats();
+        _myTeamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
     }
 
     public virtual void Update()
