@@ -193,11 +193,9 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         //{
         mineView.transform.position = mineView.startingPosition;
         mineView.canMove = false;
-        mineView.isSeen = false;
         yield return new WaitForSeconds(4f);
 
         mineView.canMove = true;
-        mineView.isSeen = true;
         //}
     }
 }

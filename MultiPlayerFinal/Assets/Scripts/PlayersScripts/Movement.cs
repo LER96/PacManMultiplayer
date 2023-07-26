@@ -26,13 +26,13 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         isSeen = true;
         this._rb = GetComponent<Rigidbody2D>();
         this._photonView = GetComponent<PhotonView>();
-        StartingPoint(this.transform.position);
 
     }
 
     private void Start()
     {
         ResetAllStats();
+        StartingPoint(this.transform.position);
         myTeamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
     }
 
@@ -96,14 +96,11 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            stream.SendNext(isSeen);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
-            isSeen = (bool)stream.ReceiveNext();
         }
-        this.gameObject.SetActive(isSeen);
     }
 
     public virtual void OnPhotonInstantiate(PhotonMessageInfo info)
