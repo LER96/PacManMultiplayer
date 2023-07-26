@@ -87,19 +87,19 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         Debug.Log(rounds);
     }
 
-    public void PacEaten(string team)
+    public void PacEaten(string team, GameObject obj)
     {
         //reset pac's position
-
         SetTeamScore(pacEatenScore, team);
+        StartCoroutine(Respawn(obj));
         Debug.Log("Pacman eaten");
     }
 
-    public void GhostEaten(string team)
+    public void GhostEaten(string team, GameObject obj)
     {
         //reset ghost's position
-
         SetTeamScore(ghostEatenScore, team);
+        StartCoroutine(Respawn(obj));
         Debug.Log("Ghost eaten");
     }
 
@@ -176,5 +176,14 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         customProps["PowerMode"] = false;
         player.SetCustomProperties(customProps);
         Debug.Log($"{player.NickName} is in powermode {customProps["PowerMode"]}");
+    }
+
+    public IEnumerator Respawn(GameObject obj)
+    {
+        obj.SetActive(false);
+        yield return new WaitForSeconds(4f);
+
+        obj.transform.position = new Vector3(0f, -3.5f, -5f);
+        obj.SetActive(true);
     }
 }
