@@ -189,5 +189,13 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
 
             obj.SetActive(true);
         }
+        else
+        {
+            obj.transform.position = new Vector3(0f, -3.5f, -5f);
+            obj.SetActive(false);
+            yield return new WaitForSeconds(4f);
+
+            obj.SetActive(true);
+        }
     }
 }
