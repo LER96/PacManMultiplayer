@@ -23,7 +23,8 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     {
         this._rb = GetComponent<Rigidbody2D>();
         this._photonView = GetComponent<PhotonView>();
-        this._startingPosition = this.transform.position;
+        StartingPoint(this.transform.position);
+
     }
 
     private void Start()
@@ -81,6 +82,11 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         return hit.collider != null;
     }
 
+    public virtual void StartingPoint(Vector3 pos)
+    {
+        _startingPosition = pos;
+    }
+
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if(stream.IsWriting)
@@ -101,5 +107,4 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         }
         SpawnManager.Instance.AddPlayerController(this);
     }
-
 }

@@ -73,7 +73,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    void Timer()
+    void Timer(PhotonMessageInfo info)
     {
         float time = 3;
         while(time>0)
@@ -116,8 +116,6 @@ public class SpawnManager : MonoBehaviourPunCallbacks
         localPlayerController = newLocalController;
     }
 
-
-
     public void AddPlayerController(Movement playerController)
     {
         playerControllers.Add(playerController);
@@ -157,6 +155,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
                         spawnPoint.transform.position,
                         spawnPoint.transform.rotation)
                     .GetComponent<PacmanMovement>();
+            localPlayerController.StartingPoint(spawnPoint.transform.position);
         }
         if (playerToSpawn.name == "Ghost")
         {
@@ -164,6 +163,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
                         spawnPoint.transform.position,
                         spawnPoint.transform.rotation)
                     .GetComponent<Ghost>();
+            localPlayerController.StartingPoint(spawnPoint.transform.position);
         }
     }
 
