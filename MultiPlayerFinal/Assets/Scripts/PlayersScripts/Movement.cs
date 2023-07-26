@@ -14,11 +14,12 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] Vector2 initialDirection;
 
     public bool canMove;
+    public bool isSeen;
     public string _myTeamName;
 
     public Vector2 _direction { get; set; }
+    public Vector3 startingPosition { get; set; }
     Vector2 _nextDirection { get; set; }
-    Vector3 _startingPosition { get; set; }
 
     private void Awake()
     {
@@ -59,7 +60,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         _speedMultiplayer = 1;
         _direction = initialDirection;
         _nextDirection = Vector2.zero;
-        this.transform.position = this._startingPosition;
+        this.transform.position = this.startingPosition;
     }
 
     //checks if player pressed on moving towards another direction, and waits to reach where it can enable this
@@ -86,19 +87,22 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
 
     public virtual void StartingPoint(Vector3 pos)
     {
-        _startingPosition = pos;
+        startingPosition = pos;
     }
 
     public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if(stream.IsWriting)
+        if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
+            stream.SendNext(isSeen);
         }
         else
         {
             transform.position = (Vector3)stream.ReceiveNext();
+            isSeen = (bool)stream.ReceiveNext();
         }
+        this.gameObject.SetActive(isSeen);
     }
 
     public virtual void OnPhotonInstantiate(PhotonMessageInfo info)

@@ -180,22 +180,22 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
 
     public IEnumerator Respawn(GameObject obj)
     {
-        PhotonView mineView = obj.GetComponent<PhotonView>();
-        if (mineView.IsMine)
-        {
-            obj.transform.position = new Vector3(0f, -3.5f, -5f);
-            obj.SetActive(false);
-            yield return new WaitForSeconds(4f);
+        Movement mineView = obj.GetComponent<Movement>();
+        //if (mineView.IsMine)
+        //{
+        //    obj.transform.position = new Vector3(0f, -3.5f, -5f);
+        //    obj.SetActive(false);
+        //    yield return new WaitForSeconds(4f);
 
-            obj.SetActive(true);
-        }
-        else
-        {
-            obj.transform.position = new Vector3(0f, -3.5f, -5f);
-            obj.SetActive(false);
-            yield return new WaitForSeconds(4f);
+        //    obj.SetActive(true);
+        //}
+        //else
+        //{
+        obj.transform.position = mineView.startingPosition;
+        mineView.isSeen = false;
+        yield return new WaitForSeconds(4f);
 
-            obj.SetActive(true);
-        }
+        mineView.isSeen = false;
+        //}
     }
 }
