@@ -66,32 +66,17 @@ public class Ghost : Movement
     {
         if (powerMode == true)
         {
-            GameManager.instance.GhostEaten(teamName);
-            HandleEaten(this.gameObject);
+            GameManager.instance.GhostEaten(teamName,this.gameObject);
         }
         else
         {
-            GameManager.instance.PacEaten(_myTeamName);
-            HandleEaten(obj);
+            GameManager.instance.PacEaten(myTeamName, obj);
         }
-    }
-
-    IEnumerator HandleEaten(GameObject obj)
-    {
-        Movement mineView = obj.GetComponent<Movement>();
-    
-        mineView.transform.position = mineView.startingPosition;
-        mineView.canMove = false;
-        mineView.isSeen = false;
-        yield return new WaitForSeconds(4f);
-
-        mineView.canMove = true;
-        mineView.isSeen = true;
     }
 
     bool CompareTeam(string team)
     {
-        if (_myTeamName == team)
+        if (myTeamName == team)
         {
             return true;
         }

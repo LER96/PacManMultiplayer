@@ -15,7 +15,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
 
     public bool canMove;
     public bool isSeen;
-    public string _myTeamName;
+    public string myTeamName;
 
     public Vector2 _direction { get; set; }
     public Vector3 startingPosition { get; set; }
@@ -33,7 +33,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     private void Start()
     {
         ResetAllStats();
-        _myTeamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+        myTeamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
     }
 
     public virtual void Update()
