@@ -149,6 +149,7 @@ MonoBehaviour:
   _score: 0
   initialDirection: {x: 1, y: 0}
   canMove: 0
+  isSeen: 0
   _myTeamName: 
 --- !u!114 &8624943041840840837
 MonoBehaviour:
