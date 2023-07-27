@@ -87,7 +87,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     void AskSpawnPoint(PhotonMessageInfo messageInfo)
     {
         //characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-        //characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+        characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
         List<SpawnPoint> availableSpawnPoints = new List<SpawnPoint>();
 
@@ -155,7 +155,6 @@ public class SpawnManager : MonoBehaviourPunCallbacks
                         spawnPoint.transform.position,
                         spawnPoint.transform.rotation)
                     .GetComponent<PacmanMovement>();
-            localPlayerController.StartingPoint(spawnPoint.transform.position);
         }
         if (playerToSpawn.name == "Ghost")
         {
@@ -163,8 +162,10 @@ public class SpawnManager : MonoBehaviourPunCallbacks
                         spawnPoint.transform.position,
                         spawnPoint.transform.rotation)
                     .GetComponent<Ghost>();
-            localPlayerController.StartingPoint(spawnPoint.transform.position);
         }
+
+        localPlayerController.SetTeamName(characterName);
+        localPlayerController.StartingPoint(spawnPoint.transform.position);
     }
 
     //Need to check if the property of the player is match to the spawn state

@@ -33,7 +33,11 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     {
         ResetAllStats();
         StartingPoint(this.transform.position);
-        myTeamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+    }
+
+    public void SetTeamName(string name)
+    {
+        myTeamName = name;
     }
 
     public virtual void Update()

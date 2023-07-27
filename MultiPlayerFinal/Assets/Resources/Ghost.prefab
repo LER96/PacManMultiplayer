@@ -305,7 +305,7 @@ MonoBehaviour:
   initialDirection: {x: 1, y: 0}
   canMove: 0
   isSeen: 0
-  _myTeamName: 
+  myTeamName: 
 --- !u!114 &5540360611883845868
 MonoBehaviour:
   m_ObjectHideFlags: 0

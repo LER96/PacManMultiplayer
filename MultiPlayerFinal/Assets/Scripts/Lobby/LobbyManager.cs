@@ -32,9 +32,8 @@ public class LobbyManager : GameManager
     int _numberOfPlayers;
     int _currentNumOfPlayers;
 
-    int _numberOfRounds;
+    int _numberOfRounds=1;
     bool _numberOfPlayersCheck;
-    bool _numberOfRoundsCheck;
 
     [Header("Join")]
     [SerializeField] GameObject joinRoomFather;
@@ -59,6 +58,7 @@ public class LobbyManager : GameManager
     {
         StartUI();
 
+        this.rounds = _numberOfRounds;
         startInput = nicknameInputField.text;
         startGameButton.interactable = false;
         leaveRoomButton.interactable = false;
@@ -79,7 +79,7 @@ public class LobbyManager : GameManager
             enterRoomButton.interactable = true;
         }
 
-        if (_numberOfRoundsCheck && _numberOfPlayersCheck)
+        if (_numberOfPlayersCheck)
         {
             _createRoom.interactable = true;
         }
@@ -230,7 +230,6 @@ public class LobbyManager : GameManager
         _numberOfRounds = int.Parse(dropdown.options[i].text);
         Debug.Log(_numberOfRounds);
         this.rounds = _numberOfRounds;
-        _numberOfRoundsCheck = true;
     }
 
     public override void OnCreatedRoom()
@@ -279,6 +278,7 @@ public class LobbyManager : GameManager
     public override void OnLeftRoom()
     {
         base.OnLeftRoom();
+        PhotonNetwork.JoinLobby();
         leaveRoomButton.interactable = false;
         RefreshUI();
     }
@@ -296,8 +296,6 @@ public class LobbyManager : GameManager
                 startGameButton.interactable = true;
             }
         }
-
-
     }
 
     public void StartGame()
