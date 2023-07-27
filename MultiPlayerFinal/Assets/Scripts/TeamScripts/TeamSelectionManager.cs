@@ -45,8 +45,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            playerList = PhotonNetwork.CurrentRoom.Players.Values.ToList();
-
             AssignRole();
             _startGameButton.SetActive(true);
         }
@@ -61,7 +59,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     }
     public void JoinTeamPM(string team)
     {
-        if(characterName!="")
+        if(characterName!="" && _copyGhostNames.Contains(characterName)==false)
         {
             _copyGhostNames.Add(characterName);
         }
@@ -109,7 +107,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     public void AssignRole()
     {
-        
+        playerList = PhotonNetwork.CurrentRoom.Players.Values.ToList();
         for (int i = 0; i < playerList.Count; i++)
         {
             int randomIndex = UnityEngine.Random.Range(i, playerList.Count);

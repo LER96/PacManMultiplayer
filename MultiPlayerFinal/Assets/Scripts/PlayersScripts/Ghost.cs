@@ -48,17 +48,22 @@ public class Ghost : Movement
         if (collision.gameObject.name != "Walls" )
         {
             PhotonView photonView = collision.transform.GetComponent<PhotonView>();
-            teamName = (string)photonView.Owner.CustomProperties["Team"];
-            Debug.Log(teamName);
+            Movement movement = collision.transform.GetComponent<Movement>();
+            teamName = movement.myTeamName;
+            //teamName = (string)photonView.Owner.CustomProperties["Team"];
+
             bool powerMode = (bool)photonView.Owner.CustomProperties["PowerMode"];
 
-            if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && !CompareTeam(teamName))
+            if (CompareTeam(teamName)==false)
             {
-                CheckPowerMode(powerMode, collision.gameObject);
-            }
-            else if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && !CompareTeam(teamName))
-            {
-                CheckPowerMode(powerMode, collision.gameObject);
+                if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
+                {
+                    CheckPowerMode(powerMode, collision.gameObject);
+                }
+                else if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman"))
+                {
+                    CheckPowerMode(powerMode, collision.gameObject);
+                }
             }
         }
     }
@@ -67,7 +72,8 @@ public class Ghost : Movement
     {
         if (powerMode == true)
         {
-            GameManager.instance.GhostEaten(teamName,this.gameObject);
+            GameManager.instance.GhostEaten(teamName ,this.gameObject);
+            
         }
         else
         {

@@ -35,6 +35,15 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         StartingPoint(this.transform.position);
     }
 
+    IEnumerator Respawn(Movement move)
+    {
+        move.canMove = false;
+        move.transform.position = move.startingPosition;
+        yield return new WaitForSeconds(4f);
+
+        move.canMove = true;
+    }
+
     public void SetTeamName(string name)
     {
         myTeamName = name;
