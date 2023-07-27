@@ -45,7 +45,7 @@ public class Ghost : Movement
     //if pacman is in powerup mode you get eaten instead. 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name != "Walls")
+        if (collision.gameObject.name != "Walls" )
         {
             PhotonView photonView = collision.transform.GetComponent<PhotonView>();
             teamName = (string)photonView.Owner.CustomProperties["Team"];

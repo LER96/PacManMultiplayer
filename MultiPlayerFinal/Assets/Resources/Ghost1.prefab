@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: afc3b534b8a93544984cf1676ba61ae4, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.85638046, a: 1}
+  m_Color: {r: 1, g: 0.13876063, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -177,7 +177,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7031ccde0b7585f4593ec9ccd2626e05, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.85490197, a: 1}
+  m_Color: {r: 1, g: 0.13725491, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 5540360611883845868}
   - component: {fileID: 5540360611883845869}
   m_Layer: 0
-  m_Name: Ghost 2
+  m_Name: Ghost1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

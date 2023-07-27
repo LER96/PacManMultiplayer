@@ -3057,6 +3057,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 268d688286a87e24bb87dd3ea4422a8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ghosts: []
+  pacman: {fileID: 0}
+  pellets: {fileID: 0}
+  _team: 0
+  pacEatenScore: 30
+  ghostEatenScore: 20
   logInFather: {fileID: 581343398}
   logInButton: {fileID: 1561518382}
   inputNameFather: {fileID: 461267385}
