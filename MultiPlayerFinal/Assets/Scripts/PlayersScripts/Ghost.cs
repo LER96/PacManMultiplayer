@@ -49,6 +49,7 @@ public class Ghost : Movement
         {
             PhotonView photonView = collision.transform.GetComponent<PhotonView>();
             teamName = (string)photonView.Owner.CustomProperties["Team"];
+            Debug.Log(teamName);
             bool powerMode = (bool)photonView.Owner.CustomProperties["PowerMode"];
 
             if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && !CompareTeam(teamName))
