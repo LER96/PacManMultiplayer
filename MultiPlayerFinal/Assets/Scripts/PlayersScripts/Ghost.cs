@@ -48,7 +48,7 @@ public class Ghost : Movement
         if (collision.gameObject.name != "Walls" )
         {
             PhotonView photonView = collision.transform.GetComponent<PhotonView>();
-            Movement movement = collision.transform.GetComponent<Movement>();
+            Movement movement = photonView.transform.GetComponent<Movement>();
             teamName = movement.myTeamName;
             //teamName = (string)photonView.Owner.CustomProperties["Team"];
 
@@ -77,7 +77,7 @@ public class Ghost : Movement
         }
         else
         {
-            GameManager.instance.PacEaten(myTeamName, obj);
+            GameManager.instance.PacEaten(this.myTeamName, obj);
         }
     }
 
