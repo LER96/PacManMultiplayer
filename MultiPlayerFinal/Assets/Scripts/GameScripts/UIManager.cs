@@ -8,27 +8,11 @@ public class UIManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TextMeshProUGUI teamPacmanScore;
     [SerializeField] TextMeshProUGUI teamMissPacmanScore;
-   // private const string UPDATE_SCORE_UI = nameof(UpdateScoreUI);
 
     void Update()
     {
-       // if (PhotonNetwork.IsMasterClient)
-       // {
-       //     photonView.RPC(UPDATE_SCORE_UI, RpcTarget.AllViaServer);
-       // }
-
         UpdateTeamScores();
     }
-
-   // [PunRPC]
-   // public void UpdateScoreUI()
-   // {
-   //     int pacmanScore = GameManager.instance.teamPmScore;
-   //     teamPacmanScore.text = $"Team Pacman Score: {pacmanScore}";
-   //
-   //     int missPacmanScore = GameManager.instance.teamMsPmScore;
-   //     teamMissPacmanScore.text = $"Team Miss Pacman Score: {missPacmanScore}";
-   // }
 
     public void UpdateTeamScores()
     {
