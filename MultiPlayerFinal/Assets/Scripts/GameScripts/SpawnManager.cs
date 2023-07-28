@@ -127,9 +127,9 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     {
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
 
-        string characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-        Debug.Log(characterName);
+        characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
         characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+
         GameObject playerToSpawn = null;
 
         foreach (GameObject characterPrefab in _characters)
@@ -166,7 +166,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
                     .GetComponent<Ghost>();
         }
 
-        localPlayerController.SetTeamName(characterName);
+        localPlayerController.SetTeamName(characterTeam);
         localPlayerController.StartingPoint(spawnPoint.transform.position);
     }
 
