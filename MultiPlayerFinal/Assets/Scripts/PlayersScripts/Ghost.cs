@@ -31,10 +31,10 @@ public class Ghost : Movement
         base.Update();
     }
 
-    public override void SetTeamName(string name)
-    {
-        base.SetTeamName(name);
-    }
+    //public override void SetTeamName(string name)
+    //{
+    //    base.SetTeamName(name);
+    //}
 
     public override void StartingPoint(Vector3 pos)
     {
