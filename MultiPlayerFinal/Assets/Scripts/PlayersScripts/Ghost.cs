@@ -50,6 +50,7 @@ public class Ghost : Movement
             PhotonView photonView = collision.transform.GetComponent<PhotonView>();
             Movement movement = photonView.transform.GetComponent<Movement>();
             teamName = movement.myTeamName;
+
             //teamName = (string)photonView.Owner.CustomProperties["Team"];
 
             bool powerMode = (bool)photonView.Owner.CustomProperties["PowerMode"];
