@@ -14,7 +14,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     [SerializeField] TeamManager _teamManager;
 
     [Header("Players List")]
-    [SerializeField] List<Player> playerList;
     [SerializeField] List<string> ghostNames;
     [SerializeField] List<string> _copyGhostNames;
     string characterName;
@@ -50,6 +49,23 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         }
     }
 
+    private void Update()
+    {
+        ShowStart();
+    }
+
+    void ShowStart()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _startGameButton.SetActive(true);
+        }
+        else
+        {
+            _startGameButton.SetActive(false);
+        }
+    }
+
     public void StartGame()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -58,9 +74,9 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void JoinTeam(string team)
+    public void JoinTeamPM(string team)
     {
-        if(characterName!="" && _copyGhostNames.Contains(characterName)==false)
+        if (characterName != "" && _copyGhostNames.Contains(characterName) == false)
         {
             _copyGhostNames.Add(characterName);
         }
@@ -78,7 +94,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PowerMode", false } });
     }
 
-
     void GiveGhost()
     {
         int rnd = Random.Range(0, _copyGhostNames.Count);
@@ -87,9 +102,29 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         _copyGhostNames.Remove(characterName);
     }
 
+
+    //public void JoinTeamMsPM(string team)
+    //{
+    //    if (characterName != "")
+    //    {
+    //        _copyGhostNames.Add(characterName);
+    //    }
+
+    //    if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Team"))
+    //        PhotonNetwork.LocalPlayer.CustomProperties.Remove("Team");
+
+    //    if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Character"))
+    //        PhotonNetwork.LocalPlayer.CustomProperties.Remove("Character");
+
+    //    PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
+    //    GiveGhost();
+    //    //PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
+    //    PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PowerMode", false } });
+    //}
+
     public void AssignRole()
     {
-        playerList = PhotonNetwork.CurrentRoom.Players.Values.ToList();
+        List<Player> playerList = PhotonNetwork.CurrentRoom.Players.Values.ToList();
         for (int i = 0; i < playerList.Count; i++)
         {
             int randomIndex = UnityEngine.Random.Range(i, playerList.Count);
@@ -153,7 +188,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
             {
                 _joinTeamPmButton.SetActive(false);
                 _joinTeamMsPmButton.SetActive(false);
-                return; 
+                return;
             }
         }
 

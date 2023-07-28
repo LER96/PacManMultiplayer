@@ -55,7 +55,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             photonView.RPC(START_GAME_TIMER, RpcTarget.MasterClient);
             _canvasStartGame.SetActive(false);
@@ -76,7 +76,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     void Timer(PhotonMessageInfo info)
     {
         float time = 3;
-        while(time>0)
+        while (time > 0)
         {
             time -= Time.deltaTime;
         }
@@ -87,7 +87,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     void AskSpawnPoint(PhotonMessageInfo messageInfo)
     {
         //characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-        characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+        //characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
         List<SpawnPoint> availableSpawnPoints = new List<SpawnPoint>();
 
@@ -128,7 +128,8 @@ public class SpawnManager : MonoBehaviourPunCallbacks
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
 
         string characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-
+        Debug.Log(characterName);
+        characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
         GameObject playerToSpawn = null;
 
         foreach (GameObject characterPrefab in _characters)
@@ -139,7 +140,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
             }
         }
 
-        SetPlayerControllerByType(characterTeam, playerToSpawn, spawnPoint);
+        SetPlayerControllerByType(playerToSpawn, spawnPoint);
 
         for (int i = 0; i < takenSpawnPoints.Length; i++)
         {
@@ -148,7 +149,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     }
 
     //Check if character is Pac or Ghost Type and set it's own controller
-    void SetPlayerControllerByType(string team, GameObject playerToSpawn, SpawnPoint spawnPoint)
+    void SetPlayerControllerByType(GameObject playerToSpawn, SpawnPoint spawnPoint)
     {
         if (playerToSpawn.name == "Pacman" || playerToSpawn.name == "Miss Pacman")
         {
@@ -165,7 +166,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
                     .GetComponent<Ghost>();
         }
 
-        localPlayerController.SetTeamName(team);
+        localPlayerController.SetTeamName(characterName);
         localPlayerController.StartingPoint(spawnPoint.transform.position);
     }
 
