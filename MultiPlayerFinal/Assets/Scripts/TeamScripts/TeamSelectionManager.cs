@@ -57,7 +57,8 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LoadLevel(2);
         }
     }
-    public void JoinTeamPM(string team)
+
+    public void JoinTeam(string team)
     {
         if(characterName!="" && _copyGhostNames.Contains(characterName)==false)
         {

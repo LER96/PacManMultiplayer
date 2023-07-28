@@ -83,7 +83,7 @@ public class Ghost : Movement
 
     bool CompareTeam(string team)
     {
-        if (myTeamName == team)
+        if (this.myTeamName == team)
         {
             return true;
         }
