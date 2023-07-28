@@ -47,7 +47,6 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     public void SetTeamName(string name)
     {
         myTeamName = name;
-        Debug.Log(name);
     }
 
     public virtual void Update()
