@@ -71,7 +71,6 @@ public class Ghost : Movement
         if (powerMode == true)
         {
             GameManager.instance.GhostEaten(teamName ,this.gameObject);
-            
         }
         else
         {
