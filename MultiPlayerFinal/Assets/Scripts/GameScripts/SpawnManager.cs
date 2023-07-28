@@ -166,7 +166,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
                     .GetComponent<Ghost>();
         }
 
-        localPlayerController.SetTeamName(characterName);
+        localPlayerController.SetTeamName(characterTeam);
         localPlayerController.StartingPoint(spawnPoint.transform.position);
     }
 
