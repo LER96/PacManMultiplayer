@@ -187,4 +187,5 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
 
         mineView.canMove = true;
     }
+
 }
