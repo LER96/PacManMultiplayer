@@ -87,26 +87,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         _copyGhostNames.Remove(characterName);
     }
 
-
-    //public void JoinTeamMsPM(string team)
-    //{
-    //    if (characterName != "")
-    //    {
-    //        _copyGhostNames.Add(characterName);
-    //    }
-
-    //    if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Team"))
-    //        PhotonNetwork.LocalPlayer.CustomProperties.Remove("Team");
-
-    //    if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Character"))
-    //        PhotonNetwork.LocalPlayer.CustomProperties.Remove("Character");
-
-    //    PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
-    //    GiveGhost();
-    //    //PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
-    //    PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PowerMode", false } });
-    //}
-
     public void AssignRole()
     {
         playerList = PhotonNetwork.CurrentRoom.Players.Values.ToList();
@@ -126,13 +106,10 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         playerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", "Pacman" } });
         playerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PowerMode", false } });
 
-        playerList.Remove(playerList[0]);
-
         playerList[1].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Miss Pacman" } });
         playerList[1].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", "Miss Pacman" } });
         playerList[1].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PowerMode", false } });
 
-        playerList.Remove(playerList[1]);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
