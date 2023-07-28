@@ -21,8 +21,6 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
     [Header("SpawnPoints")]
     [SerializeField] private SpawnPoint[] _spawnPoints;
-    string characterName;
-    string characterTeam;
 
     [Header("UI")]
     [SerializeField] Button _startGame;
@@ -127,7 +125,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     {
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
 
-        characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
+        string characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
 
         GameObject playerToSpawn = null;
 
