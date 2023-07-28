@@ -87,7 +87,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     void AskSpawnPoint(PhotonMessageInfo messageInfo)
     {
         //characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-        //characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+        characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
         List<SpawnPoint> availableSpawnPoints = new List<SpawnPoint>();
 
@@ -128,7 +128,6 @@ public class SpawnManager : MonoBehaviourPunCallbacks
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
 
         string characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-        string characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
         GameObject playerToSpawn = null;
 
