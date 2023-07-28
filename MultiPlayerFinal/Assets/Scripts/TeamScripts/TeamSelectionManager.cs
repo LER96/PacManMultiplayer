@@ -78,6 +78,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PowerMode", false } });
     }
 
+
     void GiveGhost()
     {
         int rnd = Random.Range(0, _copyGhostNames.Count);
