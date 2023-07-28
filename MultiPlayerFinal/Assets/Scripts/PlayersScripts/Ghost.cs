@@ -52,8 +52,9 @@ public class Ghost : Movement
         if (collision.gameObject.name != "Walls")
         {
             PhotonView photonView = collision.transform.GetComponent<PhotonView>();
-            Movement movement = photonView.transform.GetComponent<Movement>();
-            string teamName = movement.myTeamName;
+            string teamName = (string)photonView.Owner.CustomProperties["Team"];
+            //Movement movement = photonView.transform.GetComponent<Movement>();
+            //string teamName = movement.myTeamName;
             //teamName = (string)photonView.Owner.CustomProperties["Team"];
 
             bool powerMode = (bool)photonView.Owner.CustomProperties["PowerMode"];
