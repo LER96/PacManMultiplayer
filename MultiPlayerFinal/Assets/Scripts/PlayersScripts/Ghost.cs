@@ -80,7 +80,10 @@ public class Ghost : Movement
 
     bool CompareTeam(string team)
     {
-        if (this.myTeamName == team)
+        string s = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+        Debug.Log($"my player team: {s}");
+        Debug.Log($"collision player team: {team}");
+        if (s == team)
         {
             return true;
         }
