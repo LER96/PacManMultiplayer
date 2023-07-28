@@ -21,6 +21,8 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
     [Header("SpawnPoints")]
     [SerializeField] private SpawnPoint[] _spawnPoints;
+    string characterName;
+    string characterTeam;
 
     [Header("UI")]
     [SerializeField] Button _startGame;
@@ -126,6 +128,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
 
         string characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
+        string characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
         GameObject playerToSpawn = null;
 
@@ -137,7 +140,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
             }
         }
 
-        SetPlayerControllerByType(playerToSpawn, spawnPoint);
+        SetPlayerControllerByType(characterTeam, playerToSpawn, spawnPoint);
 
         for (int i = 0; i < takenSpawnPoints.Length; i++)
         {
@@ -146,9 +149,8 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     }
 
     //Check if character is Pac or Ghost Type and set it's own controller
-    void SetPlayerControllerByType(GameObject playerToSpawn, SpawnPoint spawnPoint)
+    void SetPlayerControllerByType(string team, GameObject playerToSpawn, SpawnPoint spawnPoint)
     {
-
         if (playerToSpawn.name == "Pacman" || playerToSpawn.name == "Miss Pacman")
         {
             localPlayerController = PhotonNetwork.Instantiate(playerToSpawn.name,
@@ -164,6 +166,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
                     .GetComponent<Ghost>();
         }
 
+        localPlayerController.SetTeamName(team);
         localPlayerController.StartingPoint(spawnPoint.transform.position);
     }
 

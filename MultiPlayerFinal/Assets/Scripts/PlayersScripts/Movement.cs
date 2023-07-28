@@ -15,6 +15,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
 
     public bool canMove;
     public bool isSeen;
+    public string myTeamName;
 
     public Vector2 _direction { get; set; }
     public Vector3 startingPosition { get; set; }
@@ -41,6 +42,12 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         yield return new WaitForSeconds(4f);
 
         move.canMove = true;
+    }
+
+    public void SetTeamName(string name)
+    {
+        myTeamName = name;
+        Debug.Log(name);
     }
 
     public virtual void Update()
