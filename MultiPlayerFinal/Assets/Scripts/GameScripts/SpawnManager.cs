@@ -87,7 +87,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     void AskSpawnPoint(PhotonMessageInfo messageInfo)
     {
         //characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-        //characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+        characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
         List<SpawnPoint> availableSpawnPoints = new List<SpawnPoint>();
 
@@ -128,7 +128,6 @@ public class SpawnManager : MonoBehaviourPunCallbacks
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
 
         characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-        characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
 
         GameObject playerToSpawn = null;
 
@@ -151,6 +150,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     //Check if character is Pac or Ghost Type and set it's own controller
     void SetPlayerControllerByType(GameObject playerToSpawn, SpawnPoint spawnPoint)
     {
+
         if (playerToSpawn.name == "Pacman" || playerToSpawn.name == "Miss Pacman")
         {
             localPlayerController = PhotonNetwork.Instantiate(playerToSpawn.name,
