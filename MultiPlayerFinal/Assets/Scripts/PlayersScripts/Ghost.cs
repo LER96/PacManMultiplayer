@@ -88,6 +88,7 @@ public class Ghost : Movement
 
     bool CompareTeam(string team)
     {
+        Debug.Log($"My team is {myTeamName} and the collision team is {team}");
         if (myTeamName == team)
         {
             return true;
