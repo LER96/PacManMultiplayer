@@ -32,7 +32,7 @@ public class LobbyManager : GameManager
     int _numberOfPlayers;
     int _currentNumOfPlayers;
 
-    int _numberOfRounds=1;
+    int _numberOfRounds = 1;
     bool _numberOfPlayersCheck;
 
     [Header("Join")]
@@ -87,15 +87,12 @@ public class LobbyManager : GameManager
         {
             _createRoom.interactable = false;
         }
-
-        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     #region LogIn
     public void LoginToPhoton()
     {
         //Debug.Log("Player nickname is " + PhotonNetwork.NickName);
-        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -381,5 +378,11 @@ public class LobbyManager : GameManager
             playerListText.text += $"{photonPlayer.NickName} In the Room" + Environment.NewLine;
         }
 
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+        Debug.Log("Masterclient has been switched!");
     }
 }
