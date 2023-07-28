@@ -44,7 +44,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         move.canMove = true;
     }
 
-    public void SetTeamName(string name)
+    public virtual void SetTeamName(string name)
     {
         myTeamName = name;
     }

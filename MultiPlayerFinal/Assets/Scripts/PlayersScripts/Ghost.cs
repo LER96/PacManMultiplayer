@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Ghost : Movement
 {
-    string teamName;
 
     public override void Update()
     {
@@ -32,6 +31,11 @@ public class Ghost : Movement
         base.Update();
     }
 
+    public override void SetTeamName(string name)
+    {
+        base.SetTeamName(name);
+    }
+
     public override void StartingPoint(Vector3 pos)
     {
         base.StartingPoint(pos);
@@ -49,7 +53,7 @@ public class Ghost : Movement
         {
             PhotonView photonView = collision.transform.GetComponent<PhotonView>();
             Movement movement = collision.transform.GetComponent<Movement>();
-            teamName = movement.myTeamName;
+            string teamName = movement.myTeamName;
             //teamName = (string)photonView.Owner.CustomProperties["Team"];
 
             bool powerMode = (bool)photonView.Owner.CustomProperties["PowerMode"];
