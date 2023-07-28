@@ -87,12 +87,15 @@ public class LobbyManager : GameManager
         {
             _createRoom.interactable = false;
         }
+
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     #region LogIn
     public void LoginToPhoton()
     {
         //Debug.Log("Player nickname is " + PhotonNetwork.NickName);
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
     }
 
