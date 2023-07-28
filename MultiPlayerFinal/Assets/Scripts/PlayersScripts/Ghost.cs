@@ -45,14 +45,16 @@ public class Ghost : Movement
     //if pacman is in powerup mode you get eaten instead. 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name != "Walls" )
+        if (collision.gameObject.name != "Walls")
         {
             PhotonView photonView = collision.transform.GetComponent<PhotonView>();
-            teamName = (string)photonView.Owner.CustomProperties["Team"];
+            Movement movement = collision.transform.GetComponent<Movement>();
+            teamName = movement.myTeamName;
+            //teamName = (string)photonView.Owner.CustomProperties["Team"];
 
             bool powerMode = (bool)photonView.Owner.CustomProperties["PowerMode"];
 
-            if (CompareTeam(teamName)==false)
+            if (CompareTeam(teamName) == false)
             {
                 if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
                 {
@@ -70,20 +72,18 @@ public class Ghost : Movement
     {
         if (powerMode == true)
         {
-            GameManager.instance.GhostEaten(teamName ,this.gameObject);
+            GameManager.instance.GhostEaten(teamName, this.gameObject);
+
         }
         else
         {
-            GameManager.instance.PacEaten(this.myTeamName, obj);
+            GameManager.instance.PacEaten(myTeamName, obj);
         }
     }
 
     bool CompareTeam(string team)
     {
-        string s = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
-        Debug.Log($"my player team: {s}");
-        Debug.Log($"collision player team: {team}");
-        if (s == team)
+        if (myTeamName == team)
         {
             return true;
         }
