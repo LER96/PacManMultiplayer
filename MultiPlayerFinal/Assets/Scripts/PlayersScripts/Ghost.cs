@@ -6,7 +6,13 @@ using UnityEngine;
 
 public class Ghost : Movement
 {
-    string teamName;
+    string otherTeamName;
+    string myTeamName;
+
+    private void Start()
+    {
+        myTeamName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+    }
 
     public override void Update()
     {
@@ -48,11 +54,11 @@ public class Ghost : Movement
         if (collision.gameObject.name != "Walls" )
         {
             PhotonView photonView = collision.transform.GetComponent<PhotonView>();
-            teamName = (string)photonView.Owner.CustomProperties["Team"];
+            otherTeamName = (string)photonView.Owner.CustomProperties["Team"];
 
             bool powerMode = (bool)photonView.Owner.CustomProperties["PowerMode"];
 
-            if (CompareTeam(teamName)==false)
+            if (CompareTeam(otherTeamName)==false)
             {
                 if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
                 {
@@ -70,17 +76,17 @@ public class Ghost : Movement
     {
         if (powerMode == true)
         {
-            GameManager.instance.GhostEaten(teamName ,this.gameObject);
+            GameManager.instance.GhostEaten(otherTeamName ,this.gameObject);
         }
         else
         {
-            GameManager.instance.PacEaten(this.myTeamName, obj);
+            GameManager.instance.PacEaten(myTeamName, obj);
         }
     }
 
     bool CompareTeam(string team)
     {
-        if (this.myTeamName == team)
+        if (myTeamName == team)
         {
             return true;
         }
