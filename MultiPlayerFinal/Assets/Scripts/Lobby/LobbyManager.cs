@@ -26,7 +26,7 @@ public class LobbyManager : GameManager
     [SerializeField] TMP_InputField createRoomNameInputField;
     [SerializeField] TMP_Dropdown dropDownPlayersNumberList;
     [SerializeField] TMP_Dropdown dropDownNumberOfRounds;
-    [SerializeField] Button _createTagRoomButton;
+    [SerializeField] Button _createTabRoomButton;
     [SerializeField] Button _createRoom;
 
     int _numberOfPlayers;
@@ -38,7 +38,15 @@ public class LobbyManager : GameManager
     [SerializeField] GameObject joinRoomFather;
     [SerializeField] TMP_InputField joinRoomNameInputField;
     [SerializeField] TMP_Dropdown dropDownJoinList;
-    [SerializeField] Button joinRoomButton;
+    [SerializeField] Button joinTabRoomButton;
+
+    [Header("Filter ")]
+    [SerializeField] GameObject filterFather;
+    [SerializeField] GameObject roomsActiveFather;
+    [SerializeField] TMP_Dropdown dropDownRandomJoinList;
+    [SerializeField] TMP_Dropdown dropDownMaxPlayers;
+    [SerializeField] Button filterJoinTabButton;
+    int _randomMaxPlayers;
 
     [Header("Info")]
     [SerializeField] Button startGameButton;
@@ -67,11 +75,16 @@ public class LobbyManager : GameManager
         dropDownPlayersNumberList.onValueChanged.AddListener(delegate { SetCreateInput(dropDownPlayersNumberList); });// set the number of players in a room
         dropDownNumberOfRounds.onValueChanged.AddListener(delegate { SetRounds(dropDownNumberOfRounds); });//set the number of rounds in game
 
+        //Random DropDowns
+        dropDownMaxPlayers.onValueChanged.AddListener(delegate { SetRandomMaxPlayers(dropDownMaxPlayers); });
+        dropDownRandomJoinList.onValueChanged.AddListener(delegate { SetRandomInput(dropDownRandomJoinList); });
+
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     private void Update()
     {
+
         //If something is written in the input field
         if (nicknameInputField.text != "" || nicknameInputField.text != startInput)
         {
@@ -163,17 +176,35 @@ public class LobbyManager : GameManager
     {
         createRoomFather.SetActive(true);
         joinRoomFather.SetActive(false);
-        joinRoomButton.interactable = true;
-        _createTagRoomButton.interactable = false;
+        joinTabRoomButton.interactable = true;
+        _createTabRoomButton.interactable = false;
+        filterJoinTabButton.interactable = true;
     }
 
     public void JoinTabMenu()
     {
         createRoomFather.SetActive(false);
         joinRoomFather.SetActive(true);
-        joinRoomButton.interactable = false;
-        _createTagRoomButton.interactable = true;
+        filterFather.SetActive(false);
+        roomsActiveFather.SetActive(true);
+
+        joinTabRoomButton.interactable = false;
+        _createTabRoomButton.interactable = true;
+        filterJoinTabButton.interactable = true;
     }
+
+    public void FilterTabMenu()
+    {
+        createRoomFather.SetActive(false);
+        joinRoomFather.SetActive(true);
+        filterFather.SetActive(true);
+        roomsActiveFather.SetActive(false);
+
+        joinTabRoomButton.interactable = true;
+        _createTabRoomButton.interactable = true;
+        filterJoinTabButton.interactable = false;
+    }
+
     #endregion
 
     #region Create
@@ -197,7 +228,7 @@ public class LobbyManager : GameManager
         //If there isn't a room with the same name, then cre
         if (sameName == false)
         {
-            PhotonNetwork.CreateRoom(createRoomNameInputField.text, new RoomOptions() { MaxPlayers = _numberOfPlayers, EmptyRoomTtl = 0 },
+            PhotonNetwork.CreateRoom(createRoomNameInputField.text, new RoomOptions() { MaxPlayers = _numberOfPlayers, EmptyRoomTtl = 2000 },
                 null);
             dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = createRoomNameInputField.text });
         }
@@ -205,8 +236,19 @@ public class LobbyManager : GameManager
         {
             createRoomNameInputField.text = "";
         }
+
     }
 
+    public override void OnCreatedRoom()
+    {
+        base.OnCreatedRoom();
+        Debug.Log("We are in a room!");
+        RefreshUI();
+    }
+
+    #endregion
+
+    #region DropDown
     //Set number Of players
     public void SetCreateInput(TMP_Dropdown dropdown)
     {
@@ -231,10 +273,19 @@ public class LobbyManager : GameManager
         this.rounds = _numberOfRounds;
     }
 
-    public override void OnCreatedRoom()
+    public void SetRandomInput(TMP_Dropdown dropdown)
     {
-        base.OnCreatedRoom();
-        Debug.Log("We are in a room!");
+        RefreshUI();
+        int i = dropdown.value;
+        joinRoomNameInputField.text = dropdown.options[i].text;
+
+        RefreshUI();
+    }
+
+    public void SetRandomMaxPlayers(TMP_Dropdown dropdown)
+    {
+        int i = dropdown.value;
+        _randomMaxPlayers = int.Parse(dropdown.options[i].text);
         RefreshUI();
     }
     #endregion
@@ -262,7 +313,7 @@ public class LobbyManager : GameManager
         base.OnJoinedRoom();
         Debug.Log("Joined Room!");
         RefreshUI();
-        joinRoomButton.interactable = false;
+        joinTabRoomButton.interactable = false;
         leaveRoomButton.interactable = true;
     }
     #endregion
@@ -278,7 +329,7 @@ public class LobbyManager : GameManager
     {
         base.OnLeftRoom();
         PhotonNetwork.JoinLobby();
-        joinRoomButton.interactable = true;
+        joinTabRoomButton.interactable = true;
         leaveRoomButton.interactable = false;
         RefreshUI();
     }
@@ -295,6 +346,7 @@ public class LobbyManager : GameManager
                 startGameButton.interactable = true;
             }
         }
+
     }
 
     public void StartGame()
@@ -316,7 +368,7 @@ public class LobbyManager : GameManager
     {
         base.OnCreateRoomFailed(returnCode, message);
         Debug.LogError("Create failed..." + Environment.NewLine + message);
-        _createTagRoomButton.interactable = true;
+        _createTabRoomButton.interactable = true;
     }
 
     #endregion
@@ -344,6 +396,9 @@ public class LobbyManager : GameManager
     {
         roomNames.Clear();
         dropDownJoinList.options.Clear();
+        dropDownRandomJoinList.options.Clear();
+
+        dropDownRandomJoinList.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
         dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
     }
 
@@ -358,6 +413,12 @@ public class LobbyManager : GameManager
                 {
                     roomNames.Add(room.Name);
                     dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = room.Name });
+                    
+                    if(room.MaxPlayers== _randomMaxPlayers)
+                    {
+                        dropDownRandomJoinList.options.Add(new TMP_Dropdown.OptionData() { text = room.Name });
+                    }
+                    
                 }
 
                 //roomsListText.text += $"{roomInfo.Name}: {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}" + Environment.NewLine;
