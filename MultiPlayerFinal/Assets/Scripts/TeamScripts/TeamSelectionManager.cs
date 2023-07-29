@@ -14,13 +14,15 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     [SerializeField] TeamManager _teamManager;
 
     [Header("Players List")]
-    [SerializeField] List<string> ghostNames;
-    [SerializeField] List<string> _copyGhostNames;
+    [SerializeField] List<string> missPacmanGhostNames;
+    [SerializeField] List<string> pacmanGhostNames;
+    [SerializeField] List<string> _copyMsPmGhostNames;
+    [SerializeField] List<string> _copyPMGhostNames;
     string characterName;
 
     [Header("Player Data")]
     [SerializeField] List<PlayerData> _playerDataList = new List<PlayerData>();
-    [SerializeField] PlayerData _playerData;   
+    [SerializeField] PlayerData _playerData;
 
     bool _teamPmFull = false;
     bool _teamMsPmFull = false;
@@ -34,7 +36,8 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        _copyGhostNames = ghostNames;
+        _copyPMGhostNames = pacmanGhostNames;
+        _copyMsPmGhostNames = missPacmanGhostNames;
         UpdatePlayerList();
     }
 
@@ -75,9 +78,9 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     public void JoinTeamPM(string team)
     {
-        if (characterName != "" && _copyGhostNames.Contains(characterName) == false)
+        if (characterName != "" && _copyPMGhostNames.Contains(characterName) == false)
         {
-            _copyGhostNames.Add(characterName);
+            _copyPMGhostNames.Add(characterName);
         }
 
         if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Team"))
@@ -94,10 +97,22 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     void GiveGhost()
     {
-        int rnd = Random.Range(0, _copyGhostNames.Count);
-        characterName = _copyGhostNames[rnd];
+        string team = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+
+        if (team == "Pacman")
+        {
+            int rnd = Random.Range(0, _copyPMGhostNames.Count);
+            characterName = _copyPMGhostNames[rnd];
+            _copyPMGhostNames.Remove(characterName);
+        }
+        else if (team == "Miss Pacman")
+        {
+            int rnd = Random.Range(0, _copyMsPmGhostNames.Count);
+            characterName = _copyMsPmGhostNames[rnd];
+            _copyMsPmGhostNames.Remove(characterName);
+        }
+
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
-        _copyGhostNames.Remove(characterName);
     }
 
 
@@ -200,28 +215,28 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         }
     }
 
-   //private void UpdateTeamsUI()
-   //{
-   //    string teamPacmanText = "";
-   //    string teamMissPacmanText = "";
-   //
-   //    foreach (Player player in PhotonNetwork.PlayerList)
-   //    {
-   //        string t = (string)player.CustomProperties["Team"];
-   //
-   //        if (t == "Pacman")
-   //        {
-   //            teamPacmanText += player.NickName + "\n";
-   //        }
-   //        else if (t == "Miss Pacman")
-   //        {
-   //            teamMissPacmanText += player.NickName + "\n";
-   //        }
-   //    }
-   //
-   //    _teamMsPmMembersText.text = teamMissPacmanText;
-   //    _teamPmMembersText.text = teamPacmanText;
-   //}
+    //private void UpdateTeamsUI()
+    //{
+    //    string teamPacmanText = "";
+    //    string teamMissPacmanText = "";
+    //
+    //    foreach (Player player in PhotonNetwork.PlayerList)
+    //    {
+    //        string t = (string)player.CustomProperties["Team"];
+    //
+    //        if (t == "Pacman")
+    //        {
+    //            teamPacmanText += player.NickName + "\n";
+    //        }
+    //        else if (t == "Miss Pacman")
+    //        {
+    //            teamMissPacmanText += player.NickName + "\n";
+    //        }
+    //    }
+    //
+    //    _teamMsPmMembersText.text = teamMissPacmanText;
+    //    _teamPmMembersText.text = teamPacmanText;
+    //}
 
     void DisableRoleSwitch()
     {

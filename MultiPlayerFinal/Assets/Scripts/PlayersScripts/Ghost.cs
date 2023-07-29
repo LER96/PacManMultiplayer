@@ -93,7 +93,6 @@ public class Ghost : Movement
         {
             GameManager.instance.GhostEaten(otherTeam, this.gameObject);
             StartCoroutine(Respawn(this.gameObject));
-
         }
         else if (powerMode == false)
         {
@@ -101,7 +100,6 @@ public class Ghost : Movement
             PhotonView objPhotonView = obj.GetComponent<PhotonView>();
             int objViewId = objPhotonView.ViewID;
             photonView.RPC(RESPAWN_RPC, RpcTarget.AllViaServer, objViewId);
-            Debug.Log(obj.name);
         }
     }
 
