@@ -97,6 +97,7 @@ public class Ghost : Movement
         else if(powerMode == false)
         {
             GameManager.instance.PacEaten(myTeamName, obj);
+            Debug.Log(obj.name);
         }
     }
 

@@ -91,6 +91,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     {
         //reset pac's position
         SetTeamScore(pacEatenScore, team);
+        StopAllCoroutines();
         StartCoroutine(Respawn(obj));
         Debug.Log("Pacman eaten");
     }
@@ -99,6 +100,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     {
         //reset ghost's position
         SetTeamScore(ghostEatenScore, team);
+        StopAllCoroutines();
         StartCoroutine(Respawn(obj));
         Debug.Log("Ghost eaten");
     }
@@ -136,6 +138,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
             player.SetCustomProperties(customProps);
         }
 
+        StopAllCoroutines();
         StartCoroutine(PowerModeCD(powerPellet.PowerupDuration, player));
 
         //change ghost states to be eaten (based on team)
