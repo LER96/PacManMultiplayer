@@ -35,10 +35,10 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-       // _copyGhostNames = ghostNames;
+        _copyGhostNames = ghostNames;
 
-       foreach (string ghostName in ghostNames)
-            _copyGhostNames.Add(ghostName);
+      //foreach (string ghostName in ghostNames)
+      //     _copyGhostNames.Add(ghostName);
 
         UpdatePlayerList();
     }
