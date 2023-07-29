@@ -18,7 +18,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     public string myTeamName;
 
     public Vector2 _direction { get; set; }
-    public Vector2 startingPosition { get; set; }
+    public Vector3 startingPosition { get; set; }
     Vector2 _nextDirection { get; set; }
 
     private void Awake()
