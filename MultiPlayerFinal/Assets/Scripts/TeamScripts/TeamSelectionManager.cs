@@ -12,17 +12,16 @@ using UnityEngine.TextCore.Text;
 public class TeamSelectionManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TeamManager _teamManager;
+    const string ASSIGN_GHOST_RPC = nameof(GiveGhost);
 
     [Header("Players List")]
-    [SerializeField] List<string> missPacmanGhostNames;
-    [SerializeField] List<string> pacmanGhostNames;
-    [SerializeField] List<string> _copyMsPmGhostNames;
-    [SerializeField] List<string> _copyPMGhostNames;
+    [SerializeField] List<string> ghostNames;
+    [SerializeField] List<string> _copyGhostNames;
     string characterName;
 
     [Header("Player Data")]
     [SerializeField] List<PlayerData> _playerDataList = new List<PlayerData>();
-    [SerializeField] PlayerData _playerData;
+    [SerializeField] PlayerData _playerData;   
 
     bool _teamPmFull = false;
     bool _teamMsPmFull = false;
@@ -36,8 +35,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        _copyPMGhostNames = pacmanGhostNames;
-        _copyMsPmGhostNames = missPacmanGhostNames;
+        _copyGhostNames = ghostNames;
         UpdatePlayerList();
     }
 
@@ -78,9 +76,9 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     public void JoinTeamPM(string team)
     {
-        if (characterName != "" && _copyPMGhostNames.Contains(characterName) == false)
+        if (characterName != "" && _copyGhostNames.Contains(characterName) == false)
         {
-            _copyPMGhostNames.Add(characterName);
+            _copyGhostNames.Add(characterName);
         }
 
         if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Team"))
@@ -91,28 +89,17 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
         //Give Ghost Prefab from resources file 
-        GiveGhost();
+        photonView.RPC(ASSIGN_GHOST_RPC, RpcTarget.AllViaServer);
         //PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
     }
 
+    [PunRPC]
     void GiveGhost()
     {
-        string team = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
-
-        if (team == "Pacman")
-        {
-            int rnd = Random.Range(0, _copyPMGhostNames.Count);
-            characterName = _copyPMGhostNames[rnd];
-            _copyPMGhostNames.Remove(characterName);
-        }
-        else if (team == "Miss Pacman")
-        {
-            int rnd = Random.Range(0, _copyMsPmGhostNames.Count);
-            characterName = _copyMsPmGhostNames[rnd];
-            _copyMsPmGhostNames.Remove(characterName);
-        }
-
+        int rnd = Random.Range(0, _copyGhostNames.Count);
+        characterName = _copyGhostNames[rnd];
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
+        _copyGhostNames.Remove(characterName);
     }
 
 
@@ -215,28 +202,28 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         }
     }
 
-    //private void UpdateTeamsUI()
-    //{
-    //    string teamPacmanText = "";
-    //    string teamMissPacmanText = "";
-    //
-    //    foreach (Player player in PhotonNetwork.PlayerList)
-    //    {
-    //        string t = (string)player.CustomProperties["Team"];
-    //
-    //        if (t == "Pacman")
-    //        {
-    //            teamPacmanText += player.NickName + "\n";
-    //        }
-    //        else if (t == "Miss Pacman")
-    //        {
-    //            teamMissPacmanText += player.NickName + "\n";
-    //        }
-    //    }
-    //
-    //    _teamMsPmMembersText.text = teamMissPacmanText;
-    //    _teamPmMembersText.text = teamPacmanText;
-    //}
+   //private void UpdateTeamsUI()
+   //{
+   //    string teamPacmanText = "";
+   //    string teamMissPacmanText = "";
+   //
+   //    foreach (Player player in PhotonNetwork.PlayerList)
+   //    {
+   //        string t = (string)player.CustomProperties["Team"];
+   //
+   //        if (t == "Pacman")
+   //        {
+   //            teamPacmanText += player.NickName + "\n";
+   //        }
+   //        else if (t == "Miss Pacman")
+   //        {
+   //            teamMissPacmanText += player.NickName + "\n";
+   //        }
+   //    }
+   //
+   //    _teamMsPmMembersText.text = teamMissPacmanText;
+   //    _teamPmMembersText.text = teamPacmanText;
+   //}
 
     void DisableRoleSwitch()
     {

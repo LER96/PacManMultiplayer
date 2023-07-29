@@ -155,14 +155,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _teamManager: {fileID: 138303730}
-  missPacmanGhostNames:
-  - Ghost2
-  - Ghost3
-  pacmanGhostNames:
+  ghostNames:
   - Ghost
   - Ghost1
-  _copyMsPmGhostNames: []
-  _copyPMGhostNames: []
+  - Ghost2
+  - Ghost3
+  _copyGhostNames: []
   _playerDataList: []
   _playerData: {fileID: 571998349793431525, guid: 17c87aa70f459894c96637b5f1a33bd0,
     type: 3}
