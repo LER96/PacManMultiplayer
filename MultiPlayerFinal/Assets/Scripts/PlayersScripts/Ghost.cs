@@ -6,6 +6,19 @@ using UnityEngine;
 
 public class Ghost : Movement
 {
+    string otherTeam;
+
+    private void Start()
+    {
+        if (myTeamName == "Pacman")
+        {
+            otherTeam = "Miss Pacman";
+        }
+        else
+        {
+            otherTeam = "Pacman";
+        }
+    }
 
     public override void Update()
     {
@@ -49,6 +62,7 @@ public class Ghost : Movement
     //if pacman is in powerup mode you get eaten instead. 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
         if (collision.gameObject.name != "Walls")
         {
             PhotonView photonView = collision.transform.GetComponent<PhotonView>();
@@ -74,16 +88,6 @@ public class Ghost : Movement
 
     void CheckPowerMode(bool powerMode, GameObject obj)
     {
-        string otherTeam="";
-        if(myTeamName=="Pacman")
-        {
-            otherTeam = "Miss Pacman";
-        }
-        else
-        {
-            otherTeam = "Pacman";
-        }
-
 
         if (powerMode == true)
         {
