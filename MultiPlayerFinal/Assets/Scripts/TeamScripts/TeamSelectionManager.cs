@@ -35,7 +35,11 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        _copyGhostNames = ghostNames;
+       // _copyGhostNames = ghostNames;
+
+       foreach (string ghostName in ghostNames)
+            _copyGhostNames.Add(ghostName);
+
         UpdatePlayerList();
     }
 
@@ -91,6 +95,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         //Give Ghost Prefab from resources file 
         if (photonView.IsMine)
             photonView.RPC(ASSIGN_GHOST_RPC, RpcTarget.AllViaServer);
+
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
     }
 
