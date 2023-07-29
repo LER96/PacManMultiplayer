@@ -95,10 +95,12 @@ public class Ghost : Movement
             StartCoroutine(Respawn(this.gameObject));
 
         }
-        else if(powerMode == false)
+        else if (powerMode == false)
         {
             GameManager.instance.PacEaten(myTeamName, obj);
-            photonView.RPC(RESPAWN_RPC, RpcTarget.AllViaServer, obj);
+            PhotonView objPhotonView = obj.GetComponent<PhotonView>();
+            int objViewId = objPhotonView.ViewID;
+            photonView.RPC(RESPAWN_RPC, RpcTarget.AllViaServer, objViewId);
             Debug.Log(obj.name);
         }
     }

@@ -23,7 +23,6 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Awake()
     {
-
         isSeen = true;
         this._rb = GetComponent<Rigidbody2D>();
         this._photonView = GetComponent<PhotonView>();
@@ -33,12 +32,14 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     private void Start()
     {
         ResetAllStats();
-        //StartingPoint(this.transform.position);
+        StartingPoint(this.transform.position);
     }
 
     [PunRPC]
-    public void RespawnRpc(GameObject obj)
+    public void RespawnRpc(int objViewId)
     {
+        PhotonView objPhotonView = PhotonNetwork.GetPhotonView(objViewId);
+        GameObject obj = objPhotonView.gameObject;
         StartCoroutine(Respawn(obj));
     }
 
