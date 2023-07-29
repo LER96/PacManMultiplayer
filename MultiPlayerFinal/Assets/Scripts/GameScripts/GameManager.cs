@@ -184,7 +184,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     public IEnumerator Respawn(GameObject obj)
     {
         PhotonView view = obj.GetComponent<PhotonView>();
-        Movement mineView = view.Owner.GetComponent<Movement>();
+        Movement mineView = view.GetComponent<Movement>();
         mineView.canMove = false;
         mineView.transform.position = mineView.startingPosition;
         yield return new WaitForSeconds(2f);
