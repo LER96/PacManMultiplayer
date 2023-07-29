@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     void Update()
     {
         UpdateTeamScores();
-        UpdateRoundScoreUI();
+        RoundEnded();
     }
 
     public void UpdateTeamScores()
