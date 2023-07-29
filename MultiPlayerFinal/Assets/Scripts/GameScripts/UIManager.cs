@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class UIManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TextMeshProUGUI teamPacmanScore;
     [SerializeField] TextMeshProUGUI teamMissPacmanScore;
+    [SerializeField] PlayerData _playerData;
+    [SerializeField] Transform _PmTeamPlayerDataParent;
+    [SerializeField] Transform _MsPmTeamPlayerDataParent;
+
+    private void Awake()
+    {
+        UpdatePlayerDataUI();
+    }
 
     void Update()
     {
@@ -28,6 +37,20 @@ public class UIManager : MonoBehaviourPunCallbacks
         {
             int missPacmanScore = (int)roomProperties["MissPacmanScore"];
             teamMissPacmanScore.text = $"Team Miss Pacman Score: {missPacmanScore}";
+        }
+    }
+
+    void UpdatePlayerDataUI()
+    {
+        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        {
+            string team = (string)player.Value.CustomProperties["Team"];
+
+            Transform parent = team == "Pacman" ? _PmTeamPlayerDataParent : _MsPmTeamPlayerDataParent;
+
+            PlayerData _newPlayerData = Instantiate(_playerData, parent);
+            _newPlayerData.SetPlayerInfo(player.Value);
+            _newPlayerData.SetPlayerInfoUI(player.Value);
         }
     }
 }

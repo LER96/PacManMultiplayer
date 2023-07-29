@@ -20,15 +20,14 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     [Header("Player Data")]
     [SerializeField] List<PlayerData> _playerDataList = new List<PlayerData>();
-    [SerializeField] PlayerData _playerData;
-    [SerializeField] Transform _playerDataParent;
+    [SerializeField] PlayerData _playerData;   
 
     bool _teamPmFull = false;
     bool _teamMsPmFull = false;
 
     [Header("UI Refrences")]
-    [SerializeField] TextMeshProUGUI _teamPmMembersText;
-    [SerializeField] TextMeshProUGUI _teamMsPmMembersText;
+    [SerializeField] Transform _PmTeamPlayerDataParent;
+    [SerializeField] Transform _MsPmTeamPlayerDataParent;
     [SerializeField] GameObject _joinTeamPmButton;
     [SerializeField] GameObject _joinTeamMsPmButton;
     [SerializeField] GameObject _startGameButton;
@@ -149,7 +148,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        UpdateTeamsUI();
+        //UpdateTeamsUI();
 
         if (targetPlayer == PhotonNetwork.LocalPlayer)
         {
@@ -202,28 +201,28 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private void UpdateTeamsUI()
-    {
-        string teamPacmanText = "";
-        string teamMissPacmanText = "";
-
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            string t = (string)player.CustomProperties["Team"];
-
-            if (t == "Pacman")
-            {
-                teamPacmanText += player.NickName + "\n";
-            }
-            else if (t == "Miss Pacman")
-            {
-                teamMissPacmanText += player.NickName + "\n";
-            }
-        }
-
-        _teamMsPmMembersText.text = teamMissPacmanText;
-        _teamPmMembersText.text = teamPacmanText;
-    }
+   //private void UpdateTeamsUI()
+   //{
+   //    string teamPacmanText = "";
+   //    string teamMissPacmanText = "";
+   //
+   //    foreach (Player player in PhotonNetwork.PlayerList)
+   //    {
+   //        string t = (string)player.CustomProperties["Team"];
+   //
+   //        if (t == "Pacman")
+   //        {
+   //            teamPacmanText += player.NickName + "\n";
+   //        }
+   //        else if (t == "Miss Pacman")
+   //        {
+   //            teamMissPacmanText += player.NickName + "\n";
+   //        }
+   //    }
+   //
+   //    _teamMsPmMembersText.text = teamMissPacmanText;
+   //    _teamPmMembersText.text = teamPacmanText;
+   //}
 
     void DisableRoleSwitch()
     {
@@ -243,7 +242,11 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
         foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
         {
-            PlayerData _newPlayerData = Instantiate(_playerData, _playerDataParent);
+            string team = (string)player.Value.CustomProperties["Team"];
+
+            Transform parent = team == "Pacman" ? _PmTeamPlayerDataParent : _MsPmTeamPlayerDataParent;
+
+            PlayerData _newPlayerData = Instantiate(_playerData, parent);
             _newPlayerData.SetPlayerInfo(player.Value);
             _playerDataList.Add(_newPlayerData);
         }
