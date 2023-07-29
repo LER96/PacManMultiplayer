@@ -91,7 +91,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         //Give Ghost Prefab from resources file 
         if (photonView.IsMine)
             photonView.RPC(ASSIGN_GHOST_RPC, RpcTarget.AllViaServer);
-        //PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
     }
 
     [PunRPC]
@@ -99,7 +99,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
     {
         int rnd = Random.Range(0, _copyGhostNames.Count);
         characterName = _copyGhostNames[rnd];
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
+        //PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
         _copyGhostNames.Remove(characterName);
     }
 
