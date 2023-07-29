@@ -94,7 +94,7 @@ public class Ghost : Movement
             GameManager.instance.GhostEaten(otherTeam, this.gameObject);
 
         }
-        else
+        else if(powerMode == false)
         {
             GameManager.instance.PacEaten(myTeamName, obj);
         }
