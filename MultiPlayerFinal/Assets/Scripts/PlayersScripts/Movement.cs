@@ -16,7 +16,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     public bool canMove;
     public bool isSeen;
     public string myTeamName;
-
+    public const string RESPAWN_RPC = nameof(RespawnRpc);
     public Vector2 _direction { get; set; }
     public Vector3 startingPosition { get; set; }
     Vector2 _nextDirection { get; set; }
@@ -34,6 +34,12 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     {
         ResetAllStats();
         //StartingPoint(this.transform.position);
+    }
+
+    [PunRPC]
+    public void RespawnRpc(GameObject obj)
+    {
+        StartCoroutine(Respawn(obj));
     }
 
     public IEnumerator Respawn(GameObject obj)
