@@ -100,7 +100,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         return hit.collider != null;
     }
 
-    public virtual void StartingPoint(Vector2 pos)
+    public virtual void StartingPoint(Vector3 pos)
     {
         startingPosition = pos;
     }
