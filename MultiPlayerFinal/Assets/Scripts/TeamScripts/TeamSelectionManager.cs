@@ -80,7 +80,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     public void JoinTeamPM(string team)
     {
-        if (_copyGhostNames.Contains(characterName) == false)
+        if (characterName != "" && _copyGhostNames.Contains(characterName) == false)
         {
             _copyGhostNames.Add(characterName);
         }
