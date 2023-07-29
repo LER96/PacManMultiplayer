@@ -35,10 +35,10 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        _copyGhostNames = ghostNames;
+        //_copyGhostNames = ghostNames;
 
-      //foreach (string ghostName in ghostNames)
-      //     _copyGhostNames.Add(ghostName);
+        foreach (string ghostName in ghostNames)
+            _copyGhostNames.Add(ghostName);
 
         UpdatePlayerList();
     }
@@ -106,6 +106,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         characterName = _copyGhostNames[rnd];
         //PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
         _copyGhostNames.Remove(characterName);
+        Debug.Log($"Assigned ghost is: {characterName}");
     }
 
 
