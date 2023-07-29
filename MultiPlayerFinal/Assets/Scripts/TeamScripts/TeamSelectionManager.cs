@@ -40,6 +40,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         foreach (string ghostName in ghostNames)
             _copyGhostNames.Add(ghostName);
 
+        characterName = "";
         UpdatePlayerList();
     }
 
@@ -106,7 +107,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         characterName = _copyGhostNames[rnd];
         //PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
         _copyGhostNames.Remove(characterName);
-        Debug.Log($"Assigned ghost is: {characterName}");
     }
 
 
