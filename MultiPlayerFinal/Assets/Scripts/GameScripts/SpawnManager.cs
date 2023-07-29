@@ -167,7 +167,6 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
         localPlayerController.SetTeamName(characterTeam);
         localPlayerController.StartingPoint(spawnPoint.transform.position);
-        Debug.Log($"{characterName} is from team {localPlayerController.myTeamName}");
     }
 
     //Need to check if the property of the player is match to the spawn state
