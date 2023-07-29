@@ -18,7 +18,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     public string myTeamName;
 
     public Vector2 _direction { get; set; }
-    public Vector3 startingPosition { get; set; }
+    public Vector2 startingPosition { get; set; }
     Vector2 _nextDirection { get; set; }
 
     private void Awake()
@@ -32,9 +32,8 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Start()
     {
-        startingPosition = transform.position;
         ResetAllStats();
-        StartingPoint(this.transform.position);
+        //StartingPoint(this.transform.position);
     }
 
     IEnumerator Respawn(Movement move)
@@ -101,7 +100,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         return hit.collider != null;
     }
 
-    public virtual void StartingPoint(Vector3 pos)
+    public virtual void StartingPoint(Vector2 pos)
     {
         startingPosition = pos;
     }

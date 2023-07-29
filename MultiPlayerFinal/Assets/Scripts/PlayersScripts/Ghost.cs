@@ -49,7 +49,7 @@ public class Ghost : Movement
     //    base.SetTeamName(name);
     //}
 
-    public override void StartingPoint(Vector3 pos)
+    public override void StartingPoint(Vector2 pos)
     {
         base.StartingPoint(pos);
     }

@@ -64,7 +64,7 @@ public class PacmanMovement : Movement
         base.OnPhotonInstantiate(info);
     }
 
-    public override void StartingPoint(Vector3 pos)
+    public override void StartingPoint(Vector2 pos)
     {
         base.StartingPoint(pos);
     }

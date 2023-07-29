@@ -185,8 +185,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     {
         Movement mineView = obj.GetComponent<Movement>();
         mineView.canMove = false;
-        mineView.ResetAllStats();
-        //mineView.transform.position = mineView.startingPosition;
+        mineView.transform.position = mineView.startingPosition;
         yield return new WaitForSeconds(2f);
 
         mineView.canMove = true;
