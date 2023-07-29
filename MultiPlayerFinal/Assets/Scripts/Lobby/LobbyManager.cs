@@ -30,7 +30,6 @@ public class LobbyManager : GameManager
     [SerializeField] Button _createRoom;
 
     int _numberOfPlayers;
-    int _currentNumOfPlayers;
 
     int _numberOfRounds = 1;
     bool _numberOfPlayersCheck;
@@ -51,7 +50,7 @@ public class LobbyManager : GameManager
     List<string> roomNames = new List<string>();
     List<string> _namesInGame = new List<string>();
     string startInput;
-    List<RoomInfo> roomsInfo;
+    List<RoomInfo> roomsInfo = new List<RoomInfo>();
 
     //make start game button not interactable at the start of the game.
     private void Awake()
@@ -241,6 +240,7 @@ public class LobbyManager : GameManager
     #endregion
 
     #region Join
+
     public void SetJoinInput(TMP_Dropdown dropdown)
     {
         int i = dropdown.value;
@@ -262,8 +262,7 @@ public class LobbyManager : GameManager
         base.OnJoinedRoom();
         Debug.Log("Joined Room!");
         RefreshUI();
-        //RefreshCurrentRoomInfoUI();
-        //isConnectedToRoomDebugTextUI.text = YES_STRING;
+        joinRoomButton.interactable = false;
         leaveRoomButton.interactable = true;
     }
     #endregion
@@ -279,6 +278,7 @@ public class LobbyManager : GameManager
     {
         base.OnLeftRoom();
         PhotonNetwork.JoinLobby();
+        joinRoomButton.interactable = true;
         leaveRoomButton.interactable = false;
         RefreshUI();
     }
@@ -286,7 +286,6 @@ public class LobbyManager : GameManager
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
-        _currentNumOfPlayers++;
         RefreshUI();
 
         if (PhotonNetwork.IsMasterClient)
@@ -309,7 +308,7 @@ public class LobbyManager : GameManager
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
-        _numberOfPlayers--;
+
         if (PhotonNetwork.IsMasterClient)
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount < _numberOfPlayers)
@@ -329,57 +328,74 @@ public class LobbyManager : GameManager
 
     #endregion
 
+    #region On Rooms Update
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        roomsInfo.Clear();
         roomsInfo = roomList;
         Debug.Log("Got room list");
         base.OnRoomListUpdate(roomList);
         //roomsListText.text = string.Empty;
-        roomNames.Clear();
-        ResetDrop();
-        foreach (RoomInfo roomInfo in roomList)
-        {
-            if (!roomInfo.RemovedFromList)
-            {
-                roomNames.Add(roomInfo.Name);
-                dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = roomInfo.Name });
-                //roomsListText.text += $"{roomInfo.Name}: {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}" + Environment.NewLine;
-            }
-            else
-            {
-                if (roomNames.Contains(roomInfo.Name))
-                {
-                    roomNames.Remove(roomInfo.Name);
-                }
-            }
-        }
+        ManageRooms(roomList);
     }
 
+    //Clear the rooms list and orginize available rooms
+    void ManageRooms(List<RoomInfo> roomList)
+    {
+        ResetDrop();
+        UpdateAvailableRooms(roomList);
+    }
+
+    //Reset rooms list
     void ResetDrop()
     {
+        roomNames.Clear();
         dropDownJoinList.options.Clear();
         dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
     }
 
+    //Orginize the room list drop down, checking if the current room isn't full
+    void UpdateAvailableRooms(List<RoomInfo> roomList)
+    {
+        foreach (RoomInfo room in roomList)
+        {
+            if (!room.RemovedFromList)
+            {
+                if (room.PlayerCount < room.MaxPlayers)
+                {
+                    roomNames.Add(room.Name);
+                    dropDownJoinList.options.Add(new TMP_Dropdown.OptionData() { text = room.Name });
+                }
+
+                //roomsListText.text += $"{roomInfo.Name}: {roomInfo.PlayerCount}/{roomInfo.MaxPlayers}" + Environment.NewLine;
+            }
+            else
+            {
+                if (roomNames.Contains(room.Name))
+                {
+                    roomNames.Remove(room.Name);
+                }
+            }
+        }
+    }
+    #endregion
+
     void RefreshUI()
     {
-        if (PhotonNetwork.CountOfRooms > 0)
-        {
-            roomPlayersText.text = $"{_currentNumOfPlayers}/{_numberOfPlayers}";
-        }
-        else
-        {
-            roomPlayersText.text = $"{0}/{_numberOfPlayers}";
-        }
+        ManageRooms(roomsInfo);
+        //roomPlayersText.text = $"{PhotonNetwork.CurrentRoom.PlayerCount}/{PhotonNetwork.CurrentRoom.MaxPlayers}";
 
         playerListText.text = "";
-        foreach (Player photonPlayer in PhotonNetwork.PlayerList)
+        if (PhotonNetwork.InRoom)
         {
-            playerListText.text += $"{photonPlayer.NickName} In the Room" + Environment.NewLine;
+            foreach (Player photonPlayer in PhotonNetwork.PlayerList)
+            {
+                playerListText.text += $"{photonPlayer.NickName} In the Room" + Environment.NewLine;
+            }
         }
-
     }
 
+    //Replace masterClient
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         base.OnMasterClientSwitched(newMasterClient);
