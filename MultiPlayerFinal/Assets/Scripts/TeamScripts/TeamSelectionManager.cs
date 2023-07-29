@@ -40,7 +40,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         foreach (string ghostName in ghostNames)
             _copyGhostNames.Add(ghostName);
 
-        characterName = "";
         UpdatePlayerList();
     }
 
@@ -81,7 +80,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     public void JoinTeamPM(string team)
     {
-        if (characterName != "" && _copyGhostNames.Contains(characterName) == false)
+        if (_copyGhostNames.Contains(characterName) == false)
         {
             _copyGhostNames.Add(characterName);
         }
