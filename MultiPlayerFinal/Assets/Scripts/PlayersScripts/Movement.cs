@@ -23,6 +23,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Awake()
     {
+
         isSeen = true;
         this._rb = GetComponent<Rigidbody2D>();
         this._photonView = GetComponent<PhotonView>();
@@ -31,6 +32,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Start()
     {
+        startingPosition = transform.position;
         ResetAllStats();
         StartingPoint(this.transform.position);
     }
