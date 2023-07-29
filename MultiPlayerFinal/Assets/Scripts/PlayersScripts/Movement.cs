@@ -36,13 +36,15 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         //StartingPoint(this.transform.position);
     }
 
-    IEnumerator Respawn(Movement move)
+    public IEnumerator Respawn(GameObject obj)
     {
-        move.canMove = false;
-        move.transform.position = move.startingPosition;
-        yield return new WaitForSeconds(4f);
+        PhotonView view = obj.GetComponent<PhotonView>();
+        Movement mineView = view.GetComponent<Movement>();
+        mineView.canMove = false;
+        mineView.transform.position = mineView.startingPosition;
+        yield return new WaitForSeconds(2f);
 
-        move.canMove = true;
+        mineView.canMove = true;
     }
 
     public virtual void SetTeamName(string name)

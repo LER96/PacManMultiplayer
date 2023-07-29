@@ -92,11 +92,13 @@ public class Ghost : Movement
         if (powerMode == true)
         {
             GameManager.instance.GhostEaten(otherTeam, this.gameObject);
+            StartCoroutine(Respawn(this.gameObject));
 
         }
         else if(powerMode == false)
         {
             GameManager.instance.PacEaten(myTeamName, obj);
+            StartCoroutine(Respawn(obj));
             Debug.Log(obj.name);
         }
     }
