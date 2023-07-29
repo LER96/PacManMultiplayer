@@ -308,14 +308,7 @@ public class LobbyManager : GameManager
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            if (PhotonNetwork.CurrentRoom.PlayerCount < _numberOfPlayers)
-            {
-                startGameButton.interactable = false;
-            }
-        }
+        startGameButton.interactable = false;
         RefreshUI();
     }
 
