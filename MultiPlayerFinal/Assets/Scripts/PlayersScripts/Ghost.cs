@@ -52,32 +52,42 @@ public class Ghost : Movement
         if (collision.gameObject.name != "Walls")
         {
             PhotonView photonView = collision.transform.GetComponent<PhotonView>();
-            string teamName = (string)photonView.Owner.CustomProperties["Team"];
+            //string teamName = (string)photonView.Owner.CustomProperties["Team"];
             //Movement movement = photonView.transform.GetComponent<Movement>();
             //string teamName = movement.myTeamName;
             //teamName = (string)photonView.Owner.CustomProperties["Team"];
 
             bool powerMode = (bool)photonView.Owner.CustomProperties["PowerMode"];
 
-            if (CompareTeam(teamName) == false)
+
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && myTeamName=="Miss Pacman")
             {
-                if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
-                {
-                    CheckPowerMode(teamName, powerMode, collision.gameObject);
-                }
-                else if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman"))
-                {
-                    CheckPowerMode(teamName,powerMode, collision.gameObject);
-                }
+                CheckPowerMode(powerMode, collision.gameObject);
             }
+            else if (collision.gameObject.layer == LayerMask.NameToLayer("Miss Pacman") && myTeamName == "Pacman")
+            {
+                CheckPowerMode(powerMode, collision.gameObject);
+            }
+
         }
     }
 
-    void CheckPowerMode(string team, bool powerMode, GameObject obj)
+    void CheckPowerMode(bool powerMode, GameObject obj)
     {
+        string otherTeam="";
+        if(myTeamName=="Pacman")
+        {
+            otherTeam = "Miss Pacman";
+        }
+        else
+        {
+            otherTeam = "Pacman";
+        }
+
+
         if (powerMode == true)
         {
-            GameManager.instance.GhostEaten(team, this.gameObject);
+            GameManager.instance.GhostEaten(otherTeam, this.gameObject);
 
         }
         else
@@ -86,14 +96,4 @@ public class Ghost : Movement
         }
     }
 
-    bool CompareTeam(string team)
-    {
-        Debug.Log($"My team is {myTeamName} and the collision team is {team}");
-        if (myTeamName == team)
-        {
-            return true;
-        }
-        else
-            return false;
-    }
 }
