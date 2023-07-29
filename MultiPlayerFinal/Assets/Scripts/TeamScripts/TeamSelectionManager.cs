@@ -90,7 +90,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         //Give Ghost Prefab from resources file 
         GiveGhost();
         //PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PowerMode", false } });
     }
 
     void GiveGhost()
