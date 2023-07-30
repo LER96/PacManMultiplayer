@@ -273,7 +273,7 @@ public class LobbyManager : GameManager
         int i = dropdown.value;
         _numberOfRounds = int.Parse(dropdown.options[i].text);
         Debug.Log(_numberOfRounds);
-        rounds = _numberOfPlayers;
+        //rounds = _numberOfPlayers;
     }
 
     public void SetRandomInput(TMP_Dropdown dropdown)

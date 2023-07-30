@@ -86,8 +86,8 @@ public class UIManager : MonoBehaviourPunCallbacks
             {
                 _nextRound.SetActive(false);
             }
-
             UpdateRoundScoreUI();
+
         }
         else
         {
@@ -102,6 +102,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             _endRoundUI.SetActive(true);
             _nextRound.SetActive(false);
             _gameOver.SetActive(true);
+            UpdateRoundScoreUI();
         }
     }
 }
