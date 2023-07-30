@@ -29,7 +29,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject _canvasStartGame;
 
     [Header("Players Controllers")]
-    private List<Movement> playerControllers = new List<Movement>();
+    [SerializeField] List<Movement> playerControllers = new List<Movement>();
     private Movement localPlayerController;
 
     private bool isCountingForStartGame;
@@ -180,6 +180,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
         localPlayerController.SetTeamName(characterTeam);
         localPlayerController.StartingPoint(spawnPoint.transform.position);
+        AddPlayerController(localPlayerController);
     }
 
     //Need to check if the property of the player is match to the spawn state
@@ -201,4 +202,5 @@ public class SpawnManager : MonoBehaviourPunCallbacks
             controller.CallRespawnRPC(controller.gameObject);
         }
     }
+
 }

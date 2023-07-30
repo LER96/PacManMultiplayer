@@ -40,7 +40,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     {
         SetTeamScore(0, "Pacman");
         SetTeamScore(0, "Miss Pacman");
-        SetRounds(0);
+        //SetRounds(0);
     }
 
     public void GameOver()
@@ -68,6 +68,8 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
             pellet.gameObject.SetActive(true);
         }
 
+        roundEnded = false;
+        NewGame();
         //later reset everyone's position
     }
 
