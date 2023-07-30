@@ -980,6 +980,7 @@ MonoBehaviour:
   _PmTeamPlayerDataParent: {fileID: 713508771}
   _MsPmTeamPlayerDataParent: {fileID: 1176841386}
   _endRoundUI: {fileID: 835436589}
+  _nextRound: {fileID: 1494618918}
   _missPmRoundScoreText: {fileID: 1556722841}
   _pmRoundScoreText: {fileID: 12878567}
 --- !u!1 &693434762

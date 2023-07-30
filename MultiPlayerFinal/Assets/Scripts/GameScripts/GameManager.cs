@@ -56,6 +56,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel(0);
     }
 
+
     public void NextRound()
     {
         SpawnManager.Instance.RespawnAllPlayers();
@@ -166,11 +167,11 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
 
     public void RestartGame()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
+        //if (PhotonNetwork.IsMasterClient)
+        //{
             //add respawn all players
             Invoke(nameof(NextRound), 2f);
-        }
+        //}
     }
 
     public bool RemainingPellets()

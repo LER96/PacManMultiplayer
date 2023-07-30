@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviourPunCallbacks
 {
@@ -15,6 +16,7 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     [Header("Round UI Refrences")]
     [SerializeField] GameObject _endRoundUI;
+    [SerializeField] GameObject _nextRound;
     [SerializeField] TextMeshProUGUI _missPmRoundScoreText;
     [SerializeField] TextMeshProUGUI _pmRoundScoreText;
 
@@ -71,6 +73,15 @@ public class UIManager : MonoBehaviourPunCallbacks
         if (GameManager.instance.roundEnded)
         {
             _endRoundUI.SetActive(true);
+            if(PhotonNetwork.IsMasterClient)
+            {
+                _nextRound.SetActive(true);
+            }
+            else
+            {
+                _nextRound.SetActive(false);
+            }
+
             UpdateRoundScoreUI();
         }
     }
