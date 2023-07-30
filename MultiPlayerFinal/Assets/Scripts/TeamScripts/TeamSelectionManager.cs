@@ -12,6 +12,7 @@ using UnityEngine.TextCore.Text;
 public class TeamSelectionManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TeamManager _teamManager;
+    const string ASSIGN_GHOST_RPC = nameof(GiveGhost);
 
     [Header("Players List")]
     [SerializeField] List<string> ghostNames;
@@ -20,7 +21,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     [Header("Player Data")]
     [SerializeField] List<PlayerData> _playerDataList = new List<PlayerData>();
-    [SerializeField] PlayerData _playerData;   
+    [SerializeField] PlayerData _playerData;
 
     bool _teamPmFull = false;
     bool _teamMsPmFull = false;
@@ -34,7 +35,11 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        _copyGhostNames = ghostNames;
+        //_copyGhostNames = ghostNames;
+
+        foreach (string ghostName in ghostNames)
+            _copyGhostNames.Add(ghostName);
+
         UpdatePlayerList();
     }
 
@@ -88,15 +93,18 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
         //Give Ghost Prefab from resources file 
-        GiveGhost();
-        //PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
+        if (photonView.IsMine)
+            photonView.RPC(ASSIGN_GHOST_RPC, RpcTarget.AllViaServer);
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
     }
 
+    [PunRPC]
     void GiveGhost()
     {
         int rnd = Random.Range(0, _copyGhostNames.Count);
         characterName = _copyGhostNames[rnd];
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
+        //PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
         _copyGhostNames.Remove(characterName);
     }
 
@@ -200,28 +208,28 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         }
     }
 
-   //private void UpdateTeamsUI()
-   //{
-   //    string teamPacmanText = "";
-   //    string teamMissPacmanText = "";
-   //
-   //    foreach (Player player in PhotonNetwork.PlayerList)
-   //    {
-   //        string t = (string)player.CustomProperties["Team"];
-   //
-   //        if (t == "Pacman")
-   //        {
-   //            teamPacmanText += player.NickName + "\n";
-   //        }
-   //        else if (t == "Miss Pacman")
-   //        {
-   //            teamMissPacmanText += player.NickName + "\n";
-   //        }
-   //    }
-   //
-   //    _teamMsPmMembersText.text = teamMissPacmanText;
-   //    _teamPmMembersText.text = teamPacmanText;
-   //}
+    //private void UpdateTeamsUI()
+    //{
+    //    string teamPacmanText = "";
+    //    string teamMissPacmanText = "";
+    //
+    //    foreach (Player player in PhotonNetwork.PlayerList)
+    //    {
+    //        string t = (string)player.CustomProperties["Team"];
+    //
+    //        if (t == "Pacman")
+    //        {
+    //            teamPacmanText += player.NickName + "\n";
+    //        }
+    //        else if (t == "Miss Pacman")
+    //        {
+    //            teamMissPacmanText += player.NickName + "\n";
+    //        }
+    //    }
+    //
+    //    _teamMsPmMembersText.text = teamMissPacmanText;
+    //    _teamPmMembersText.text = teamPacmanText;
+    //}
 
     void DisableRoleSwitch()
     {

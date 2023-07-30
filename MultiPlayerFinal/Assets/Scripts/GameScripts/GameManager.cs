@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 
 public abstract class GameManager : MonoBehaviourPunCallbacks
 {
@@ -10,16 +11,15 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] public PacmanMovement pacman;
     [SerializeField] public Transform pellets;
     [SerializeField] public static GameManager instance;
-
     public int _team;
     [SerializeField] public int pacEatenScore = 30;
     [SerializeField] public int ghostEatenScore = 20;
 
-    // public bool pacmanInPowerMode = false;
-    // public bool mspacmanInPowerMode = false;
-
+    public bool roundEnded { get; private set; }
     public int teamPmScore { get; private set; }
     public int teamMsPmScore { get; private set; }
+    public int teamMsPmRoundScore { get; private set; }
+    public int teamPmRoundScore { get; private set; }
     public int rounds { get; set; }
 
     private void Awake()
@@ -81,6 +81,21 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void SetRoundScore()
+    {
+        int teamPmScore = (int)PhotonNetwork.CurrentRoom.CustomProperties["PacmanScore"];
+        int teamMsPmScore = (int)PhotonNetwork.CurrentRoom.CustomProperties["MissPacmanScore"];
+
+        if (teamPmScore > teamMsPmScore)
+        {
+            teamPmRoundScore++;
+        }
+        else if (teamMsPmScore > teamPmScore)
+        {
+            teamMsPmRoundScore++;
+        }
+    }
+
     public void SetRounds(int rounds)
     {
         this.rounds = rounds;
@@ -112,7 +127,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         if (!RemainingPellets())
         {
             //freeze all movements
-            Invoke(nameof(NextRound), 2);
+            EndRound();
         }
     }
 
@@ -143,13 +158,16 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
 
     public void EndRound()
     {
-        foreach (Transform pellet in pellets)
+        SetRoundScore();
+        roundEnded = true;
+    }
+
+    public void RestartGame()
+    {
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (pellet.childCount <= 0)
-            {
-                Invoke(nameof(NextRound), 2f);
-                //implement max round
-            }
+            //add respawn all players
+            Invoke(nameof(NextRound), 2f);
         }
     }
 

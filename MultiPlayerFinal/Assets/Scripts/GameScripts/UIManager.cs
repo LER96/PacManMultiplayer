@@ -13,6 +13,11 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] Transform _PmTeamPlayerDataParent;
     [SerializeField] Transform _MsPmTeamPlayerDataParent;
 
+    [Header("Round UI Refrences")]
+    [SerializeField] GameObject _endRoundUI;
+    [SerializeField] TextMeshProUGUI _missPmRoundScoreText;
+    [SerializeField] TextMeshProUGUI _pmRoundScoreText;
+
     private void Awake()
     {
         UpdatePlayerDataUI();
@@ -21,6 +26,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     void Update()
     {
         UpdateTeamScores();
+        RoundEnded();
     }
 
     public void UpdateTeamScores()
@@ -51,6 +57,21 @@ public class UIManager : MonoBehaviourPunCallbacks
             PlayerData _newPlayerData = Instantiate(_playerData, parent);
             _newPlayerData.SetPlayerInfo(player.Value);
             _newPlayerData.SetPlayerInfoUI(player.Value);
+        }
+    }
+
+    void UpdateRoundScoreUI()
+    {
+        _pmRoundScoreText.text = $"Team Pacman Round Score: {GameManager.instance.teamPmRoundScore}";
+        _missPmRoundScoreText.text = $"Team Miss Pacman Round Score: {GameManager.instance.teamMsPmRoundScore}";
+    }
+
+    public void RoundEnded()
+    {
+        if (GameManager.instance.roundEnded)
+        {
+            _endRoundUI.SetActive(true);
+            UpdateRoundScoreUI();
         }
     }
 }
