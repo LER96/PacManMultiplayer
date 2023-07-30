@@ -35,6 +35,19 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     private bool isCountingForStartGame;
     private float timeLeftForStartGame = 0;
 
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     private void Start()
     {
         if (PhotonNetwork.IsConnectedAndReady)
