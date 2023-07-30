@@ -12,6 +12,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] float _speedMultiplayer = 1;
     [SerializeField] float _score;
     [SerializeField] Vector2 initialDirection;
+    [SerializeField] Collider2D _collider;
 
     public bool canMove;
     public bool isSeen;
@@ -26,7 +27,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         isSeen = true;
         this._rb = GetComponent<Rigidbody2D>();
         this._photonView = GetComponent<PhotonView>();
-
+        this._collider = GetComponent<Collider2D>();
     }
 
     private void Start()
@@ -57,9 +58,11 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         Movement mineView = view.GetComponent<Movement>();
         mineView.canMove = false;
         mineView.transform.position = mineView.startingPosition;
+        _collider.enabled = false;
         yield return new WaitForSeconds(2f);
 
         mineView.canMove = true;
+        _collider.enabled = true;
     }
 
     public virtual void SetTeamName(string name)
