@@ -7,7 +7,7 @@ using TMPro;
 
 public abstract class GameManager : MonoBehaviourPunCallbacks
 {
-    ExitGames.Client.Photon.Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+    public ExitGames.Client.Photon.Hashtable roomProperties;
 
     [SerializeField] public Ghost[] ghosts;
     [SerializeField] public PacmanMovement pacman;

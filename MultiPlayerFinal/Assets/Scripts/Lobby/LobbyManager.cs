@@ -244,6 +244,7 @@ public class LobbyManager : GameManager
     {
         base.OnCreatedRoom();
         Debug.Log("We are in a room!");
+        roomProperties = = PhotonNetwork.CurrentRoom.CustomProperties;
         PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Rounds", rounds } });
         RefreshUI();
     }
