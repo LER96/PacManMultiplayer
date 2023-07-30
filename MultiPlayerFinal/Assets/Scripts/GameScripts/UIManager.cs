@@ -36,18 +36,21 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void UpdateTeamScores()
     {
-        ExitGames.Client.Photon.Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
-
-        if (roomProperties.ContainsKey("PacmanScore"))
+        if (!PhotonNetwork.LocalPlayer.IsInactive)
         {
-            int pacmanScore = (int)roomProperties["PacmanScore"];
-            teamPacmanScore.text = $"Team Pacman Score: {pacmanScore}";
-        }
+            ExitGames.Client.Photon.Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
 
-        if (roomProperties.ContainsKey("MissPacmanScore"))
-        {
-            int missPacmanScore = (int)roomProperties["MissPacmanScore"];
-            teamMissPacmanScore.text = $"Team Miss Pacman Score: {missPacmanScore}";
+            if (roomProperties.ContainsKey("PacmanScore"))
+            {
+                int pacmanScore = (int)roomProperties["PacmanScore"];
+                teamPacmanScore.text = $"Team Pacman Score: {pacmanScore}";
+            }
+
+            if (roomProperties.ContainsKey("MissPacmanScore"))
+            {
+                int missPacmanScore = (int)roomProperties["MissPacmanScore"];
+                teamMissPacmanScore.text = $"Team Miss Pacman Score: {missPacmanScore}";
+            }
         }
     }
 
