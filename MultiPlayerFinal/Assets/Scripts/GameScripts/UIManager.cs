@@ -29,14 +29,8 @@ public class UIManager : MonoBehaviourPunCallbacks
     void Update()
     {
         UpdateTeamScores();
-        if (GameManager.instance.gameIsFinished == false)
-        {
-            RoundEnded();
-        }
-        else
-        {
-            GameOver();
-        }
+        RoundEnded();
+        GameOver();
     }
 
 
@@ -103,8 +97,11 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void GameOver()
     {
-        _endRoundUI.SetActive(true);
-        _nextRound.SetActive(false);
-        _gameOver.SetActive(true);
+        if (GameManager.instance.gameIsFinished == false)
+        {
+            _endRoundUI.SetActive(true);
+            _nextRound.SetActive(false);
+            _gameOver.SetActive(true);
+        }
     }
 }
