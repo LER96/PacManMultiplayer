@@ -18,14 +18,18 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] public int ghostEatenScore = 20;
 
     public bool roundEnded { get; private set; }
+    public bool gameIsFinished { get; private set; } = false;
     public int teamPmScore { get; private set; }
     public int teamMsPmScore { get; private set; }
     public int teamMsPmRoundScore { get; private set; }
     public int teamPmRoundScore { get; private set; }
     public int rounds { get; set; }
+    public int currentRound { get; set; }
 
     private void Awake()
     {
+        gameIsFinished = false;
+        currentRound = 1;
         if (instance != null && instance != this)
         {
             Destroy(this);
@@ -134,6 +138,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         if (!RemainingPellets())
         {
             //freeze all movements
+            currentRound++;
             EndRound();
         }
     }
@@ -166,7 +171,15 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     public void EndRound()
     {
         SetRoundScore();
-        roundEnded = true;
+        if (currentRound <= this.rounds)
+        {
+            roundEnded = true;
+            gameIsFinished = false;
+        }
+        else
+        {
+            gameIsFinished = true;
+        }
     }
 
     //public void RestartGame()

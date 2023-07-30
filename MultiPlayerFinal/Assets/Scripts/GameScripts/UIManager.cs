@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviourPunCallbacks
 {
@@ -17,6 +16,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     [Header("Round UI Refrences")]
     [SerializeField] GameObject _endRoundUI;
     [SerializeField] GameObject _nextRound;
+    [SerializeField] GameObject _gameOver;
     [SerializeField] TextMeshProUGUI _missPmRoundScoreText;
     [SerializeField] TextMeshProUGUI _pmRoundScoreText;
 
@@ -29,12 +29,12 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         UpdateTeamScores();
         RoundEnded();
+        //GameOver();
     }
 
     public void UpdateTeamScores()
     {
         ExitGames.Client.Photon.Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
-
         if (roomProperties.ContainsKey("PacmanScore"))
         {
             int pacmanScore = (int)roomProperties["PacmanScore"];
@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void RoundEnded()
     {
-        if (GameManager.instance.roundEnded)
+        if (GameManager.instance.roundEnded && GameManager.instance.gameIsFinished==false)
         {
             _endRoundUI.SetActive(true);
             if(PhotonNetwork.IsMasterClient)
@@ -85,4 +85,13 @@ public class UIManager : MonoBehaviourPunCallbacks
             UpdateRoundScoreUI();
         }
     }
+
+    //public void GameOver()
+    //{
+    //    if(GameManager.instance.gameIsFinished)
+    //    {
+    //        _endRoundUI.SetActive(true);
+    //        _gameOver.SetActive(true);
+    //    }
+    //}
 }
