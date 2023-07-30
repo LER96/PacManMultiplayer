@@ -171,9 +171,9 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     public void EndRound()
     {
         SetRoundScore();
+        roundEnded = true;
         if (currentRound <= this.rounds)
         {
-            roundEnded = true;
             gameIsFinished = false;
         }
         else

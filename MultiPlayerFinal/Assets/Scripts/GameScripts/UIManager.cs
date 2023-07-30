@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void RoundEnded()
     {
-        if (GameManager.instance.roundEnded && GameManager.instance.gameIsFinished==false)
+        if (GameManager.instance.roundEnded)
         {
             _endRoundUI.SetActive(true);
             if(PhotonNetwork.IsMasterClient)
