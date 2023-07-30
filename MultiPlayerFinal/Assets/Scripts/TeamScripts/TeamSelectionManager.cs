@@ -28,7 +28,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     [Header("UI Refrences")]
     [SerializeField] Transform _PmTeamPlayerDataParent;
-    [SerializeField] Transform _MsPmTeamPlayerDataParent;
     [SerializeField] GameObject _joinTeamPmButton;
     [SerializeField] GameObject _joinTeamMsPmButton;
     [SerializeField] GameObject _startGameButton;
@@ -218,16 +217,9 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     void UpdatePlayerList()
     {
-        if (PhotonNetwork.CurrentRoom == null)
-            return;
-
         foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
         {
-            string team = (string)player.Value.CustomProperties["Team"];
-
-            Transform parent = team == "Pacman" ? _PmTeamPlayerDataParent : _MsPmTeamPlayerDataParent;
-
-            PlayerData _newPlayerData = Instantiate(_playerData, parent);
+            PlayerData _newPlayerData = Instantiate(_playerData, _PmTeamPlayerDataParent);
             _newPlayerData.SetPlayerInfo(player.Value);
             _playerDataList.Add(_newPlayerData);
         }
