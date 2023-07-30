@@ -40,7 +40,6 @@ public class UIManager : MonoBehaviourPunCallbacks
     }
 
 
-
     public void UpdateTeamScores()
     {
         ExitGames.Client.Photon.Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
@@ -74,8 +73,10 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     void UpdateRoundScoreUI()
     {
+
         _pmRoundScoreText.text = $"Team Pacman Round Score: {GameManager.instance.teamPmRoundScore}";
         _missPmRoundScoreText.text = $"Team Miss Pacman Round Score: {GameManager.instance.teamMsPmRoundScore}";
+        Debug.Log($"{GameManager.instance.teamPmRoundScore}:{GameManager.instance.teamMsPmRoundScore}");
     }
 
     public void RoundEnded()
