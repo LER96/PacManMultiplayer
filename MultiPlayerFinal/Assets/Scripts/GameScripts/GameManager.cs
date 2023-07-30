@@ -7,6 +7,8 @@ using TMPro;
 
 public abstract class GameManager : MonoBehaviourPunCallbacks
 {
+    public const string Next_Round = nameof(NextRound);
+
     [SerializeField] public Ghost[] ghosts;
     [SerializeField] public PacmanMovement pacman;
     [SerializeField] public Transform pellets;
@@ -56,7 +58,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel(0);
     }
 
-
+    [PunRPC]
     public void NextRound()
     {
         SpawnManager.Instance.RespawnAllPlayers();
@@ -165,14 +167,15 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         roundEnded = true;
     }
 
-    public void RestartGame()
-    {
-        //if (PhotonNetwork.IsMasterClient)
-        //{
-            //add respawn all players
-            Invoke(nameof(NextRound), 2f);
-        //}
-    }
+    //public void RestartGame()
+    //{
+    //    if (PhotonNetwork.IsMasterClient)
+    //    {
+    //        //add respawn all players
+    //        //Invoke(nameof(NextRound), 2f);
+            
+    //    }
+    //}
 
     public bool RemainingPellets()
     {
