@@ -4,12 +4,10 @@ using UnityEngine;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using System.IO;
 
 public class UIManager : MonoBehaviourPunCallbacks
 {
-
-    ExitGames.Client.Photon.Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
-
     [SerializeField] TextMeshProUGUI teamPacmanScore;
     [SerializeField] TextMeshProUGUI teamMissPacmanScore;
     [SerializeField] PlayerData _playerData;
@@ -45,6 +43,8 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void UpdateTeamScores()
     {
+        ExitGames.Client.Photon.Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+
         if (roomProperties.ContainsKey("PacmanScore"))
         {
             int pacmanScore = (int)roomProperties["PacmanScore"];

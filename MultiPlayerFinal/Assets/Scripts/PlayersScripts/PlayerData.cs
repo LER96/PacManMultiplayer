@@ -17,6 +17,11 @@ public class PlayerData : MonoBehaviourPunCallbacks
 
     Player player;
 
+    [Header("Json Data Variables")]
+    public int score;
+    public string nickname;
+    public string teamName;
+
     public void SetPlayerInfo(Player _player)
     {
         _playerNameText.text = _player.NickName;
@@ -53,5 +58,5 @@ public class PlayerData : MonoBehaviourPunCallbacks
                 _playerSprite.color = _sprites[i].GetComponent<Image>().color;
             }
         }
-    }
+    }  
 }

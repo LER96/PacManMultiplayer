@@ -8,7 +8,6 @@ using TMPro;
 public abstract class GameManager : MonoBehaviourPunCallbacks
 {
     public ExitGames.Client.Photon.Hashtable roomProperties;
-
     [SerializeField] public Ghost[] ghosts;
     [SerializeField] public PacmanMovement pacman;
     [SerializeField] public Transform pellets;
@@ -16,7 +15,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     public int _team;
     [SerializeField] public int pacEatenScore = 30;
     [SerializeField] public int ghostEatenScore = 20;
-
+   
     public bool roundEnded { get; private set; }
     public bool gameIsFinished { get; private set; } = false;
     public int teamPmScore { get; private set; }
@@ -38,6 +37,8 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         {
             instance = this;
         }
+
+        roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
     }
 
     public void NewGame()
@@ -239,4 +240,15 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         mineView.canMove = true;
     }
 
+    [PunRPC]
+    private void UpdatePlayerDataRPC(Player player)
+    {
+        string team = (string)player.CustomProperties["Team"];
+        int teamScore = team == "Pacman" ? (int)PhotonNetwork.CurrentRoom.CustomProperties["PacmanScore"] : (int)PhotonNetwork.CurrentRoom.CustomProperties["MissPacmanScore"];
+        PlayerData playerData = new PlayerData();
+
+        playerData.nickname = player.NickName;
+        playerData.teamName = team;
+        playerData.score = teamScore;
+    }
 }

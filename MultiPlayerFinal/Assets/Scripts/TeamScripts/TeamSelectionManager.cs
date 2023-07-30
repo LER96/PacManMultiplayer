@@ -91,6 +91,7 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.CustomProperties.Remove("Character");
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PowerMode", false } });
 
         photonView.RPC(ASSIGN_GHOST_RPC, RpcTarget.AllViaServer, PhotonNetwork.LocalPlayer);
     }
@@ -146,7 +147,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         playerList[1].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Miss Pacman" } });
         playerList[1].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", "Miss Pacman" } });
         playerList[1].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PowerMode", false } });
-
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)

@@ -55,6 +55,7 @@ MonoBehaviour:
   - NextRound
   - EndRound
   - SetRounds
+  - AssignGhost
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
