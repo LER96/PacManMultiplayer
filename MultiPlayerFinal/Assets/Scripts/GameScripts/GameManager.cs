@@ -42,8 +42,8 @@ public abstract class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public void NewGame()
     {
-        SetTeamScore(0, "Pacman");
-        SetTeamScore(0, "Miss Pacman");
+        PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PacmanScore", 0 } });
+        PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "MissPacmanScore", 0 } });
         //SetRounds(0);
     }
 
@@ -182,6 +182,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             gameIsFinished = true;
         }
+
     }
 
     //public void RestartGame()
