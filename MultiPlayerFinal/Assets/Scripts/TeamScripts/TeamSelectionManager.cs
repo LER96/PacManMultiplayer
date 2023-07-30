@@ -93,16 +93,16 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PowerMode", false } });
 
-        photonView.RPC(ASSIGN_GHOST_RPC, RpcTarget.AllViaServer, PhotonNetwork.LocalPlayer, _copyGhostNames);
+        photonView.RPC(ASSIGN_GHOST_RPC, RpcTarget.AllViaServer, PhotonNetwork.LocalPlayer);
     }
 
     [PunRPC]
-    void AssignGhost(Player player, List<string> ghostNamesList)
+    void AssignGhost(Player player)
     {
-        int rnd = Random.Range(0, ghostNamesList.Count);
-        characterName = ghostNamesList[rnd];
+        int rnd = Random.Range(0, _copyGhostNames.Count);
+        characterName = _copyGhostNames[rnd];
         player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
-        ghostNamesList.Remove(characterName);
+        _copyGhostNames.Remove(characterName);
     }
 
 
