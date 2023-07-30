@@ -5,7 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 
-public abstract class GameManager : MonoBehaviourPunCallbacks
+public abstract class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     public const string Next_Round = nameof(NextRound);
 
@@ -52,6 +52,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         //announce which team won
     }
 
+     
     public void QuitGame()
     {
         PhotonNetwork.LeaveRoom();
@@ -129,7 +130,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         Debug.Log("Ghost eaten");
     }
 
-    public void EatenPellets(EatingPellets pellets, string team)
+    public virtual void EatenPellets(EatingPellets pellets, string team)
     {
         pellets.gameObject.SetActive(false);
 
@@ -168,6 +169,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         //change ghost states to be eaten (based on team)
     }
 
+    [PunRPC]
     public void EndRound()
     {
         SetRoundScore();
@@ -226,5 +228,17 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(2f);
 
         mineView.canMove = true;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if(stream.IsWriting)
+        {
+
+        }
+        else 
+        {
+
+        }
     }
 }

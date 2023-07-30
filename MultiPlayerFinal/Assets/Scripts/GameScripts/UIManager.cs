@@ -5,7 +5,7 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class UIManager : MonoBehaviourPunCallbacks
+public class UIManager : MonoBehaviourPunCallbacks,IPunObservable
 {
     [SerializeField] TextMeshProUGUI teamPacmanScore;
     [SerializeField] TextMeshProUGUI teamMissPacmanScore;
@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviourPunCallbacks
         RoundEnded();
         //GameOver();
     }
+
+
 
     public void UpdateTeamScores()
     {
@@ -83,6 +85,22 @@ public class UIManager : MonoBehaviourPunCallbacks
             }
 
             UpdateRoundScoreUI();
+        }
+        else
+        {
+            _endRoundUI.SetActive(false);
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if(stream.IsWriting)
+        {
+
+        }
+        else
+        {
+
         }
     }
 

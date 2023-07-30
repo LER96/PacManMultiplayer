@@ -25,6 +25,6 @@ public class EatingPellets : MonoBehaviour
 
     public virtual void Eat(string team)
     {
-        GameManager.instance.EatenPellets(this, team);
+        TeamManagement.instance.EatenPellets(this, team);
     }
 }
