@@ -103,7 +103,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         characterName = ghostNamesList[rnd];
         player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
         ghostNamesList.Remove(characterName);
-        _copyGhostNames = ghostNamesList;
     }
 
 
