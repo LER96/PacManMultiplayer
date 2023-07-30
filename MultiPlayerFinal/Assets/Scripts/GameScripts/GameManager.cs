@@ -58,6 +58,8 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
 
     public void NextRound()
     {
+        SpawnManager.Instance.RespawnAllPlayers();
+
         foreach (Transform pellet in this.pellets)
         {
             pellet.gameObject.SetActive(true);

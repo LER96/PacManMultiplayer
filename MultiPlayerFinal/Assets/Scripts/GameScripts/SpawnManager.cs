@@ -180,4 +180,12 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
         return null;
     }
+
+    public void RespawnAllPlayers()
+    {
+        foreach(Movement controller in playerControllers)
+        {
+            controller.CallRespawnRPC(controller.gameObject);
+        }
+    }
 }

@@ -35,6 +35,13 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         StartingPoint(this.transform.position);
     }
 
+    public void CallRespawnRPC(GameObject obj)
+    {
+        PhotonView objPhotonView = obj.GetComponent<PhotonView>();
+        int objViewId = objPhotonView.ViewID;
+        photonView.RPC(RESPAWN_RPC, RpcTarget.AllViaServer, objViewId);
+    }
+
     [PunRPC]
     public void RespawnRpc(int objViewId)
     {
