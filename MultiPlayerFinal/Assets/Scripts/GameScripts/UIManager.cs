@@ -97,7 +97,7 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void GameOver()
     {
-        if (GameManager.instance.gameIsFinished == false)
+        if (GameManager.instance.gameIsFinished == true)
         {
             _endRoundUI.SetActive(true);
             _nextRound.SetActive(false);
