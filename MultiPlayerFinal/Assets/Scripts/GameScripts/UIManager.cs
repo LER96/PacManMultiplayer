@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void UpdateTeamScores()
     {
-        if (!PhotonNetwork.LocalPlayer.IsInactive)
+        if (PhotonNetwork.InRoom)
         {
             ExitGames.Client.Photon.Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
 
