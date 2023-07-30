@@ -27,7 +27,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         isSeen = true;
         this._rb = GetComponent<Rigidbody2D>();
         this._photonView = GetComponent<PhotonView>();
-        this._collider = GetComponent<Collider2D>();
+        _collider = GetComponent<Collider2D>();
     }
 
     private void Start()
