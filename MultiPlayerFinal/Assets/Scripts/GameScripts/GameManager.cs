@@ -177,9 +177,9 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         SetRoundScore();
         currentRound++;
         Debug.Log("Current round is  " + currentRound);
-        Debug.Log(instance.rounds);
-        rounds = (int)roomProperties["Rounds"];
-        if (currentRound < rounds)
+        Debug.Log(rounds);
+        int roomRounds = (int)roomProperties["Rounds"];
+        if (currentRound < roomRounds)
         {
             roundEnded = true;
             gameIsFinished = false;
