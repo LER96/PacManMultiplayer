@@ -28,7 +28,7 @@ public class TeamManagement : GameManager
         if (!RemainingPellets() && PhotonNetwork.IsMasterClient)
         {
             //freeze all movements
-            photonView.RPC(Round_End_RPC, RpcTarget.MasterClient);
+            photonView.RPC(Round_End_RPC, RpcTarget.AllViaServer);
         }
     }
 }

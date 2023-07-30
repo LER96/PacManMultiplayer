@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviourPunCallbacks
 {
 
     ExitGames.Client.Photon.Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+
     [SerializeField] TextMeshProUGUI teamPacmanScore;
     [SerializeField] TextMeshProUGUI teamMissPacmanScore;
     [SerializeField] PlayerData _playerData;
