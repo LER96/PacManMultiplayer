@@ -244,6 +244,7 @@ public class LobbyManager : GameManager
     {
         base.OnCreatedRoom();
         Debug.Log("We are in a room!");
+        PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Rounds", rounds } });
         RefreshUI();
     }
 
@@ -271,7 +272,7 @@ public class LobbyManager : GameManager
         int i = dropdown.value;
         _numberOfRounds = int.Parse(dropdown.options[i].text);
         Debug.Log(_numberOfRounds);
-        instance.rounds = _numberOfPlayers;
+        rounds = _numberOfPlayers;
     }
 
     public void SetRandomInput(TMP_Dropdown dropdown)

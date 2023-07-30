@@ -7,6 +7,7 @@ using TMPro;
 
 public abstract class GameManager : MonoBehaviourPunCallbacks
 {
+    ExitGames.Client.Photon.Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
     [SerializeField] public Ghost[] ghosts;
     [SerializeField] public PacmanMovement pacman;
     [SerializeField] public Transform pellets;
@@ -176,7 +177,8 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         currentRound++;
         Debug.Log("Current round is  " + currentRound);
         Debug.Log(instance.rounds);
-        if (currentRound < instance.rounds)
+        rounds = (int)roomProperties["Rounds"];
+        if (currentRound < rounds)
         {
             roundEnded = true;
             gameIsFinished = false;
