@@ -12,7 +12,7 @@ using UnityEngine.TextCore.Text;
 public class TeamSelectionManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] TeamManager _teamManager;
-    const string ASSIGN_GHOST_RPC = nameof(GiveGhost);
+    const string ASSIGN_GHOST_RPC = nameof(AssignGhost);
 
     [Header("Players List")]
     [SerializeField] List<string> ghostNames;
@@ -92,19 +92,16 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.CustomProperties.Remove("Character");
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
-        //Give Ghost Prefab from resources file 
-        if (photonView.IsMine)
-            photonView.RPC(ASSIGN_GHOST_RPC, RpcTarget.AllViaServer);
 
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
+        photonView.RPC(ASSIGN_GHOST_RPC, RpcTarget.AllViaServer, PhotonNetwork.LocalPlayer);
     }
 
     [PunRPC]
-    void GiveGhost()
+    void AssignGhost(Player player)
     {
         int rnd = Random.Range(0, _copyGhostNames.Count);
         characterName = _copyGhostNames[rnd];
-        //PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
+        player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", characterName } });
         _copyGhostNames.Remove(characterName);
     }
 
@@ -207,29 +204,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
             _joinTeamMsPmButton.SetActive(!_teamMsPmFull);
         }
     }
-
-    //private void UpdateTeamsUI()
-    //{
-    //    string teamPacmanText = "";
-    //    string teamMissPacmanText = "";
-    //
-    //    foreach (Player player in PhotonNetwork.PlayerList)
-    //    {
-    //        string t = (string)player.CustomProperties["Team"];
-    //
-    //        if (t == "Pacman")
-    //        {
-    //            teamPacmanText += player.NickName + "\n";
-    //        }
-    //        else if (t == "Miss Pacman")
-    //        {
-    //            teamMissPacmanText += player.NickName + "\n";
-    //        }
-    //    }
-    //
-    //    _teamMsPmMembersText.text = teamMissPacmanText;
-    //    _teamPmMembersText.text = teamPacmanText;
-    //}
 
     void DisableRoleSwitch()
     {
