@@ -5,10 +5,8 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 
-public abstract class GameManager : MonoBehaviourPunCallbacks, IPunObservable
+public abstract class GameManager : MonoBehaviourPunCallbacks
 {
-    public const string Next_Round = nameof(NextRound);
-
     [SerializeField] public Ghost[] ghosts;
     [SerializeField] public PacmanMovement pacman;
     [SerializeField] public Transform pellets;
@@ -44,6 +42,8 @@ public abstract class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PacmanScore", 0 } });
         PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "MissPacmanScore", 0 } });
+        this.teamPmScore = 0;
+        this.teamMsPmScore = 0;
         //SetRounds(0);
     }
 
@@ -66,6 +66,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void NextRound()
     {
+        NewGame();
         SpawnManager.Instance.RespawnAllPlayers();
 
         foreach (Transform pellet in this.pellets)
@@ -74,7 +75,6 @@ public abstract class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         roundEnded = false;
-        NewGame();
         //later reset everyone's position
     }
 
@@ -231,15 +231,4 @@ public abstract class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         mineView.canMove = true;
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if(stream.IsWriting)
-        {
-
-        }
-        else 
-        {
-
-        }
-    }
 }
