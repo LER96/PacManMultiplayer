@@ -28,6 +28,7 @@ public class LobbyManager : GameManager
     [SerializeField] TMP_Dropdown dropDownNumberOfRounds;
     [SerializeField] Button _createTabRoomButton;
     [SerializeField] Button _createRoom;
+    //public const string SET_ROUND_RPC = nameof(SetRounds);
 
     int _numberOfPlayers;
 
@@ -73,7 +74,7 @@ public class LobbyManager : GameManager
         //Set Event on dropdown list
         dropDownJoinList.onValueChanged.AddListener(delegate { SetJoinInput(dropDownJoinList); });//Set the number of rooms that available
         dropDownPlayersNumberList.onValueChanged.AddListener(delegate { SetCreateInput(dropDownPlayersNumberList); });// set the number of players in a room
-        dropDownNumberOfRounds.onValueChanged.AddListener(delegate { SetRounds(dropDownNumberOfRounds); });//set the number of rounds in game
+        dropDownNumberOfRounds.onValueChanged.AddListener(delegate { SetRoundsDropDown(dropDownNumberOfRounds); });//set the number of rounds in game
 
         //Random DropDowns
         dropDownMaxPlayers.onValueChanged.AddListener(delegate { SetRandomMaxPlayers(dropDownMaxPlayers); });
@@ -265,12 +266,12 @@ public class LobbyManager : GameManager
     }
 
     //Set number of Rounds
-    public void SetRounds(TMP_Dropdown dropdown)
+    public void SetRoundsDropDown(TMP_Dropdown dropdown)
     {
         int i = dropdown.value;
         _numberOfRounds = int.Parse(dropdown.options[i].text);
         Debug.Log(_numberOfRounds);
-        this.rounds = _numberOfRounds;
+        instance.rounds = _numberOfPlayers;
     }
 
     public void SetRandomInput(TMP_Dropdown dropdown)

@@ -27,7 +27,7 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         gameIsFinished = false;
-        currentRound = 1;
+        currentRound = 0;
         if (instance != null && instance != this)
         {
             Destroy(this);
@@ -132,16 +132,16 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
 
     public virtual void EatenPellets(EatingPellets pellets, string team)
     {
-        pellets.gameObject.SetActive(false);
+        //pellets.gameObject.SetActive(false);
 
-        SetTeamScore(pellets.score, team);
+        //SetTeamScore(pellets.score, team);
 
-        if (!RemainingPellets())
-        {
-            //freeze all movements
-            currentRound++;
-            EndRound();
-        }
+        //if (!RemainingPellets())
+        //{
+        //    //freeze all movements
+        //    currentRound++;
+        //    EndRound();
+        //}
     }
 
     public void EatenPowerPellets(PowerPellet powerPellet, Player player, string team)
@@ -173,16 +173,20 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     public void EndRound()
     {
         SetRoundScore();
-        roundEnded = true;
-        if (currentRound <= this.rounds)
+        currentRound++;
+        Debug.Log("Current round is  " + currentRound);
+        Debug.Log(instance.rounds);
+        if (currentRound < instance.rounds)
         {
+            roundEnded = true;
             gameIsFinished = false;
+            Debug.Log("Not Finish");
         }
         else
         {
             gameIsFinished = true;
+            Debug.Log("Finished");
         }
-
     }
 
     //public void RestartGame()

@@ -30,8 +30,14 @@ public class UIManager : MonoBehaviourPunCallbacks
     void Update()
     {
         UpdateTeamScores();
-        RoundEnded();
-        //GameOver();
+        if (GameManager.instance.gameIsFinished == false)
+        {
+            RoundEnded();
+        }
+        else
+        {
+            GameOver();
+        }
     }
 
 
@@ -93,12 +99,10 @@ public class UIManager : MonoBehaviourPunCallbacks
         }
     }
 
-    //public void GameOver()
-    //{
-    //    if(GameManager.instance.gameIsFinished)
-    //    {
-    //        _endRoundUI.SetActive(true);
-    //        _gameOver.SetActive(true);
-    //    }
-    //}
+    public void GameOver()
+    {
+        _endRoundUI.SetActive(true);
+        _nextRound.SetActive(false);
+        _gameOver.SetActive(true);
+    }
 }
