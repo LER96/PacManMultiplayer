@@ -48,6 +48,22 @@ public class SpawnManager : MonoBehaviourPunCallbacks
         }
     }
 
+    private void Update()
+    {
+        if (isCountingForStartGame)
+        {
+            if (timeLeftForStartGame > 0)
+            {
+                timeLeftForStartGame -= Time.deltaTime;
+            }
+            else
+            {
+                photonView.RPC(GAME_STARTED_RPC, RpcTarget.AllViaServer);
+                isCountingForStartGame = false;
+            }
+        }
+    }
+
     private void Start()
     {
         if (PhotonNetwork.IsConnectedAndReady)
@@ -88,12 +104,9 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void Timer(PhotonMessageInfo info)
     {
-        float time = 3;
-        while (time > 0)
-        {
-            time -= Time.deltaTime;
-        }
-        photonView.RPC(GAME_STARTED_RPC, RpcTarget.AllViaServer);
+        isCountingForStartGame = true;
+        timeLeftForStartGame = 3;
+        //photonView.RPC(GAME_STARTED_RPC, RpcTarget.AllViaServer);
     }
 
     [PunRPC]
