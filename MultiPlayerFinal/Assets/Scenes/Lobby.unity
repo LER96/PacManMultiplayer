@@ -4080,34 +4080,34 @@ MonoBehaviour:
   ghosts: []
   pacman: {fileID: 0}
   pellets: {fileID: 0}
-  _team: 0
   pacEatenScore: 30
   ghostEatenScore: 20
-  logInFather: {fileID: 581343398}
-  logInButton: {fileID: 1561518382}
-  inputNameFather: {fileID: 461267385}
-  nicknameInputField: {fileID: 2033113524}
-  enterRoomButton: {fileID: 244940958}
-  creatOrJoinFather: {fileID: 901382664}
-  createRoomFather: {fileID: 988576077}
-  createRoomNameInputField: {fileID: 1392589766}
-  dropDownPlayersNumberList: {fileID: 1359961482}
-  dropDownNumberOfRounds: {fileID: 2140992209}
+  _team: 0
+  _logInFather: {fileID: 581343398}
+  _logInButton: {fileID: 1561518382}
+  _inputNameFather: {fileID: 461267385}
+  _nicknameInputField: {fileID: 2033113524}
+  _enterRoomButton: {fileID: 244940958}
+  _creatOrJoinFather: {fileID: 901382664}
+  _createRoomFather: {fileID: 988576077}
+  _createRoomNameInputField: {fileID: 1392589766}
+  _dropDownPlayersNumberList: {fileID: 1359961482}
+  _dropDownNumberOfRounds: {fileID: 2140992209}
   _createTabRoomButton: {fileID: 1161567027}
   _createRoom: {fileID: 1763971434}
-  joinRoomFather: {fileID: 636548697}
-  joinRoomNameInputField: {fileID: 1219211433}
-  dropDownJoinList: {fileID: 824327945}
-  joinTabRoomButton: {fileID: 810045110}
-  filterFather: {fileID: 1065060362}
-  roomsActiveFather: {fileID: 1224020991}
-  dropDownRandomJoinList: {fileID: 1190446661}
-  dropDownMaxPlayers: {fileID: 613626721}
-  filterJoinTabButton: {fileID: 1599966066}
-  startGameButton: {fileID: 436117773}
-  leaveRoomButton: {fileID: 272333162}
-  roomPlayersText: {fileID: 100955266}
-  playerListText: {fileID: 1826198952}
+  _joinRoomFather: {fileID: 636548697}
+  _joinRoomNameInputField: {fileID: 1219211433}
+  _dropDownJoinList: {fileID: 824327945}
+  _joinTabRoomButton: {fileID: 810045110}
+  _filterFather: {fileID: 1065060362}
+  _roomsActiveFather: {fileID: 1224020991}
+  _dropDownRandomJoinList: {fileID: 1190446661}
+  _dropDownMaxPlayers: {fileID: 613626721}
+  _filterJoinTabButton: {fileID: 1599966066}
+  _startGameButton: {fileID: 436117773}
+  _leaveRoomButton: {fileID: 272333162}
+  _roomPlayersText: {fileID: 0}
+  _playerListText: {fileID: 1826198952}
 --- !u!4 &499774306
 Transform:
   m_ObjectHideFlags: 0

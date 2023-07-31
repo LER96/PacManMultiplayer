@@ -624,7 +624,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a4ffccc0952054fbb29121586bf657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasGameStarted: 0
   _characters:
   - {fileID: 8624943041840840891, guid: 84aa11fa041015b47ab478cb8228f455, type: 3}
   - {fileID: 8624943041840840891, guid: 2399241ac027305428515048f2dea6c2, type: 3}
@@ -632,6 +631,7 @@ MonoBehaviour:
   - {fileID: 2668266270100162085, guid: 7f2678083f457d645b7558790b457537, type: 3}
   - {fileID: 2668266270100162085, guid: 15b3692cf81810c4ba858cf5bd2bd67f, type: 3}
   - {fileID: 2668266270100162085, guid: 2825d11091342b44187c0b0870123a35, type: 3}
+  hasGameStarted: 0
   _spawnPoints:
   - {fileID: 276864556}
   - {fileID: 1911108725}
@@ -1109,8 +1109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4cd74623e5289d4fae990b63ac21b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamPacmanScore: {fileID: 2122920230}
-  teamMissPacmanScore: {fileID: 1217362624}
+  _teamPacmanScore: {fileID: 12878567}
+  _teamMissPacmanScore: {fileID: 1556722841}
   _playerData: {fileID: 571998349793431525, guid: 17c87aa70f459894c96637b5f1a33bd0,
     type: 3}
   _PmTeamPlayerDataParent: {fileID: 713508771}
@@ -2556,9 +2556,9 @@ MonoBehaviour:
   ghosts: []
   pacman: {fileID: 0}
   pellets: {fileID: 2065118414}
-  _team: 0
   pacEatenScore: 0
   ghostEatenScore: 0
+  _team: 0
 --- !u!114 &1317301941
 MonoBehaviour:
   m_ObjectHideFlags: 0
