@@ -303,7 +303,7 @@ MonoBehaviour:
   _speed: 8
   _speedMultiplayer: 1
   _score: 0
-  initialDirection: {x: 1, y: 0}
+  _initialDirection: {x: 0, y: 0}
   canMove: 0
   isSeen: 0
   myTeamName: 
