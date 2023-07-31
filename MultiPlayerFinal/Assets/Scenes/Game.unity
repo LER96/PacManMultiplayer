@@ -1109,8 +1109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4cd74623e5289d4fae990b63ac21b32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _teamPacmanScore: {fileID: 12878567}
-  _teamMissPacmanScore: {fileID: 1556722841}
+  _teamPacmanScore: {fileID: 2122920230}
+  _teamMissPacmanScore: {fileID: 1217362624}
   _playerData: {fileID: 571998349793431525, guid: 17c87aa70f459894c96637b5f1a33bd0,
     type: 3}
   _PmTeamPlayerDataParent: {fileID: 713508771}
