@@ -5,18 +5,19 @@ using Photon.Pun;
 
 public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
 {
-    [SerializeField] PhotonView _photonView;
     [SerializeField] Rigidbody2D _rb { get; set; }
+    [SerializeField] PhotonView _photonView;
     [SerializeField] LayerMask _obstaclesLayer;
     [SerializeField] float _speed = 8;
     [SerializeField] float _speedMultiplayer = 1;
     [SerializeField] float _score;
-    [SerializeField] Vector2 initialDirection;
+    [SerializeField] Vector2 _initialDirection;
 
     public bool canMove;
     public bool isSeen;
     public string myTeamName;
     public const string RESPAWN_RPC = nameof(RespawnRpc);
+
     public Vector2 _direction { get; set; }
     public Vector3 startingPosition { get; set; }
     Vector2 _nextDirection { get; set; }
@@ -38,7 +39,6 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     {
         PhotonView objPhotonView = obj.GetComponent<PhotonView>();
         int objViewId = objPhotonView.ViewID;
-        //photonView.RPC(RESPAWN_RPC, RpcTarget.AllViaServer, objViewId);
         photonView.RPC(RESPAWN_RPC, RpcTarget.AllViaServer, objViewId);
     }
 
@@ -92,7 +92,7 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
     public void ResetAllStats()
     {
         _speedMultiplayer = 1;
-        _direction = initialDirection;
+        _direction = _initialDirection;
         _nextDirection = Vector2.zero;
         this.transform.position = this.startingPosition;
     }
@@ -144,5 +144,4 @@ public abstract class Movement : MonoBehaviourPunCallbacks, IPunObservable
         }
         SpawnManager.Instance.AddPlayerController(this);
     }
-
 }

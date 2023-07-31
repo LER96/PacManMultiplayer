@@ -8,8 +8,8 @@ using System.IO;
 
 public class UIManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField] TextMeshProUGUI teamPacmanScore;
-    [SerializeField] TextMeshProUGUI teamMissPacmanScore;
+    [SerializeField] TextMeshProUGUI _teamPacmanScore;
+    [SerializeField] TextMeshProUGUI _teamMissPacmanScore;
     [SerializeField] PlayerData _playerData;
     [SerializeField] Transform _PmTeamPlayerDataParent;
     [SerializeField] Transform _MsPmTeamPlayerDataParent;
@@ -43,13 +43,13 @@ public class UIManager : MonoBehaviourPunCallbacks
             if (roomProperties.ContainsKey("PacmanScore"))
             {
                 int pacmanScore = (int)roomProperties["PacmanScore"];
-                teamPacmanScore.text = $"Team Pacman Score: {pacmanScore}";
+                _teamPacmanScore.text = $"Team Pacman Score: {pacmanScore}";
             }
 
             if (roomProperties.ContainsKey("MissPacmanScore"))
             {
                 int missPacmanScore = (int)roomProperties["MissPacmanScore"];
-                teamMissPacmanScore.text = $"Team Miss Pacman Score: {missPacmanScore}";
+                _teamMissPacmanScore.text = $"Team Miss Pacman Score: {missPacmanScore}";
             }
         }
     }
@@ -73,7 +73,6 @@ public class UIManager : MonoBehaviourPunCallbacks
 
         _pmRoundScoreText.text = $"Team Pacman Round Score: {GameManager.instance.teamPmRoundScore}";
         _missPmRoundScoreText.text = $"Team Miss Pacman Round Score: {GameManager.instance.teamMsPmRoundScore}";
-        Debug.Log($"{GameManager.instance.teamPmRoundScore}:{GameManager.instance.teamMsPmRoundScore}");
     }
 
     public void RoundEnded()

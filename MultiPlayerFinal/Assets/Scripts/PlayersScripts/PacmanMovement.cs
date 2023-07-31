@@ -5,8 +5,8 @@ using Photon.Pun;
 
 public class PacmanMovement : Movement
 {
-    private Vector3 otherPosition;
-    private Quaternion otherRotation;
+    Vector3 _otherPosition;
+    Quaternion _otherRotation;
 
     public override void Update()
     {
@@ -37,8 +37,8 @@ public class PacmanMovement : Movement
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, otherPosition, 0.1f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, otherRotation, 0.1f);
+            transform.position = Vector3.Lerp(transform.position, _otherPosition, 0.1f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, _otherRotation, 0.1f);
         }
             
         base.Update();
@@ -53,10 +53,9 @@ public class PacmanMovement : Movement
         }
         else
         {
-            otherPosition = (Vector3)stream.ReceiveNext();
-            otherRotation = (Quaternion)stream.ReceiveNext();
+            _otherPosition = (Vector3)stream.ReceiveNext();
+            _otherRotation = (Quaternion)stream.ReceiveNext();
         }
-
     }
 
     public override void OnPhotonInstantiate(PhotonMessageInfo info)

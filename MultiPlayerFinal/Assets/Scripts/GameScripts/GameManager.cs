@@ -8,16 +8,17 @@ using TMPro;
 public abstract class GameManager : MonoBehaviourPunCallbacks
 {
     public ExitGames.Client.Photon.Hashtable roomProperties;
+
+    [SerializeField] public static GameManager instance;
     [SerializeField] public Ghost[] ghosts;
     [SerializeField] public PacmanMovement pacman;
     [SerializeField] public Transform pellets;
-    [SerializeField] public static GameManager instance;
-    public int _team;
     [SerializeField] public int pacEatenScore = 30;
     [SerializeField] public int ghostEatenScore = 20;
    
     public bool roundEnded { get; private set; }
     public bool gameIsFinished { get; private set; } = false;
+    public int _team;
     public int teamPmScore { get; private set; }
     public int teamMsPmScore { get; private set; }
     public int teamMsPmRoundScore { get; private set; }
@@ -47,15 +48,8 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "MissPacmanScore", 0 } });
         this.teamPmScore = 0;
         this.teamMsPmScore = 0;
-        //SetRounds(0);
     }
 
-    public void GameOver()
-    {
-        //announce which team won
-    }
-
-     
     public void QuitGame()
     {
         PhotonNetwork.LeaveRoom();
@@ -78,7 +72,6 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         }
 
         roundEnded = false;
-        //later reset everyone's position
     }
 
     public void SetTeamScore(int score, string team)
@@ -114,37 +107,20 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     public void SetRounds(int rounds)
     {
         this.rounds = rounds;
-        Debug.Log(rounds);
     }
 
     public void PacEaten(string team, GameObject obj)
     {
-        //reset pac's position
         SetTeamScore(pacEatenScore, team);
-        //StartCoroutine(Respawn(obj));
-        Debug.Log("Pacman eaten");
     }
 
     public void GhostEaten(string team, GameObject obj)
     {
-        //reset ghost's position
         SetTeamScore(ghostEatenScore, team);
-        //StartCoroutine(Respawn(obj));
-        Debug.Log("Ghost eaten");
     }
 
     public virtual void EatenPellets(EatingPellets pellets, string team)
     {
-        //pellets.gameObject.SetActive(false);
-
-        //SetTeamScore(pellets.score, team);
-
-        //if (!RemainingPellets())
-        //{
-        //    //freeze all movements
-        //    currentRound++;
-        //    EndRound();
-        //}
     }
 
     public void EatenPowerPellets(PowerPellet powerPellet, Player player, string team)
@@ -168,8 +144,6 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
         }
 
         StartCoroutine(PowerModeCD(powerPellet.PowerupDuration, player));
-
-        //change ghost states to be eaten (based on team)
     }
 
     [PunRPC]
@@ -177,32 +151,17 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     {
         SetRoundScore();
         currentRound++;
-        Debug.Log("Current round is  " + currentRound);
-        Debug.Log(rounds);
         int roomRounds = (int)roomProperties["Rounds"];
-        Debug.Log(roomRounds);
         if (currentRound < roomRounds)
         {
             roundEnded = true;
             gameIsFinished = false;
-            Debug.Log("Not Finish");
         }
         else
         {
             gameIsFinished = true;
-            Debug.Log("Finished");
         }
     }
-
-    //public void RestartGame()
-    //{
-    //    if (PhotonNetwork.IsMasterClient)
-    //    {
-    //        //add respawn all players
-    //        //Invoke(nameof(NextRound), 2f);
-            
-    //    }
-    //}
 
     public bool RemainingPellets()
     {
@@ -219,14 +178,12 @@ public abstract class GameManager : MonoBehaviourPunCallbacks
     private IEnumerator PowerModeCD(float timer, Player player)
     {
         // Wait for the power mode duration
-        Debug.Log($"{player.NickName} is in powermode");
         yield return new WaitForSeconds(timer);
 
         // When the timer ends, set the PowerMode Custom Property to false
         ExitGames.Client.Photon.Hashtable customProps = new ExitGames.Client.Photon.Hashtable();
         customProps["PowerMode"] = false;
         player.SetCustomProperties(customProps);
-        Debug.Log($"{player.NickName} is in powermode {customProps["PowerMode"]}");
     }
 
     public IEnumerator Respawn(GameObject obj)

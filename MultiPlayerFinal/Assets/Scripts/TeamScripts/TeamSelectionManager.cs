@@ -34,8 +34,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        //_copyGhostNames = ghostNames;
-
         foreach (string ghostName in ghostNames)
             _copyGhostNames.Add(ghostName);
 
@@ -105,26 +103,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
         _copyGhostNames.Remove(characterName);
     }
 
-
-    //public void JoinTeamMsPM(string team)
-    //{
-    //    if (characterName != "")
-    //    {
-    //        _copyGhostNames.Add(characterName);
-    //    }
-
-    //    if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Team"))
-    //        PhotonNetwork.LocalPlayer.CustomProperties.Remove("Team");
-
-    //    if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Character"))
-    //        PhotonNetwork.LocalPlayer.CustomProperties.Remove("Character");
-
-    //    PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", team } });
-    //    GiveGhost();
-    //    //PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Ghost" } });
-    //    PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "PowerMode", false } });
-    //}
-
     public void AssignRole()
     {
         List<Player> playerList = PhotonNetwork.CurrentRoom.Players.Values.ToList();
@@ -135,10 +113,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
             playerList[randomIndex] = playerList[i];
             playerList[i] = temp;
         }
-
-        Debug.Log($"{playerList[0]} is Pacman");
-
-        Debug.Log($"{playerList[1]} is Miss Pacman");
 
         playerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Character", "Pacman" } });
         playerList[0].SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "Team", "Pacman" } });
@@ -151,8 +125,6 @@ public class TeamSelectionManager : MonoBehaviourPunCallbacks
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        //UpdateTeamsUI();
-
         if (targetPlayer == PhotonNetwork.LocalPlayer)
         {
             if (changedProps.ContainsKey("Character"))

@@ -6,17 +6,17 @@ using UnityEngine;
 
 public class Ghost : Movement
 {
-    string otherTeam;
+    string _otherTeam;
 
     private void Start()
     {
         if (myTeamName == "Pacman")
         {
-            otherTeam = "Miss Pacman";
+            _otherTeam = "Miss Pacman";
         }
         else
         {
-            otherTeam = "Pacman";
+            _otherTeam = "Pacman";
         }
     }
 
@@ -44,11 +44,6 @@ public class Ghost : Movement
         base.Update();
     }
 
-    //public override void SetTeamName(string name)
-    //{
-    //    base.SetTeamName(name);
-    //}
-
     public override void StartingPoint(Vector3 pos)
     {
         base.StartingPoint(pos);
@@ -62,17 +57,10 @@ public class Ghost : Movement
     //if pacman is in powerup mode you get eaten instead. 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
         if (collision.gameObject.name != "Walls")
         {
             PhotonView photonView = collision.transform.GetComponent<PhotonView>();
-            //string teamName = (string)photonView.Owner.CustomProperties["Team"];
-            //Movement movement = photonView.transform.GetComponent<Movement>();
-            //string teamName = movement.myTeamName;
-            //teamName = (string)photonView.Owner.CustomProperties["Team"];
-
             bool powerMode = (bool)photonView.Owner.CustomProperties["PowerMode"];
-
 
             if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman") && myTeamName=="Miss Pacman")
             {
@@ -82,16 +70,14 @@ public class Ghost : Movement
             {
                 CheckPowerMode(powerMode, collision.gameObject);
             }
-
         }
     }
 
     void CheckPowerMode(bool powerMode, GameObject obj)
     {
-
         if (powerMode == true)
         {
-            GameManager.instance.GhostEaten(otherTeam, this.gameObject);
+            GameManager.instance.GhostEaten(_otherTeam, this.gameObject);
             CallRespawnRPC(this.gameObject);
         }
         else if (powerMode == false)
@@ -100,6 +86,4 @@ public class Ghost : Movement
             CallRespawnRPC(obj);
         }
     }
-
-
 }

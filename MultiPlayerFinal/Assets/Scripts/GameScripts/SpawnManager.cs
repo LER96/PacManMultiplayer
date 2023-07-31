@@ -10,6 +10,8 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 {
     public static SpawnManager Instance { get; private set; }
 
+    [SerializeField] GameObject[] _characters;
+
     //RPC
     private const string GAME_STARTED_RPC = nameof(GameStarted);
     private const string START_GAME_TIMER = nameof(Timer);
@@ -17,12 +19,11 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     const string SPAWN_PLAYER_CLIENT_RPC = nameof(SpawnPlayer);
 
     public bool hasGameStarted = false;
-    [SerializeField] GameObject[] _characters;
 
     [Header("SpawnPoints")]
     [SerializeField] private SpawnPoint[] _spawnPoints;
-    string characterName;
-    string characterTeam;
+    string _characterName;
+    string _characterTeam;
 
     [Header("UI")]
     [SerializeField] Button _startGame;
@@ -30,10 +31,10 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
     [Header("Players Controllers")]
     [SerializeField] List<Movement> playerControllers = new List<Movement>();
-    private Movement localPlayerController;
+    Movement _localPlayerController;
 
-    private bool isCountingForStartGame;
-    private float timeLeftForStartGame = 0;
+    bool _isCountingForStartGame;
+    float _timeLeftForStartGame = 0;
 
 
     private void Awake()
@@ -50,16 +51,16 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (isCountingForStartGame)
+        if (_isCountingForStartGame)
         {
-            if (timeLeftForStartGame > 0)
+            if (_timeLeftForStartGame > 0)
             {
-                timeLeftForStartGame -= Time.deltaTime;
+                _timeLeftForStartGame -= Time.deltaTime;
             }
             else
             {
                 photonView.RPC(GAME_STARTED_RPC, RpcTarget.AllViaServer);
-                isCountingForStartGame = false;
+                _isCountingForStartGame = false;
             }
         }
     }
@@ -96,25 +97,20 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     void GameStarted(PhotonMessageInfo info)
     {
         hasGameStarted = true;
-        localPlayerController.canMove = true;
-        isCountingForStartGame = false;
-        Debug.Log("Game Started!!! WHOW");
+        _localPlayerController.canMove = true;
+        _isCountingForStartGame = false;
     }
 
     [PunRPC]
     void Timer(PhotonMessageInfo info)
     {
-        isCountingForStartGame = true;
-        timeLeftForStartGame = 3;
-        //photonView.RPC(GAME_STARTED_RPC, RpcTarget.AllViaServer);
+        _isCountingForStartGame = true;
+        _timeLeftForStartGame = 3;
     }
 
     [PunRPC]
     void AskSpawnPoint(PhotonMessageInfo messageInfo)
     {
-        //characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-        //characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
-
         List<SpawnPoint> availableSpawnPoints = new List<SpawnPoint>();
 
         foreach (SpawnPoint spawnPoint in _spawnPoints)
@@ -139,7 +135,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
     public void SetPlayerController(Movement newLocalController)
     {
-        localPlayerController = newLocalController;
+        _localPlayerController = newLocalController;
     }
 
     public void AddPlayerController(Movement playerController)
@@ -154,7 +150,7 @@ public class SpawnManager : MonoBehaviourPunCallbacks
         SpawnPoint spawnPoint = GetSpawnPointByID(spawnPointID);
 
         string characterName = (string)PhotonNetwork.LocalPlayer.CustomProperties["Character"];
-        characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
+        _characterTeam = (string)PhotonNetwork.LocalPlayer.CustomProperties["Team"];
         GameObject playerToSpawn = null;
 
         foreach (GameObject characterPrefab in _characters)
@@ -178,22 +174,22 @@ public class SpawnManager : MonoBehaviourPunCallbacks
     {
         if (playerToSpawn.name == "Pacman" || playerToSpawn.name == "Miss Pacman")
         {
-            localPlayerController = PhotonNetwork.Instantiate(playerToSpawn.name,
+            _localPlayerController = PhotonNetwork.Instantiate(playerToSpawn.name,
                         spawnPoint.transform.position,
                         spawnPoint.transform.rotation)
                     .GetComponent<PacmanMovement>();
         }
         else
         {
-            localPlayerController = PhotonNetwork.Instantiate(playerToSpawn.name,
+            _localPlayerController = PhotonNetwork.Instantiate(playerToSpawn.name,
                         spawnPoint.transform.position,
                         spawnPoint.transform.rotation)
                     .GetComponent<Ghost>();
         }
 
-        localPlayerController.SetTeamName(characterTeam);
-        localPlayerController.StartingPoint(spawnPoint.transform.position);
-        AddPlayerController(localPlayerController);
+        _localPlayerController.SetTeamName(_characterTeam);
+        _localPlayerController.StartingPoint(spawnPoint.transform.position);
+        AddPlayerController(_localPlayerController);
     }
 
     //Need to check if the property of the player is match to the spawn state

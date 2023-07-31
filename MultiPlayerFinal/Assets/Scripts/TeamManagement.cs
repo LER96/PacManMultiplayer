@@ -13,8 +13,6 @@ public class TeamManagement : GameManager
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            //add respawn all players
-            //Invoke(nameof(NextRound), 2f);
             photonView.RPC(Next_Round_RPC, RpcTarget.AllViaServer);
         }
     }
